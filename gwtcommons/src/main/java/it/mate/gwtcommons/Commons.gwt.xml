@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='commons'>
+  <inherits name='com.google.gwt.user.User'/>
+  <inherits name="com.google.gwt.activity.Activity"/>
+  <inherits name="com.google.gwt.place.Place"/>
+  <inherits name="com.google.gwt.inject.Inject"/>
+  <!-- 
+  <inherits name='org.gwtportlets.portlet.Portlets' />
+   -->
+  <source path='client'/>
+  <source path='shared'/>
+  <public path="public"/>
+  <stylesheet src="roundedpanel.css"/>
+</module>

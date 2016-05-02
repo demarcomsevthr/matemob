@@ -1,0 +1,88 @@
+
+* html .tlc, * html .trc {
+	height: 1%;
+}
+
+.gwt-RoundedPanel .tlc, .gwt-RoundedPanel .trc {
+	zoom: 1
+}
+
+.gwt-RoundedPanel {
+  /* background-color: #eeeeee; */
+  background-color: #FFFFFF;
+}
+
+.gwt-RoundedPanel .content {
+	padding: 1.5em;
+}
+
+/* ---=== border code follows ===--- */ /*
+	tlc = top left corner
+	trc = top right corner
+	blc = bottom left corner
+	brc = bottom right corner
+	lb = left border
+	rb = right border
+	tb = top border
+	bb = bottom border 
+*/
+.gwt-RoundedPanel .tlc, .gwt-RoundedPanel .trc, .gwt-RoundedPanel .blc, .gwt-RoundedPanel .brc {
+	background-color: transparent;
+	background-repeat: no-repeat;
+}
+
+/*
+
+ sostituito 
+   images/normal/
+ con
+   .resource?op=THI&id=gianfry&path=images/rounded_panel/normal/
+
+*/
+
+.gwt-RoundedPanel .tlc {
+	background-image: url(.resource?op=THI&id=gianfry&path=images/rounded_panel/red/1tlc.gif);
+	background-position: 0% 0%;
+}
+
+.gwt-RoundedPanel .trc {
+	background-image: url(.resource?op=THI&id=gianfry&path=images/rounded_panel/red/3trc.gif);
+	background-position: 100% 0%;
+}
+
+.gwt-RoundedPanel .blc {
+	background-image: url(.resource?op=THI&id=gianfry&path=images/rounded_panel/red/7blc.gif);
+	background-position: 0% 100%;
+}
+
+.gwt-RoundedPanel .brc {
+	background-image: url(.resource?op=THI&id=gianfry&path=images/rounded_panel/red/9brc.gif);
+	background-position: 100% 100%;
+}
+
+.gwt-RoundedPanel .tb, .gwt-RoundedPanel .bb {
+	background-color: transparent;
+	background-repeat: repeat-x;
+}
+
+.gwt-RoundedPanel .tb {
+	background-image: url(.resource?op=THI&id=gianfry&path=images/rounded_panel/red/2tb.gif);
+	background-position: 0% 0%;
+}
+
+.gwt-RoundedPanel .bb {
+	background-image: url(.resource?op=THI&id=gianfry&path=images/rounded_panel/red/8bb.gif);
+	background-position: 50% 100%;
+}
+
+.gwt-RoundedPanel .rb {
+	background-image: url(.resource?op=THI&id=gianfry&path=images/rounded_panel/red/6r.gif);
+	background-position: 100% 0%;
+	background-repeat: repeat-y;
+}
+
+.gwt-RoundedPanel .lb {
+	background-image: url(.resource?op=THI&id=gianfry&path=images/rounded_panel/red/4l.gif);
+	background-position: 0% 100%;
+	background-repeat: repeat-y;
+}

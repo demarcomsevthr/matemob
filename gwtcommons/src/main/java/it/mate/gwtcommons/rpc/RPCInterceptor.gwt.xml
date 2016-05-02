@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+
+  <inherits name="it.mate.gwtcommons.Commons" />
+  <inherits name='com.google.gwt.rpc.RPC' />
+  
+  <define-configuration-property name="it.mate.gwtcommons.rpc.interceptor.class" is_multi_valued="false" />
+  
+  <source path='client'/>
+  
+</module>
