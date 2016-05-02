@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='mgwcommons'>
+    
+  <inherits name="com.googlecode.mgwt.MGWT" />
+
+  <inherits name="com.google.gwt.user.User" />
+  <inherits name="com.google.gwt.logging.Logging" />
+  <set-property name="gwt.logging.simpleRemoteHandler" value="DISABLED" />
+  <set-property name="gwt.logging.popupHandler" value="DISABLED" />
+  
+  <inherits name="com.google.gwt.inject.Inject"/>
+
+  <inherits name='com.googlecode.gwtphonegap.PhoneGap' />
+  
+  <inherits name="it.mate.gwtcommons.Commons" />
+  <inherits name="it.mate.phgcommons.phgcommons" />
+  
+  <replace-with class="com.google.gwt.dom.client.DOMImplWebkitPatched">
+    <when-type-is class="com.google.gwt.dom.client.DOMImpl"/>
+    <all>
+      <when-property-is name="user.agent" value="safari"/>
+      <when-property-is name="mobile.user.agent" value="not_mobile"/>
+    </all>
+  </replace-with>
+  
+  <source path='client'/>
+  <public path="public"/>
+  
+</module>

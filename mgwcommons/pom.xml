@@ -1,0 +1,115 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>it.mate</groupId>
+  <artifactId>mgwcommons</artifactId>
+  <version>1.0</version>
+  <name>mgwcommons</name>
+  
+  <properties>
+    <maven.compiler.source>1.6</maven.compiler.source>
+    <maven.compiler.target>1.6</maven.compiler.target>
+    <gwt.version>2.5.1</gwt.version>
+    <gin.version>1.5.0</gin.version>
+  </properties>
+
+  <repositories>
+  
+    <!-- 
+    
+          IMPORTANTE
+          
+          SE SI SPECIFICA IL MIRROR IN settings.xml OCCORRE ESCLUDERE QUESTI REPOSITORY
+          COSI':
+          
+          <mirror>
+            <id>nexus</id>
+            <mirrorOf>*,!axeiya,!plugins</mirrorOf>
+            <url>http://helpdesk.melograno.it/nexus-2.0.6/content/groups/public</url>
+          </mirror>
+          
+          (08/05/2013)
+    
+     -->  
+      
+    <!-- 20/05/2013 - IMPORTANTE: serve per escludere il repo melograno!!! -->
+    <repository>
+      <id>repo1</id>
+      <url>http://repo1.maven.org/maven2</url>
+    </repository>
+    
+  </repositories>
+  
+  <dependencies>
+      
+    <dependency>
+      <groupId>it.mate</groupId>
+      <artifactId>gwtcommons</artifactId>
+      <version>2.5.1</version>
+    </dependency>
+      
+    <dependency>
+      <groupId>it.mate</groupId>
+      <artifactId>phgcommons</artifactId>
+      <version>1.0</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.googlecode.gwtphonegap</groupId>
+      <artifactId>gwtphonegap</artifactId>
+      <version>2.0.0.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.googlecode.mgwt</groupId>
+      <artifactId>mgwt</artifactId>
+      <version>1.1.2</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+      
+    <resources>
+      <!-- ATTENZIONE: occorre inserire i sorgenti nel jar per il GWT compiler -->
+      <resource>
+        <directory>src/main/java</directory>
+        <includes>
+          <include>**/*.xml</include>
+          <include>**/*.css</include>
+          <include>**/client/**/*.java</include>
+          <include>**/client/**/*.png</include>
+          <include>**/shared/**/*.java</include>
+          <include>**/public/**/*</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <excludes>
+          <exclude>log4j*.properties</exclude>
+        </excludes>
+      </resource>
+    </resources>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.8.1</version>
+        <configuration>
+          <skipTests>true</skipTests>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.4.3</version>
+        <configuration>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+      </plugins>
+
+  </build>
+  
+</project>
