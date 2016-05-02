@@ -1,0 +1,63 @@
+
+
+  ANDROID PHONES [ IN DP (Density-indipendent pixel) OR MDPI (Medium DotXInch) Resolution ]
+  
+    320 x 567 [ANDROID ONE]
+    
+    360 x 567 (NEXUS 5 - DA SIMULATORE]
+    
+    360 x 573 [LG G3 CON HOME TOUCH BUTTONS!]
+    
+    360 x 640 (NEXUS 5, HTC ONE, LG G2, GALAXY S5, S6, MOTO G, X, SONY XPERIA] 
+    
+    384 x 567 (NEXUS 4 - DA SIMULATORE!] 
+    
+    384 x 640 (NEXUS 4!] 
+    
+    411 x 731 [NEXUS 6]
+    
+    600 x 960 [NEXUS 7]
+  
+  
+
+  ANDROID TABLETS
+  
+    600 x 1024
+    
+    800 x 1280
+    
+    1080 x 1920
+    
+    1536 x 2048
+    
+    1440 x 2560
+    
+    1600 x 2560
+    
+  
+
+  IOS IPHONE
+  
+    320 x 480 (iPhone 4 - 3,5")
+    
+    320 x 568 (iPhone 5/5C/5S - 4,0")
+    
+    375 x 667 (iPhone 6/6S - 4,7")
+
+    414 x 736 (iPhone 6+ - 5,5")
+    
+    768 x 1024 (iPad 1/2 - 9.7")
+
+    768 x 1024 (iPad 3/4/Air - 9.7")
+
+
+
+
+  Fonte:
+  
+  https://design.google.com/devices/
+  http://www.gravlab.com/2013/11/21/common-android-screen-resolutions-video/
+  http://stackoverflow.com/questions/6272384/most-popular-screen-sizes-resolutions-on-android-phones
+  http://ios-resolution.com/
+  
+  

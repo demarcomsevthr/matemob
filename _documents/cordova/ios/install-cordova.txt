@@ -1,0 +1,21 @@
+	
+	_______________________________________________________________
+	
+		>> NODE JS INSTALLATION <<
+	
+	> go to http://nodejs.org/
+	
+	> INSTALL
+	
+	> Downloads/node-v0.10.32.pkg
+	
+	_______________________________________________________________
+	
+		>> CORDOVA INSTALLATION <<
+	
+	> open terminal
+	
+	> sudo npm install -g cordova@3.6.3-0.2.13
+	
+	// MOSTRA LA VERSIONE DI CORDOVA INSTALLATA:
+	> sudo npm list -g cordova

@@ -1,0 +1,37 @@
+  
+  1. Aggiungere il plugin cordova-plugin-splashscreen
+  
+  2. Configurarlo in config.xml (nota onload=true):
+  
+	    <feature name="SplashScreen">
+	        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
+	        <param name="onload" value="true" />
+	    </feature>
+  
+  3. creare una png (dimensione consigliata 640 x 960 NON TRASPARENTE)
+  
+  4. (PER ANDROID) Convertire in .9.png (immagine che si adatta? TODO: da approfondire) con il tool draw9patch (sdk/tools) (draggare l'immagine e salvare come .9.png)
+    
+  5. (PER ANDROID) Copiare in res/drawable/splash.9.png)
+  
+  6. (PER ANDROID) Aggiungere in config.xml:
+  
+	    <preference name="SplashScreen" value="splash" />
+	    <preference name="SplashScreenDelay" value="5000" />
+	    
+	    /* il valore 'splash' corrisponde al nome del file senza estensione in res/drawable */
+	    
+	    
+	>> RISOLUZIONI DI RIFERIMENTO:
+		xhdpi: 640 x 960
+		hdpi: 480 x 800
+		mdpi: 320 x 480
+		ldpi: 240 x 320
+
+  
+  ---------------------------------------------------------------------------------------------
+  
+  SEE http://www.bleathem.ca/blog/2015/01/cordova-splashscreen.html
+  
+  (NB: ci sono un sacco di post sull'argomento perchè la guida cordova è fatta malissimo, quest'ultimo link è stato quello risolutivo)
+  

@@ -1,0 +1,10 @@
+
+PER LA BUILD CORDOVA3 OCCORRE AGGIUNGERE NEL PATH DI SISTEMA (Sistema/Proprieta/Variabili di ambiente):
+
+;P:\OPT\java\jdk1.7.0_17\bin;P:\OPT\apache-ant\apache-ant-1.9.2\bin;P:\OPT\android\adt-bundle-windows\sdk\platform-tools;P:\OPT\android\adt-bundle-windows\sdk\tools
+
+;D:\OPT\jdk1.7.0_21\bin;D:\OPT\ant\apache-ant-1.9.2\bin;D:\OPT\android\adt-bundle-windows\sdk\platform-tools;D:\OPT\android\adt-bundle-windows\sdk\tools
+
+
+>> RICORDARSI DI TOGLIERLO DOPO AVER FATTO LA BUILD
+
