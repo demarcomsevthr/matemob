@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='phgcommons'>
+    
+  <inherits name="com.google.gwt.user.User" />
+  
+  <inherits name="com.google.gwt.logging.Logging" />
+  
+  <!-- 
+  <set-property name="gwt.logging.simpleRemoteHandler" value="DISABLED" />
+  <set-property name="gwt.logging.popupHandler" value="DISABLED" />
+   -->
+  
+  <inherits name="com.google.gwt.inject.Inject"/>
+
+  <inherits name='com.googlecode.gwtphonegap.PhoneGap' />
+  
+  <inherits name="it.mate.gwtcommons.Commons" />
+  
+  <source path='client'/>
+  <public path="public"/>
+  
+</module>
