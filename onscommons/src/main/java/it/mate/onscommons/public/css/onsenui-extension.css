@@ -1,0 +1,26 @@
+
+
+
+/*
+   18/11/2015
+   ISSUE DEL PAGE_CONTENT CHE "FINISCE SOTTO LA TOOLBAR"
+   
+   >> ho verificato che l'issue e' stato introdotto con la veriosne onsen 1.3.12 
+      e mi sono accorto che in questa versione sono stati tolti da onsenui.css le regole qui sotto
+      ho provato a rimetterle in questo css di patch e sembra che ha risolto la cosa
+
+ */
+
+.page__status-bar-fill ~ .page__content {
+  padding-top: 20px;
+}
+
+ons-toolbar ~ .page__content {
+  top: 44px;
+}
+
+.page__status-bar-fill ~ ons-toolbar ~ .page__content {
+  top: 64px;
+  padding-top: 0px;
+}
+

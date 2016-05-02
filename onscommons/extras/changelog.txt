@@ -1,0 +1,187 @@
+    ------------------------------------------------------------------------------------------------
+    
+	[10/06/2015]
+
+
+	it.mate.onscommons.client.ui.OnsToolbar.createWaitingIcon()
+		>> cambiata waiting ico
+
+    ------------------------------------------------------------------------------------------------
+    
+	[10/06/2015]
+
+	it.mate.onscommons.client.mvp.OnsActivityManagerBase.setLastProcessedPlace(HasToken)
+	  >> new
+	it.mate.onscommons.client.mvp.OnsActivityManagerBase.getActivePlace()
+	  >> new
+	it.mate.onscommons.client.onsen.OnsenUi.isNavigatorPresent()
+	  >> rename
+	it.mate.onscommons.client.onsen.OnsenUi.isSlidingMenuPresent()
+	  >> rename
+	it.mate.onscommons.client.onsen.dom.Navigator.getActualPageCount()
+	  >> new
+	it.mate.onscommons.client.ui.OnsBackButton.OnsBackButton(Element, boolean)
+	  >> se isNavigatorPresent && isSlidingMenuPresent && page count == 0 || active place == home >> disegna fa-bars e chiama toggleMenu()
+	it.mate.onscommons.client.ui.OnsTextBoxBase.setMaxlength(String)
+	it.mate.onscommons.client.ui.OnsTextBoxBase.setMax(String)
+	it.mate.onscommons.client.ui.OnsTextBoxBase.setMin(String)
+	  >> new
+
+    ------------------------------------------------------------------------------------------------
+    
+	[04/06/2015]
+
+	it.mate.onscommons.client.ui.OnsCarousel.add(Widget, Delegate<Element>)
+
+	>> AGGIUNTA add CON DELEGATE
+
+
+    ------------------------------------------------------------------------------------------------
+    
+	[31/05/2015]
+
+	it.mate.onscommons.client.ui.HasTapHandlerImpl.addEventListenerElemImpl(Element, String, JSOCallback)
+
+	>> OTTIMIZZAZIONE DEI TAP HANDLERS (BUTTONS, TOOLBAR-BUTTONS, ...):
+	   RIMOSSO IL TEST isContained (SULL'ELEMENT EVENT LISTENER SIAMO GIA' SICURI CHE SIAMO SULL'ELEMENT GIUSTO!)
+
+    ------------------------------------------------------------------------------------------------
+    
+	[25/05/2015]
+	
+	it.mate.onscommons.client.onsen.OnsenUi.fadeInCurrentPage()
+	
+	>> se le compilazioni sono sospese anche il fade in va rimandato (capitava prima in OrderItemEditView)
+	
+    ------------------------------------------------------------------------------------------------
+    
+	[25/05/2015]
+	
+	>> spin icons issue
+	
+	>> ho provate a mettere font awesome ver. 4.3.0 (attenzione!)
+	>> ho modificato un pò il css .ons-toolbar-button-waiting-icon (/onscommons/src/main/java/it/mate/onscommons/client/ui/theme/css/ons.css)
+	>> backup fa: /onscommons/src/main/java/it/mate/onscommons/public/js/onsen/css/font_awesome-4.1.0
+	   (da escludere nel clientcode.xml)
+	
+
+    ------------------------------------------------------------------------------------------------
+    
+	[20/05/2015]
+
+	it.mate.onscommons.client.ui.HasTapHandlerImpl.HasTapHandlerImpl(String)
+	
+	>> aggiunto costruttore con elementId
+    
+    ------------------------------------------------------------------------------------------------
+    
+	[20/05/2015]
+
+	it.mate.onscommons.client.onsen.OnsenUi.addTapHandler(String, TapHandler)
+	
+	>> aggiunto metodo con elementId
+    
+    ------------------------------------------------------------------------------------------------
+    
+	[20/05/2015]
+
+	it.mate.onscommons.client.event.TouchEventUtils >> rinominato in it.mate.onscommons.client.event.OnsEventUtils
+    
+    ------------------------------------------------------------------------------------------------
+    
+	[18/05/2015]
+
+	it.mate.onscommons.client.mvp.OnsActivityManagerWithSlidingNavigator.getPopinPageId(NavigatorEvent)
+	
+		>> GREAT BUG FIXED: non referenziava la current page corretta in caso di pop del navigator
+		   (su indicazione di damianate!)
+
+    
+    ------------------------------------------------------------------------------------------------
+    
+	[18/05/2015]
+	
+	it.mate.onscommons.client.ui.OnsList.clear(Delegate<Element>)
+	
+		>> IMPORTANTE: serve per sincronizzare la clear con successivi reinserimenti (da utilizzare in tutte le view!)    
+    
+    ------------------------------------------------------------------------------------------------
+    
+	[18/05/2015]
+	
+    it.mate.onscommons.client.onsen.OnsenUi.findAndSaveExcludedElements(Element, List<ExcludedElement>)
+    
+    	>> IMPORTANT: se capita di vedere alcuni elementi che non si comportano bene con il page refresh
+    	   (esmpio: text di bottoni che scompare)
+    	   provare a settare l'attr excludeFromPageRefresh sul widget (per il momento solo OnsBaseButton)
+    	   questo esclude l'elemento dal page refresh (viene tolto prima e rimesso dopo!)
+    
+    ------------------------------------------------------------------------------------------------
+    
+	[18/05/2015]
+	
+	it.mate.onscommons.client.mvp.OnsActivityManagerWithSlidingNavigator.enableCheckAutoRefreshHome
+	
+		>> messo sotto parametro (default false)
+		>> se attivato utilizzo la funz cordova navigator.app.loadUrl
+    
+    ------------------------------------------------------------------------------------------------
+    
+	[14/05/2015]
+	
+	it.mate.onscommons.client.mvp.OnsActivityManagerWithSlidingNavigator.pushPage(Place, Integer)
+	
+		>> se trovo il nuovo token già presente nella history del navigator faccio un reset to page (ottimizzazione del numero di pagine nel navigator)
+
+    
+    ------------------------------------------------------------------------------------------------
+    
+	[13/05/2015]
+	
+	it.mate.onscommons.client.onsen.OnsenUi.refreshCurrentPage(Delegate<JavaScriptObject>)
+	
+		>> rimuovo la toolbar durante la compilazione
+
+	
+    
+    ------------------------------------------------------------------------------------------------
+    
+	[13/05/2015]
+	
+	it.mate.onscommons.client.ui.OnsNavigator.getController()
+	
+		>> reference al controller tramite var attribute
+	
+    
+    ------------------------------------------------------------------------------------------------
+    
+	[13/05/2015]
+	
+	it.mate.onscommons.client.ui.OnsBackButton
+	
+		>> ottimizzazioni varie (fade in proprio, etc..)
+	
+    
+    ------------------------------------------------------------------------------------------------
+    
+	[13/05/2015]
+	
+	it.mate.onscommons.client.onsen.dom.Navigator.pushPage()
+	
+		>> aggiunto transitionEnd delegate (synch con sliding menu)
+	
+
+    
+    ------------------------------------------------------------------------------------------------
+    
+	[13/05/2015]
+	
+	it.mate.onscommons.client.mvp.OnsActivityManagerWithSlidingNavigator
+	
+		>> NUOVO ACTIVITY MANAGER COMPOSTO SLIDING MENU / NAVIGATOR
+	    >> usato in it.melograno.extsio.client.factories.AppClientFactoryImpl.initMvp(SimplePanel, BaseActivityMapper)
+	    >> serve una it.melograno.extsio.client.view.LayoutView
+    
+    ------------------------------------------------------------------------------------------------
+    
+	

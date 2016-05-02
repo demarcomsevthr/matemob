@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+
+  <inherits name="com.google.gwt.dom.DOM"/>
+
+  <replace-with class="com.google.gwt.dom.client.DOMImplWebkitPatched">
+    <when-type-is class="com.google.gwt.dom.client.DOMImpl"/>
+    <when-property-is name="user.agent" value="safari"/>
+  </replace-with>
+
+  <source path='client'/>
+  
+</module>
