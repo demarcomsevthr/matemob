@@ -1,0 +1,172 @@
+
+  Data aggiornamento: 02/05/2016
+
+  Links
+  
+    https://github.com/phonegap/phonegap-plugin-push
+    
+    https://developers.google.com/cloud-messaging
+    
+    https://github.com/notnoop/java-apns
+    
+  ____________________________________________________________________________________________________  
+    
+
+  PUSH NOTIFICATION PLUGIN
+    
+    > https://github.com/phonegap/phonegap-plugin-push
+    
+    > REGISTRAZIONE
+    
+       > con le api push.init e push.on('registration') si ottiene il registrationId
+       
+       > il registrationId va salvato in un archivio sul backend legato al device
+       
+       > per android 
+       
+         > si deve indicare come senderID l'id del project creato nella Google Dev Console (vedi sotto)
+         
+         > si ottiene il regId da utilizzare nella send al GCM connection server 
+       
+       > per ios:
+       
+         > se si vuole utilizzare GCM come sender dei messaggi:
+         
+           > si deve indicare come senderID l'id del project creato nella Google Dev Console (vedi sotto)
+           
+           > si ottiene il regId da utilizzare nella send al GCM Connection Server 
+           
+         > se si vuole utilizzare direttamente APNS come sender dei messaggi:
+       
+           > non si specifica un senderID
+           
+           > si ottiene il token da utilizzare nella send ad APN Server
+    
+    > NOTA BENE
+    
+      > Per IOS NON FUNZIONA con Ios Simulator, ma solo su un device vero. 
+        Si deve utilizzare il cert di development per il debug con il device collegato al Mac, 
+        oppure il cert di distribution per la distribuzione Ad-Hoc oppure per la distribuzione sullo store
+        
+      > Per ANDROID FUNZIONA solo con l'emulatore Google Play Services 
+    
+  ____________________________________________________________________________________________________  
+    
+  
+  CREAZIONE DELLE CREDENZIALI ANDROID
+  
+    > loggarsi con il google developer account
+    
+    > https://developers.google.com/cloud-messaging/android/client
+    
+    > Con "Get a configuration file" si crea un nuovo progetto nella Google Developer Console con il supporto android per le push notification GCM
+    
+      > Viene chiesto: il nome del progetto (es: FBF Preno Android) e il package dell'app (es: it.melo.fbfprenota)
+    
+    > "Enable Google cloud Messaging"
+    
+    > Si ottiene:
+    
+      > Server API Key
+      
+      > Sender ID
+      
+      > File di configurazione (.json) da includere nel progetto android 
+        (NB: Non serve se si utilizza il push-notification-plugin, la configurazione android viene creata in automatico in base al sender id) 
+      
+    > Riepilogo >> https://console.developers.google.com/project
+    
+      > Nome del progetto > Credenziali
+      
+        > Server API Key
+        
+        > Sender ID = Project Information > Project Number
+
+
+    
+  ____________________________________________________________________________________________________  
+    
+  INVIO DI MESSAGGI AD ANDROID (GCM)
+  
+    > Vedi https://developers.google.com/cloud-messaging/http
+    
+    > Si deve mandare un messaggio http al GCM Connection Server
+    
+    > url = https://gcm-http.googleapis.com/gcm/send
+    
+    > http header Authorization: key=<SERVER API KEY>
+    
+    > messaggio to = <REGISTRATION ID> (ricevuto durante la init del device)
+    
+    
+    
+    
+    
+  ____________________________________________________________________________________________________  
+    
+  CREAZIONE DEI CERTIFICATI IOS
+  
+    > https://developers.google.com/cloud-messaging/ios/certs
+    
+    > Creazione di due CSR per il certificato push di development / distribution (tramite Keychain Access di Mac)
+    
+    > Member Center
+    
+    > App ID
+    
+    > Push notifications Development / Distribution > Enabled
+    
+    > Generate certificates
+    
+    > Choose file >> inserire i file .csr creati sopra
+    
+    > Download > scaricare i certificati sul Mac
+    
+    > Sul Mac doppio click sui certificati per installarli nel keychain
+    
+    > Keychain Access > login > Certificati > identificare i nuovi certificati appena creati
+       
+       (Es: 
+         Apple Development: IOS Push Services: it.melograno.fbfprenota
+         Apple Push Services: it.melograno.fbfprenota)
+         
+       > right-click > Esporta...
+       
+       > si creano i file dei certificati con estensione .p12 (con password) da utilizzare nel backend di invio dei messaggi 
+    
+    
+  
+    
+  ____________________________________________________________________________________________________  
+    
+  INVIO DI MESSAGGI A IOS TRAMITE APN SERVER (Apple Push Notification Server)
+  
+    > Vedi https://github.com/notnoop/java-apns
+    
+    > Certificati: i file .p12 esportati dal keychain (con password)
+    
+    > Token = Registration Id ricevuto da push.on('registration')
+    
+    > Esistono anche altre librerie java per la send. Es. push (https://github.com/relayrides/pushy) che richiede java 8 oppure alpn
+    
+    
+  ____________________________________________________________________________________________________  
+    
+  INVIO DI MESSAGGI A IOS TRAMITE GCM
+  
+    > Vedi https://developers.google.com/cloud-messaging/ios/client
+    
+    > Si può anche utilizzare GCM per l'invio di messaggi a IOS
+    
+    > In questo caso occorre creare un project nella Google Dev Console con il supporto per IOS (vanno caricati certificati .p12 creati sopra)
+    
+    > Nella push.init del push notification plugin si deve inserire come senderID l'id del project di Goggle Dev Console
+    
+    > Nella send al GCM Connection Server si deve indicare la server api key del project e il registration id ottenuto nella init 
+    
+    > NOTA BENE
+        Questo metodo è sconsigliato perchè ha delle limitazioni.
+        Es: issue nelle notifiche in caso di force-quit dell'app (doppio home e swipe off dell'app)
+    
+    
+    
