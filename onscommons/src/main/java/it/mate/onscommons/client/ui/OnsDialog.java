@@ -133,7 +133,9 @@ public class OnsDialog extends HTMLPanel implements AcceptsOneWidget {
   }
   
   protected static native void showDialogImpl(String id, JavaScriptObject options) /*-{
-    $wnd[id].show(options);
+    if ($wnd[id] != undefined) {
+      $wnd[id].show(options);
+    }
   }-*/;
   
   public void addOnHideDelegate(final Delegate<JavaScriptObject> delegate) {

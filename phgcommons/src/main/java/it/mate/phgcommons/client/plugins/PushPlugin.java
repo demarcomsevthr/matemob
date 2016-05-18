@@ -52,26 +52,25 @@ public class PushPlugin {
     return typeof ($wnd.PushNotification) != 'undefined';
   }-*/;
 
-  public static void register(String senderId, boolean gcmSandbox, final Delegate<PushNotification> delegate) {
+  public static void register(boolean useGcmOnIos, String gcmSenderId, boolean gcmSandbox, final Delegate<PushNotification> delegate) {
     String osType = null;
     if (OsDetectionUtils.isAndroid()) {
       PhgUtils.log("Push Plugin - registering android");
       osType = "android";
     } else if (OsDetectionUtils.isIOs()) {
-      boolean gcmUseAPNSDirect = Boolean.parseBoolean(GwtUtils.getJSVar("gcmUseAPNSDirect", "false"));
-      if (gcmUseAPNSDirect) {
-        PhgUtils.log("Push Plugin - registering ios-apns");
-        osType = "ios-apns";
+      if (useGcmOnIos) {
+        PhgUtils.log("Push Plugin - registering ios-gcm");
+        osType = "ios-gcm";
       } else {
         PhgUtils.log("Push Plugin - registering ios");
         osType = "ios";
       }
     } else {
-      PhgUtils.log("Push Plugin - os type not allowed!");
+      PhgUtils.log("Push Plugin - os type non riconosciuto");
       return;
     }
-    PhgUtils.log("Push Plugin - registering pluging with senderId " + senderId);
-    registerImpl(senderId, osType, gcmSandbox, new JSOCallback() {
+    PhgUtils.log("Push Plugin - registering pluging with senderId " + gcmSenderId);
+    registerImpl(gcmSenderId, osType, gcmSandbox, new JSOCallback() {
       public void handle(JavaScriptObject e) {
         PhgUtils.log("Push Plugin - Registration callback receive: " + JSONUtils.stringify(e));
         delegate.execute(parseNotificationEvent(PushNotification.REGISTRATION_EVENT_NAME, e));
@@ -89,11 +88,11 @@ public class PushPlugin {
     });
   }
   
-  private static native void registerImpl(String senderId, String osType, boolean gcmSandbox, JSOCallback registrationCallback, JSOCallback notificationCallback, JSOCallback errorCallback) /*-{
+  private static native void registerImpl(String gcmSenderId, String osType, boolean gcmSandbox, JSOCallback registrationCallback, JSOCallback notificationCallback, JSOCallback errorCallback) /*-{
     if (osType == 'android') {
       $wnd._push = $wnd.PushNotification.init({
           android: {
-              senderID: senderId
+              senderID: gcmSenderId
           },
           ios: {
               alert: "true",
@@ -102,11 +101,11 @@ public class PushPlugin {
           },
           windows: {}
       });
-    } else if (osType == 'ios') {
+    } else if (osType == 'ios-gcm') {
       $wnd._push = $wnd.PushNotification.init({
           android: {},
           ios: {
-              senderID: senderId,
+              senderID: gcmSenderId,
               gcmSandbox: gcmSandbox,
               alert: "true",
               badge: true,
@@ -114,7 +113,7 @@ public class PushPlugin {
           },
           windows: {}
       });
-    } else if (osType == 'ios-apns') {
+    } else if (osType == 'ios') {
       $wnd._push = $wnd.PushNotification.init({
           android: {},
           ios: {
