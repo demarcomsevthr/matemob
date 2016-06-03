@@ -37,6 +37,7 @@ public class OnsDialog extends HTMLPanel implements AcceptsOneWidget {
   
   private void initControllerId() {
     controllerId = GwtUtils.replaceEx(getElement().getId(), "-", "") + "Dialog" ;
+    PhgUtils.log("OnsDialog::initControllerId - controllerId = " + controllerId);
     getElement().setAttribute("var", controllerId);
   }
   
@@ -108,7 +109,10 @@ public class OnsDialog extends HTMLPanel implements AcceptsOneWidget {
     RootPanel.get().add(template);
     GwtUtils.onAvailable(templateId, new Delegate<Element>() {
       public void execute(Element templateElement) {
+        /* 18/05/2016 (CASO SALVA IMPEGNATIVA DEM
         OnsenUi.compileElement(templateElement);
+        */
+        OnsenUi.compileElementImmediately(templateElement);
         GwtUtils.deferredExecution(new Delegate<Void>() {
           public void execute(Void element) {
             createDialogImpl(templateId);

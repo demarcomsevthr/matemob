@@ -246,7 +246,7 @@ public class PhgUtils {
     
   }
   
-  public static void log(JavaScriptObject elem) {
+  public static void logJavaScriptObject (JavaScriptObject elem) {
     PhgUtils.log(JSONUtils.stringify(elem));
   }
 
