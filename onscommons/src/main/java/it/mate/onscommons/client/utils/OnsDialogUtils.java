@@ -315,10 +315,14 @@ public class OnsDialogUtils {
         PhgUtils.log("hinding synchronized waiting dialog...");
         synchronizedWaitingDialog.hide();
       } catch (Throwable th) {
-        PhgUtils.log("hinding synchronized waiting dialog exception, proceed");
+        PhgUtils.log("hinding synchronized waiting dialog exception, proceed - " + th.getMessage());
       }
       synchronizedWaitingDialog = null;
     }
+  }
+  
+  public static OnsDialog getSynchronizedWaitingDialog() {
+    return synchronizedWaitingDialog;
   }
   
 }
