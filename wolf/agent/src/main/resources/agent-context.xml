@@ -9,11 +9,7 @@
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
        default-lazy-init="true"
      >
-
-  <!-- 
-  <context:property-placeholder ignore-unresolvable="true" location="classpath:wolf.properties"/>
-   -->
-  
+     
   <bean class="it.mate.wolf.agent.utils.PropertiesHolderConfigurer">
     <property name="location" value="classpath:wolf.properties"/>
     <property name="ignoreUnresolvablePlaceholders" value="true"/>

@@ -33,6 +33,12 @@ call %MVN2CMD% %DEP_CLEAN% install
 
 :NO_GAE_DEPENDENCIES
 
+cd %BASEAPPDIR%
+call %MVN2CMD% install
+
+cd %BASEAPPDIR%\adapter
+call %MVN2CMD% clean install
+
 :NO_DEPENDENCIES
 
 cd %BASEAPPDIR%\%MODULE%

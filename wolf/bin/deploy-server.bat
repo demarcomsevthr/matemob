@@ -1,8 +1,9 @@
 @ECHO OFF
 set APPNAME=wolf
 
-set OS_TARGET_DISK=G:
+call %~dp0\build-server.bat
 
+set OS_TARGET_DISK=G:
 set OS_TARGET_DIR=%OS_TARGET_DISK%\wolfsrv
 
 set MODULE=server

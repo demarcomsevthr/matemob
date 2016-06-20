@@ -58,10 +58,13 @@
   
   <target name="deploy-openshift">
     <echo message="executing task deploy-openshift..."/>
-    <property name="sourcewebappdir" location="${project.build.directory}\${project.artifactId}-${project.version}"></property>
+    
+    <property name="adaptersrcdir" location="${basedir}/../adapter/src/main/java"></property>
     <property name="sourcesrcdir" location="${basedir}/src/main/java"></property>
-    <property name="targetwebappdir" location="${openshiftdir}/src/main/webapp"></property>
     <property name="targetsrcdir" location="${openshiftdir}/src/main/java"></property>
+    <property name="sourcewebappdir" location="${project.build.directory}\${project.artifactId}-${project.version}"></property>
+    <property name="targetwebappdir" location="${openshiftdir}/src/main/webapp"></property>
+    
     <echo message="sourcewebappdir =  ${sourcewebappdir}" />
     <echo message="sourcesrcdir =  ${sourcesrcdir}" />
     <echo message="targetwebappdir =  ${targetwebappdir}" />
@@ -74,9 +77,17 @@
       </fileset>
     </copy>
     
+    <echo message="copying ${adaptersrcdir} to ${targetsrcdir}"/>
+    <copy todir="${targetsrcdir}" overwrite="true" verbose="true">
+      <fileset dir="${adaptersrcdir}">
+        <include name="**/*.java"/>
+      </fileset>
+    </copy>
+    
     <echo message="copying ${sourcewebappdir} to ${targetwebappdir}"/>
     <copy todir="${targetwebappdir}" overwrite="true" verbose="true">
       <fileset dir="${sourcewebappdir}">
+        <include name="WEB-INF/lib/wolf-adapter-*.jar"/>
         <include name="WEB-INF/lib/gaecommons-*.jar"/>
         <include name="WEB-INF/lib/gwtcommons-*.jar"/>
       </fileset>

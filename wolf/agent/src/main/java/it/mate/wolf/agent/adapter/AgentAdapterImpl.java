@@ -1,5 +1,7 @@
 package it.mate.wolf.agent.adapter;
 
+import it.mate.wolf.adapter.model.AgentStatus;
+import it.mate.wolf.agent.utils.LoggingRequestInterceptor;
 import it.mate.wolf.agent.utils.PropertiesHolder;
 
 import java.io.BufferedReader;
@@ -10,36 +12,43 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.web.client.RestTemplate;
 
 public class AgentAdapterImpl implements AgentAdapter {
 
   private static Logger logger = Logger.getLogger(AgentAdapterImpl.class);
+  
+  private String lastCommand;
 
   @Override
-  public void testAgent() {
-
+  public void getAgentStatus() {
     String serverurl = PropertiesHolder.getString("agent.serverurl");
-    String testMethod = PropertiesHolder.getString("agent.test.method", "/rest/test");
-
+    String testMethod = PropertiesHolder.getString("agent.test.method", "/rest/getAgentStatusObject");
+    String url = serverurl + testMethod;
     logger.debug("Agent is runnig");
     logger.debug("Server url=" + serverurl);
-
-    RestTemplate rest = new RestTemplate();
-    String response = rest.getForObject(serverurl + testMethod, String.class);
+    logger.debug("Test url=" + url);
+    RestTemplate rt = new RestTemplate();
+    if (PropertiesHolder.getBoolean("agent.test.trace", false)) {
+      addLoggingRequestInterceptor(rt, false);
+    }
+    AgentStatus response = rt.getForObject(url, AgentStatus.class);
     logger.debug("Received: " + response);
-
   }
 
   @Override
-  public void sendAgentStatus() throws Exception {
+  public void sendAgentStatusText() throws Exception {
     String serverurl = PropertiesHolder.getString("agent.serverurl");
-    String method = PropertiesHolder.getString("agent.status.method", "/rest/postAgentStatus/");
+    String method = PropertiesHolder.getString("agent.status.method", "/rest/postAgentStatusObject");
     String status = "";
     status = "hostname=" + getHostname();
     status += "|ips=" + getAllIps();
@@ -48,12 +57,71 @@ public class AgentAdapterImpl implements AgentAdapter {
     logger.debug("Sending agent status");
     String url = serverurl + method;
     Map<String, String> params = new HashMap<String, String>();
-    RestTemplate rest = new RestTemplate();
-    String response = rest.postForObject(url, status, String.class, params);
+    RestTemplate rt = new RestTemplate();
+
+    if (PropertiesHolder.getBoolean("agent.status.trace", false)) {
+      addLoggingRequestInterceptor(rt, false);
+    }
+    
+    AgentStatus response = rt.postForObject(url, status, AgentStatus.class, params);
     logger.debug("Received: " + response);
 
   }
+  
+  @Override
+  public void sendAgentStatus() throws Exception {
+    String serverurl = PropertiesHolder.getString("agent.serverurl");
+    String method = PropertiesHolder.getString("agent.status.method", "/rest/postAgentStatusObject");
+    
+    /*
+    String status = "";
+    status = "hostname=" + getHostname();
+    status += "|ips=" + getAllIps();
+    status += "|" + getTemperature();
+    status += "|memory=" + getMemory();
+    */
+    
+    AgentStatus request = new AgentStatus();
+    request.setStatus("ON" + (lastCommand != null ? (";" + lastCommand) : ""));
+    request.setHostname(getHostname());
+    request.setIp(getAllIps());
+    request.setTemperature(getTemperature());
+    request.setMemory(getMemory());
+    
+    logger.debug("Sending agent status");
+    String url = serverurl + method;
+    RestTemplate rt = new RestTemplate();
 
+    if (PropertiesHolder.getBoolean("agent.status.trace", false)) {
+      addLoggingRequestInterceptor(rt, false);
+    }
+    
+    AgentStatus response = rt.postForObject(url, request, AgentStatus.class, new HashMap<String, String>());
+    logger.debug("Received: " + response);
+    
+    if (response.getCommand() != null) {
+      if (AgentStatus.COMMAND_WOL.equalsIgnoreCase(response.getCommand())) {
+        logger.debug("TODO: EXECUTING COMMAND " + response.getCommand());
+        lastCommand = "WOL AT " + new Date();
+        resetAgentCommand();
+      }
+    }
+
+  }
+  
+  protected void resetAgentCommand() {
+    String serverurl = PropertiesHolder.getString("agent.serverurl");
+    String method = PropertiesHolder.getString("agent.resetCommand.method", "/rest/setAgentCommand");
+    logger.debug("Sending reset agent command");
+    String url = serverurl + method + "/noop";
+    RestTemplate rt = new RestTemplate();
+    if (PropertiesHolder.getBoolean("agent.status.trace", false)) {
+      addLoggingRequestInterceptor(rt, false);
+    }
+    String response = rt.getForObject(url, String.class);
+    logger.debug("Received: " + response);
+  }
+  
   public String getHostname() throws IOException {
     InetAddress addr;
     addr = InetAddress.getLocalHost();
@@ -71,7 +139,7 @@ public class AgentAdapterImpl implements AgentAdapter {
         String ip = address.getHostAddress();
         if (ip.contains(":"))
           continue;
-        logger.debug(String.format("found ip=%s canonical=%s", ip, address.getCanonicalHostName()));
+//      logger.debug(String.format("found ip=%s canonical=%s", ip, address.getCanonicalHostName()));
         if (ips.length() > 0)
           ips += "^";
         ips += ip;
@@ -129,4 +197,12 @@ public class AgentAdapterImpl implements AgentAdapter {
     datagramSocket.close();
 
   }
+  
+  private void addLoggingRequestInterceptor(RestTemplate rt, boolean readResponseBody) {
+    ClientHttpRequestInterceptor ri = new LoggingRequestInterceptor(readResponseBody);
+    List<ClientHttpRequestInterceptor> ris = new ArrayList<ClientHttpRequestInterceptor>();
+    ris.add(ri);
+    rt.setInterceptors(ris);
+  }
+
 }

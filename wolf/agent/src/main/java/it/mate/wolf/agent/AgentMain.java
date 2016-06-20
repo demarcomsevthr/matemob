@@ -13,8 +13,15 @@ public class AgentMain {
     AgentAdapter adapter = context.getBean(AgentAdapter.class);
     while (true) {
       try {
-        adapter.testAgent();
-        adapter.sendAgentStatus();
+        if (PropertiesHolder.getBoolean("agent.test.execute", false)) {
+          adapter.getAgentStatus();
+        }
+        if (PropertiesHolder.getBoolean("agent.status.sendText", false)) {
+          adapter.sendAgentStatusText();
+        }
+        if (PropertiesHolder.getBoolean("agent.status.sendJson", false)) {
+          adapter.sendAgentStatus();
+        }
       } catch (Exception ex) {
         ex.printStackTrace();
       } finally {

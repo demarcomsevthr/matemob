@@ -1,6 +1,6 @@
 package it.mate.wolf.server.services;
 
-import it.mate.wolf.server.model.AgentStatus;
+import it.mate.wolf.adapter.model.AgentStatus;
 
 
 
