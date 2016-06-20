@@ -1,0 +1,42 @@
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+       xmlns:g="urn:import:com.google.gwt.user.client.ui" 
+       xmlns:gc="urn:import:it.mate.gwtcommons.client.ui" 
+       ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
+       ui:generateLocales="default" xmlns:o="urn:import:it.mate.onscommons.client.ui">
+       
+  <g:HTMLPanel ui:field="wrapperPanel" addStyleNames="app-page-wrapper-panel">
+  
+  
+  
+
+    <o:OnsPage>
+    
+      <o:OnsToolbar>
+        <div class="left">
+          <!-- 
+          <o:OnsToolbarButton ui:field="btnMenu" visible="false"><o:OnsIcon icon="fa-bars"/></o:OnsToolbarButton>
+           -->
+          <o:OnsBackButton/>
+        </div>
+        <div class="center">Messaggi</div>
+      </o:OnsToolbar>
+
+      <!-- 
+      <o:OnsList ui:field="list" modifier="noborder" height="92%"/>
+       -->
+        
+      <o:OnsScroller height="92%" width="100%" ui:field="scroller">
+        <o:OnsList ui:field="list" modifier="noborder"/>
+      </o:OnsScroller>
+      
+      <g:HorizontalPanel addStyleNames="app-msg-bottombar">
+        <o:OnsButton text="All" ui:field="btnAttach" addStyleNames="app-msg-attach-btn"/>
+        <o:OnsTextArea ui:field="txtNewMessage" addStyleNames="app-msg-newmsg-box" resizeable="true"/>
+        <o:OnsButton text="Send" ui:field="btnSend" addStyleNames="app-msg-send-btn"/>
+      </g:HorizontalPanel>
+      
+    </o:OnsPage>
+    
+  </g:HTMLPanel>
+  
+</ui:UiBinder>

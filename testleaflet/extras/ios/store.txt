@@ -1,0 +1,58 @@
+SKU = MDUP-THRREM-PV-R1
+
+Bundle = it.mate.testleaflet
+
+Ver = 1.0.0
+
+Copyr = Antonio Gorini
+
+Prim cat = Medical
+
+Rating 4+
+
+App Name = Therapy Reminder
+
+Description
+
+Therapy Reminder is an innovative application that allows you to have under control every drugs prescription.
+
+The only App that alerts you or a tutor if you forgot to take your medicine!
+
+The only App that reminds you in advance to reorder the drug!
+
+For each prescription you can enter the name of the drug, the quantity to be taken, and in which days and times you have to take it.
+
+At the expiration of each intake you will be notified with an alert that will remind you to take that medication.
+
+You can also set an alert to be notified when the pack of medication is about to end.
+
+Even more interesting: you can use the ONLINE MODE that allows you to record a tutor (with name, email and/or mobile phone number) and alert him or her if you forget to take a certain drug.
+
+Finally, you have a control panel in which you can get a quick overview of all entered prescriptions and the ability to store the contact details of your medical officers.
+
+-------------------------------------------------------------------
+
+Therapy Reminder è una innovativa applicazione con la quale puoi tenere sotto controllo tutte le tue prescrizioni mediche inserendo il nome del farmaco, la quantità da assumere e in che giorni e orari devi assumerlo.
+
+L'unica App che avvisa te o un tutor se hai dimenticato di prendere la medicina! 
+
+L'unica App che ti ricorda in anticipo di riordinare il farmaco!
+
+Allo scadere di ogni assunzione verrai notificato con un avviso che ti ricorderà di prendere quel farmaco.
+
+Potrai anche impostare un avviso per essere informato quando la confezione di farmaco sta per esaurirsi.
+
+Un'altra caratteristica molto interessante: potrai utilizzare la modalità ONLINE che ti permette di registrare un tutor (con nome, email e/o numero di telefono cellulare) e avvisarlo se ti dimentichi di assumere un certo farmaco.
+
+Infine hai a disposizione un quadro di riepilogo in cui puoi avere una rapida vista generale di tutte le prescrizioni inserite e la possibilità di memorizzare i recapiti dei tuoi medici di fiducia.
+
+
+
+-------------------------------------------------------------------
+
+
+
+Tags
+
+Healthcare, drugs, prescription, reminder
+

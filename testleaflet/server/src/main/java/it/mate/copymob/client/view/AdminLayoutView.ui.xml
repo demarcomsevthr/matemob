@@ -1,0 +1,46 @@
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+       xmlns:g="urn:import:com.google.gwt.user.client.ui"
+       xmlns:c="urn:import:com.google.gwt.user.cellview.client" 
+       xmlns:gc="urn:import:it.mate.gwtcommons.client.ui">
+
+  <g:HTMLPanel>
+    <g:VerticalPanel width="100%" horizontalAlignment="center" ui:field="loggedStatePanel" visible="true">
+      <g:VerticalPanel>
+        <g:MenuBar ui:field="menubar"/>
+        <g:HTMLPanel>
+          <table width="100%" height="30px">
+            <tr>
+              <td width="65%">
+              <!-- 
+                <e:PageBreadcrumb ui:field="breadcrumb"/>
+                 -->
+              </td>
+              <td style="vertical-align:middle">
+                <g:Label ui:field="loggedUserLabel"/>
+              </td>
+              <td style="vertical-align:middle">
+                <g:Anchor ui:field="googleLogoutAnchor" text="logout"/>
+              </td>
+            </tr>
+          </table>
+        </g:HTMLPanel>
+        <g:VerticalPanel ui:field="adminTabContainerPanel">
+          <gc:MvpPanel ui:field="adminMainMvp" historyId="adminMainMvp"/>
+        </g:VerticalPanel>
+      </g:VerticalPanel>
+    </g:VerticalPanel>
+    
+    <g:VerticalPanel width="100%" horizontalAlignment="center" ui:field="notloggedStatePanel" visible="false">
+      <gc:Spacer height="8em"/>
+      <g:HTMLPanel ui:field="roundedPanel">
+        <g:Label text="Per entrare in questa sezione del sito devi prima autenticarti con un account Google abilitato."/>
+        <gc:Spacer height="1em"/>
+        <g:Anchor ui:field="googleLoginAnchor" text="Premi qui per effettuare il login"/>
+        <gc:Spacer height="2em"/>
+        <g:Anchor ui:field="forceGoogleLogoutAnchor" text="(forza il logout)"/>
+      </g:HTMLPanel>
+    </g:VerticalPanel>
+    
+  </g:HTMLPanel>
+
+</ui:UiBinder>

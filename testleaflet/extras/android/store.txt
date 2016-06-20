@@ -1,0 +1,32 @@
+TITOLO = Therapy Reminder
+
+DESCRIZIONE BREVE = The only App that alerts you or a tutor if you forgot to take your medicine
+
+DESCRIZIONE COMPLETA
+
+Therapy Reminder is an innovative application that allows you to have under control every drugs prescription.
+
+The only App that alerts you or a tutor if you forgot to take your medicine!
+
+The only App that reminds you in advance to reorder the drug!
+
+For each prescription you can enter the name of the drug, the quantity to be taken, and in which days and times you have to take it.
+
+At the expiration of each intake you will be notified with an alert that will remind you to take that medication.
+
+You can also set an alert to be notified when the pack of medication is about to end.
+
+Even more interesting: you can use the ONLINE MODE that allows you to record a tutor (with name, email and/or mobile phone number) and alert him or her if you forget to take a certain drug.
+
+Finally, you have a control panel in which you can get a quick overview of all entered prescriptions and the ability to store the contact details of your medical officers.
+
+
+SCREENSHOT PHONE
+
+SCREENSHOT TABLET 10
+
+ICONA 512 x 512
+
+BANNER 1024 x 500
+
+SITO WEB

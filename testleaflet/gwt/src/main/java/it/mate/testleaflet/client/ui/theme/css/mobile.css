@@ -1,0 +1,10 @@
+
+@external gwt*, phg*, app*, ons*, popover, fa*, center*, list*;
+
+.app-menu-toolbar-panel .center {
+  padding-top: 3em;
+  color: white;
+  margin-left: 0.5em;
+  font-size: 2em;
+}
+

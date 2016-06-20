@@ -1,0 +1,32 @@
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+       xmlns:g="urn:import:com.google.gwt.user.client.ui"
+       xmlns:c="urn:import:com.google.gwt.user.cellview.client" 
+       xmlns:gc="urn:import:it.mate.gwtcommons.client.ui">
+
+  <g:HTMLPanel>
+  
+    Ordini Detail view!
+    
+    <g:VerticalPanel>
+    
+      <g:HorizontalPanel>
+      
+        <g:Label text="Stato:"/>
+        
+        <g:ListBox ui:field="lbxOrderStates"/>
+      
+      </g:HorizontalPanel>
+      
+      <gc:Spacer height="1em"/>
+    
+      <g:FlexTable ui:field="flexTable"></g:FlexTable>
+      
+      <gc:Spacer height="1em"/>
+    
+      <g:Button text="UPDATE ORDER" ui:field="btnUpdate"/>
+    
+    </g:VerticalPanel>
+    
+  </g:HTMLPanel>
+
+</ui:UiBinder>

@@ -1,0 +1,47 @@
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+       xmlns:g="urn:import:com.google.gwt.user.client.ui"
+       xmlns:c="urn:import:com.google.gwt.user.cellview.client" 
+       xmlns:gc="urn:import:it.mate.gwtcommons.client.ui">
+
+  <g:HTMLPanel>
+  
+    Ordini Item view!
+    
+    <g:VerticalPanel>
+    
+      <g:HorizontalPanel>
+        <g:Label text="Timbro:"/>
+        <g:Label ui:field="lblTimbroNome"/>
+      </g:HorizontalPanel>
+    
+      <g:HorizontalPanel>
+        <g:Label text="Quantità:"/>
+        <g:Label ui:field="lblQuantita"/>
+      </g:HorizontalPanel>
+      
+      <g:HorizontalPanel>
+      
+        <g:Label text="Anteprima cliente:"/>
+        
+        <g:HTML ui:field="htmlAnteprima"></g:HTML>
+        
+        <g:FormPanel ui:field="formPanel"> 
+          <g:VerticalPanel width="400px">
+            <g:Label ui:field="filenameLabel"/>
+            <g:Hidden name="op" value="ORDER_ITEM_PREVIEW_UPLOAD"></g:Hidden>
+            <g:Hidden name="orderItemId" ui:field="orderItemId"></g:Hidden>
+            <g:FileUpload ui:field="fileupdBtn" name="file"></g:FileUpload>
+          </g:VerticalPanel>
+        </g:FormPanel>
+        
+        <g:Button ui:field="btnInvia" enabled="false">Invia file</g:Button>
+
+      </g:HorizontalPanel>
+      
+      
+    
+    </g:VerticalPanel>
+    
+  </g:HTMLPanel>
+
+</ui:UiBinder>

@@ -1,0 +1,29 @@
+
+	>>>>>    DEPLOY HINTS     <<<<<
+
+> Distribute...
+
+> Save for Enterprise or Ad-Hoc Deploy
+	
+> Provisioning profile = Testleaflet Ad Hoc
+	
+> Save As PPN-0.4
+	
+> Application url =
+	
+https://marcelatelab.googlecode.com/svn/trunk/testleaflet/extras/deploy/PPN-0.4.ipa
+		
+> Title = PPN-0.4
+	
+> Download url da mandare al tester:
+	
+itms-services://?action=download-manifest&url=https://marcelatelab.googlecode.com/svn/trunk/testleaflet/extras/deploy/PPN-0.4.plist
+	
+> se non funziona gph:	
+
+itms-services://?action=download-manifest&url=https://dl.dropboxusercontent.com/u/82136682/PPN/PPN-0.4.plist
+
+
+
+
+
