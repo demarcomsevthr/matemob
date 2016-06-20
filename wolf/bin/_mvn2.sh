@@ -1,8 +1,7 @@
 #!/bin/bash
 
-CURPATH=$(dirname $0)
-MVNCMD=$M2_HOME\bin\mvn
-BASEDIR=$CURPATH\..
+CURPATH=$(pwd)
+MVNCMD=$M2_HOME/bin/mvn
 
 echo ""
 echo ""
