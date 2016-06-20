@@ -627,6 +627,13 @@ public class OnsenUi {
     return currentView;
   }
   
+  public static boolean isCurrentView(AbstractBaseView view) {
+    if (OnsenUi.currentView != null) {
+      return (OnsenUi.currentView.getClass().getName().equals(view.getClass().getName()));
+    }
+    return false;
+  }
+  
 
   // TODO
   

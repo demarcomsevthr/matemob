@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+  <buildnumber file="${antfiledir}/build.number" />
+  <property name="versionables.dir" location="target/versionables"/>
+  <property name="webapp.dir" location="src/main/webapp"/>
+  
+  <property name="ant.execution.task">prepare-package</property>
+
+  <target name="execution-shell">
+    <antcall target="${ant.execution.task}" />
+  </target>
+  
+  <target name="info">
+    <echo message="info task" />
+    <echo message="basedir =  ${basedir}" />
+    <echo message="project.groupId =  ${project.groupId}" />
+    <echo message="project.artifactId =  ${project.artifactId}" />
+    <echo message="project.version =  ${project.version}" />
+    <echo message="project.packaging =  ${project.packaging}" />
+    <echo message="project.build.sourceDirectory =  ${project.build.sourceDirectory}" />
+    <echo message="project.build.directory =  ${project.build.directory}" />
+    <echo message="user timezone =  ${user.timezone}" />
+  </target>
+  
+  <target name="prepare-target-webapp">
+  	<echo message="webappTargetPath = ${webappTargetPath}"/>
+    <delete dir="${webappTargetPath}/WEB-INF/deploy" failonerror="false"/>
+    <delete dir="${webappTargetPath}/WEB-INF/lib" failonerror="false"/>
+  </target>
+	
+  <target name="prepare-versionables">
+    <echo message="copying resources from ${webapp.dir}"/>
+    <delete dir="${versionables.dir}" failonerror="false"/>
+  	<mkdir dir="${versionables.dir}"/>
+    <copy todir="${versionables.dir}">
+      <fileset dir="${webapp.dir}">
+        <include name="*.jsp"/>
+      </fileset>
+    </copy>
+    <echo message="replacing version tag with value ${build.number}"/>
+    <replace dir="${versionables.dir}" summary="true" includes="**/*">
+      <replacefilter token="@@version@@" value="${build.number}"/>
+    </replace>
+  </target>
+	
+  <target name="prepare-package">
+    <echo message="executing task prepare-package..."/>
+    <antcall target="prepare-target-webapp"/>
+    <antcall target="prepare-versionables"/>
+  </target>
+  
+  <target name="post-build">
+    <echo message="executing task post-build..."/>
+    <antcall target="info"/>
+    <antcall target="deploy-openshift"/>
+  </target>
+  
+  <target name="deploy-openshift">
+    <echo message="executing task deploy-openshift..."/>
+    <property name="sourcewebappdir" location="${project.build.directory}\${project.artifactId}-${project.version}"></property>
+    <property name="sourcesrcdir" location="${basedir}/src/main/java"></property>
+    <property name="targetwebappdir" location="${openshiftdir}/src/main/webapp"></property>
+    <property name="targetsrcdir" location="${openshiftdir}/src/main/java"></property>
+    <echo message="sourcewebappdir =  ${sourcewebappdir}" />
+    <echo message="sourcesrcdir =  ${sourcesrcdir}" />
+    <echo message="targetwebappdir =  ${targetwebappdir}" />
+    <echo message="targetsrcdir =  ${targetsrcdir}" />
+    
+    <echo message="copying ${sourcesrcdir} to ${targetsrcdir}"/>
+    <copy todir="${targetsrcdir}" overwrite="true" verbose="true">
+      <fileset dir="${sourcesrcdir}">
+        <include name="**/*.java"/>
+      </fileset>
+    </copy>
+    
+    <echo message="copying ${sourcewebappdir} to ${targetwebappdir}"/>
+    <copy todir="${targetwebappdir}" overwrite="true" verbose="true">
+      <fileset dir="${sourcewebappdir}">
+        <include name="WEB-INF/lib/gaecommons-*.jar"/>
+        <include name="WEB-INF/lib/gwtcommons-*.jar"/>
+      </fileset>
+    </copy>
+    
+  </target>
+  
+</project>
