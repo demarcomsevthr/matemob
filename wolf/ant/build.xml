@@ -23,33 +23,6 @@
     <echo message="user timezone =  ${user.timezone}" />
   </target>
   
-  <target name="prepare-target-webapp">
-  	<echo message="webappTargetPath = ${webappTargetPath}"/>
-    <delete dir="${webappTargetPath}/WEB-INF/deploy" failonerror="false"/>
-    <delete dir="${webappTargetPath}/WEB-INF/lib" failonerror="false"/>
-  </target>
-	
-  <target name="prepare-versionables">
-    <echo message="copying resources from ${webapp.dir}"/>
-    <delete dir="${versionables.dir}" failonerror="false"/>
-  	<mkdir dir="${versionables.dir}"/>
-    <copy todir="${versionables.dir}">
-      <fileset dir="${webapp.dir}">
-        <include name="*.jsp"/>
-      </fileset>
-    </copy>
-    <echo message="replacing version tag with value ${build.number}"/>
-    <replace dir="${versionables.dir}" summary="true" includes="**/*">
-      <replacefilter token="@@version@@" value="${build.number}"/>
-    </replace>
-  </target>
-	
-  <target name="prepare-package">
-    <echo message="executing task prepare-package..."/>
-    <antcall target="prepare-target-webapp"/>
-    <antcall target="prepare-versionables"/>
-  </target>
-  
   <target name="post-build">
     <echo message="executing task post-build..."/>
     <antcall target="info"/>
@@ -60,34 +33,35 @@
     <echo message="executing task deploy-openshift..."/>
     
     <property name="adaptersrcdir" location="${basedir}/../adapter/src/main/java"></property>
-    <property name="sourcesrcdir" location="${basedir}/src/main/java"></property>
-    <property name="targetsrcdir" location="${openshiftdir}/src/main/java"></property>
-    <property name="sourcewebappdir" location="${project.build.directory}\${project.artifactId}-${project.version}"></property>
-    <property name="targetwebappdir" location="${openshiftdir}/src/main/webapp"></property>
+    <property name="serversrcdir" location="${basedir}/src/main/java"></property>
+    <property name="serverwebappdir" location="${project.build.directory}\${project.artifactId}-${project.version}"></property>
     
-    <echo message="sourcewebappdir =  ${sourcewebappdir}" />
-    <echo message="sourcesrcdir =  ${sourcesrcdir}" />
-    <echo message="targetwebappdir =  ${targetwebappdir}" />
-    <echo message="targetsrcdir =  ${targetsrcdir}" />
+    <property name="deploysrcdir" location="${openshiftdir}/src/main/java"></property>
+    <property name="deploywebappdir" location="${openshiftdir}/src/main/webapp"></property>
     
-    <echo message="copying ${sourcesrcdir} to ${targetsrcdir}"/>
-    <copy todir="${targetsrcdir}" overwrite="true" verbose="true">
-      <fileset dir="${sourcesrcdir}">
+    <echo message="serverwebappdir =  ${serverwebappdir}" />
+    <echo message="serversrcdir =  ${serversrcdir}" />
+    <echo message="deploywebappdir =  ${deploywebappdir}" />
+    <echo message="deploysrcdir =  ${deploysrcdir}" />
+    
+    <echo message="copying ${serversrcdir} to ${deploysrcdir}"/>
+    <copy todir="${deploysrcdir}" overwrite="true" verbose="true">
+      <fileset dir="${serversrcdir}">
         <include name="**/*.java"/>
       </fileset>
     </copy>
     
-    <echo message="copying ${adaptersrcdir} to ${targetsrcdir}"/>
-    <copy todir="${targetsrcdir}" overwrite="true" verbose="true">
+    <echo message="copying ${adaptersrcdir} to ${deploysrcdir}"/>
+    <copy todir="${deploysrcdir}" overwrite="true" verbose="true">
       <fileset dir="${adaptersrcdir}">
         <include name="**/*.java"/>
       </fileset>
     </copy>
     
-    <echo message="copying ${sourcewebappdir} to ${targetwebappdir}"/>
-    <copy todir="${targetwebappdir}" overwrite="true" verbose="true">
-      <fileset dir="${sourcewebappdir}">
-        <include name="WEB-INF/lib/wolf-adapter-*.jar"/>
+    <echo message="copying ${serverwebappdir} to ${deploywebappdir}"/>
+    <copy todir="${deploywebappdir}" overwrite="true" verbose="true">
+      <fileset dir="${serverwebappdir}">
+        <!-- <include name="WEB-INF/lib/wolf-adapter-*.jar"/>  -->
         <include name="WEB-INF/lib/gaecommons-*.jar"/>
         <include name="WEB-INF/lib/gwtcommons-*.jar"/>
       </fileset>
