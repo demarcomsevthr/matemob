@@ -76,11 +76,14 @@
       <artifactId>gwtquery</artifactId>
       <version>1.2.0</version>
     </dependency>
+    
+    <!-- non piu disponibile
     <dependency>
       <groupId>com.googlecode.gwtquery.bundles</groupId>
       <artifactId>gquery-dnd-bundle</artifactId>
       <version>${gquery-dnd-bundle.version}</version>
     </dependency>
+     -->
 
 
   </dependencies>
