@@ -10,3 +10,6 @@ export MODULE=agent
 
 cd $BASEDIR/$MODULE
 $CURPATH/_mvn2.sh clean package
+
+echo ""
+read -p "Premere un tasto per continuare"
