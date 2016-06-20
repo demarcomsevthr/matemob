@@ -1,0 +1,8 @@
+
+JAVA_HOME=/opt/java8
+
+M2_HOME=/opt/apache-maven-3.3.9
+
+ANT_HOME=/opt/apache-ant-1.9.7
+
+
