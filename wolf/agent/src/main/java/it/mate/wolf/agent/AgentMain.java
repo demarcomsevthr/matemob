@@ -20,7 +20,7 @@ public class AgentMain {
     AgentAdapter adapter = context.getBean(AgentAdapter.class);
     while (true) {
       try {
-        if (PropertiesHolder.getBoolean("agent.test.execute", false)) {
+        if (PropertiesHolder.getString("agent.test.method") != null) {
           adapter.getAgentStatus();
         }
         if (PropertiesHolder.getString("agent.status.method") != null) {

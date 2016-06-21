@@ -5,38 +5,39 @@ import java.util.Date;
 
 @SuppressWarnings("serial")
 public class AgentStatus implements Serializable {
-  
+
   public static final String COMMAND_WOL = "wol";
-  
+
   private String userAgent;
-  
+
   private String status;
-  
+
   private Date lastAccess;
-  
+
   private String command;
-  
+
   private String hostname;
-  
+
   private String ip;
-  
+
   private String temperature;
-  
+
   private String memory;
-  
+
   private String lastCommand;
-  
+
   private Date lastCommandTime;
 
   private String lastException;
-  
+
   private Date lastExceptionTime;
 
   @Override
   public String toString() {
-    return "AgentStatus [userAgent=" + userAgent + ", status=" + status + ", lastAccess=" + lastAccess + ", command=" + command + ", hostname=" + hostname
-        + ", ip=" + ip + ", temperature=" + temperature + ", memory=" + memory + ", lastCommand=" + lastCommand + ", lastCommandTime=" + lastCommandTime
-        + ", lastException=" + lastException + ", lastExceptionTime=" + lastExceptionTime + "]";
+    return "AgentStatus [userAgent=" + userAgent + ", status=" + status + ", lastAccess=" + lastAccess + ", command="
+        + command + ", hostname=" + hostname + ", ip=" + ip + ", temperature=" + temperature + ", memory=" + memory
+        + ", lastCommand=" + lastCommand + ", lastCommandTime=" + lastCommandTime + ", lastExceptionTime="
+        + lastExceptionTime + "]";
   }
 
   public String getUserAgent() {
