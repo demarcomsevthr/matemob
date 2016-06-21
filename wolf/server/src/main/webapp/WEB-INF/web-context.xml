@@ -12,10 +12,6 @@
 
   <context:component-scan base-package="it.mate.wolf.server.services"/>
 
-  <!-- 
-  <bean class="it.mate.commons.server.dao.JdoDaoWithCache"/>
-   -->
-  
   <bean class="it.mate.commons.server.utils.PropertiesHolderConfigurer">
     <property name="location" value="classpath:wolf.properties"/>
     <property name="ignoreUnresolvablePlaceholders" value="true"/>

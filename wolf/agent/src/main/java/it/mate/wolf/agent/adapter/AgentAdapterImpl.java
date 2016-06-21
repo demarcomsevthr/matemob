@@ -26,7 +26,7 @@ import org.springframework.web.client.RestTemplate;
 public class AgentAdapterImpl implements AgentAdapter {
 
   private static Logger logger = Logger.getLogger(AgentAdapterImpl.class);
-  
+
   private String lastCommand;
 
   @Override
@@ -62,32 +62,30 @@ public class AgentAdapterImpl implements AgentAdapter {
     if (PropertiesHolder.getBoolean("agent.status.trace", false)) {
       addLoggingRequestInterceptor(rt, false);
     }
-    
+
     AgentStatus response = rt.postForObject(url, status, AgentStatus.class, params);
     logger.debug("Received: " + response);
 
   }
-  
+
   @Override
   public void sendAgentStatus() throws Exception {
     String serverurl = PropertiesHolder.getString("agent.serverurl");
     String method = PropertiesHolder.getString("agent.status.method", "/rest/postAgentStatusObject");
-    
+
     /*
-    String status = "";
-    status = "hostname=" + getHostname();
-    status += "|ips=" + getAllIps();
-    status += "|" + getTemperature();
-    status += "|memory=" + getMemory();
-    */
-    
+     * String status = ""; status = "hostname=" + getHostname(); status +=
+     * "|ips=" + getAllIps(); status += "|" + getTemperature(); status +=
+     * "|memory=" + getMemory();
+     */
+
     AgentStatus request = new AgentStatus();
     request.setStatus("ON" + (lastCommand != null ? (";" + lastCommand) : ""));
     request.setHostname(getHostname());
     request.setIp(getAllIps());
     request.setTemperature(getTemperature());
     request.setMemory(getMemory());
-    
+
     logger.debug("Sending agent status");
     String url = serverurl + method;
     RestTemplate rt = new RestTemplate();
@@ -95,10 +93,10 @@ public class AgentAdapterImpl implements AgentAdapter {
     if (PropertiesHolder.getBoolean("agent.status.trace", false)) {
       addLoggingRequestInterceptor(rt, false);
     }
-    
+
     AgentStatus response = rt.postForObject(url, request, AgentStatus.class, new HashMap<String, String>());
     logger.debug("Received: " + response);
-    
+
     if (response.getCommand() != null) {
       if (AgentStatus.COMMAND_WOL.equalsIgnoreCase(response.getCommand())) {
         logger.debug("TODO: EXECUTING COMMAND " + response.getCommand());
@@ -108,7 +106,7 @@ public class AgentAdapterImpl implements AgentAdapter {
     }
 
   }
-  
+
   protected void resetAgentCommand() {
     String serverurl = PropertiesHolder.getString("agent.serverurl");
     String method = PropertiesHolder.getString("agent.resetCommand.method", "/rest/setAgentCommand");
@@ -121,7 +119,7 @@ public class AgentAdapterImpl implements AgentAdapter {
     String response = rt.getForObject(url, String.class);
     logger.debug("Received: " + response);
   }
-  
+
   public String getHostname() throws IOException {
     InetAddress addr;
     addr = InetAddress.getLocalHost();
@@ -139,7 +137,8 @@ public class AgentAdapterImpl implements AgentAdapter {
         String ip = address.getHostAddress();
         if (ip.contains(":"))
           continue;
-//      logger.debug(String.format("found ip=%s canonical=%s", ip, address.getCanonicalHostName()));
+        // logger.debug(String.format("found ip=%s canonical=%s", ip,
+        // address.getCanonicalHostName()));
         if (ips.length() > 0)
           ips += "^";
         ips += ip;
@@ -179,25 +178,47 @@ public class AgentAdapterImpl implements AgentAdapter {
     return result;
   }
 
-  public void sendMagicPacket(byte[] mac) throws Exception {
-
-    byte[] buffer = new byte[17 * 6];
-    for (int i = 0; i < 6; i++)
-      buffer[i] = (byte)0xFF;
-    
-    for (int i = 1; i <= 16; i++)
-      for (int j = 0; j < 6; j++)
-          buffer[i * 6 + j] = mac[j];    
-    
-    InetAddress address = InetAddress.getByName("255.255.255.0");
-    DatagramPacket packet = new DatagramPacket(buffer, buffer.length, address, 9);
-    DatagramSocket datagramSocket = new DatagramSocket();
-    datagramSocket.send(packet);
-    System.out.println(InetAddress.getLocalHost().getHostAddress());
-    datagramSocket.close();
-
+  public void sendMagicPacket() throws Exception {
+    String destIp = PropertiesHolder.getString("agent.sendMagicPacket.destIp", "255.255.255.0");
+    String macAddr = PropertiesHolder.getString("agent.sendMagicPacket.macAddr", "90E6BA327769");
+    int port = Integer.parseInt(PropertiesHolder.getString("agent.sendMagicPacket.port", "9"));
+    if (destIp == null || destIp.trim().length() == 0 || macAddr == null || macAddr.trim().length() == 0) {
+      logger.debug("SendMagicPacket disabled");
+    } else {
+      sendMagicPacket(destIp, macAddr, port);
+    }
   }
   
+  protected void sendMagicPacket(String destIp, String macAddr, int port) throws Exception {
+    logger.debug(String.format("Sending magic packet to %s %s", destIp, macAddr));
+    byte[] macAddrBytes = hexStringToByteArray(macAddr);
+    final int REPETITIONS = 16;
+    byte[] buffer = new byte[(REPETITIONS + 1) * 6];
+    
+    for (int i = 0; i < 6; i++)
+      buffer[i] = (byte) 0xFF;
+    for (int i = 1; i <= REPETITIONS; i++)
+      for (int j = 0; j < 6; j++)
+        buffer[i * 6 + j] = macAddrBytes[j];
+    
+    InetAddress address = InetAddress.getByName(destIp);
+    DatagramPacket packet = new DatagramPacket(buffer, buffer.length, address, port);
+    DatagramSocket datagramSocket = new DatagramSocket();
+    datagramSocket.send(packet);
+    
+    logger.debug(String.format("Sent magic packet to %s %s", destIp, macAddr));
+    datagramSocket.close();
+  }
+
+  protected byte[] hexStringToByteArray(String s) {
+    int len = s.length();
+    byte[] data = new byte[len / 2];
+    for (int i = 0; i < len; i += 2) {
+      data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4) + Character.digit(s.charAt(i + 1), 16));
+    }
+    return data;
+  }
+
   private void addLoggingRequestInterceptor(RestTemplate rt, boolean readResponseBody) {
     ClientHttpRequestInterceptor ri = new LoggingRequestInterceptor(readResponseBody);
     List<ClientHttpRequestInterceptor> ris = new ArrayList<ClientHttpRequestInterceptor>();

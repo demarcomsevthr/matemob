@@ -8,5 +8,7 @@ public interface AgentAdapter {
   public void sendAgentStatusText() throws Exception;
 
   public void sendAgentStatus() throws Exception;
+  
+  public void sendMagicPacket() throws Exception;
 
 }

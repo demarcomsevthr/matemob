@@ -8,6 +8,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class AgentMain {
   
+  @SuppressWarnings("resource")
   public static void main(String[] args) {
     ApplicationContext context = new ClassPathXmlApplicationContext("agent-context.xml");
     AgentAdapter adapter = context.getBean(AgentAdapter.class);
@@ -22,11 +23,14 @@ public class AgentMain {
         if (PropertiesHolder.getBoolean("agent.status.sendJson", false)) {
           adapter.sendAgentStatus();
         }
+        if (PropertiesHolder.getBoolean("agent.test.wol", false)) {
+          adapter.sendMagicPacket();
+        }
       } catch (Exception ex) {
         ex.printStackTrace();
       } finally {
         try {
-          Thread.sleep(Integer.parseInt(PropertiesHolder.getString("agent.delay", "5000")));
+          Thread.sleep(Integer.parseInt(PropertiesHolder.getString("agent.delay", "10000")));
         } catch (Exception ex) {
           ex.printStackTrace();
         }
