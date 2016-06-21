@@ -11,6 +11,6 @@ public interface AgentAdapter {
   
   public void testException() throws Exception;
   
-  public void setLastExceptionText(String text);
+  public void setLastException(Exception ex);
 
 }

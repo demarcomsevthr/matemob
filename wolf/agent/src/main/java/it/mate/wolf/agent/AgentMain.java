@@ -34,19 +34,7 @@ public class AgentMain {
         }
       } catch (Exception ex) {
         logger.error("error", ex);
-        
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ex.printStackTrace(new PrintStream(baos));
-        String text = new String(baos.toByteArray());
-
-        /*
-        System.out.println("================================");
-        System.out.println(text);
-        System.out.println("================================");
-        */
-        adapter.setLastExceptionText(text);
-        
-        
+        adapter.setLastException(ex);
       } finally {
         try {
           Thread.sleep(Integer.parseInt(PropertiesHolder.getString("agent.delay", "10000")));

@@ -1,13 +1,11 @@
 package it.mate.wolf.agent.adapter;
 
-import it.mate.wolf.adapter.model.AgentStatus;
-import it.mate.wolf.agent.utils.LoggingRequestInterceptor;
-import it.mate.wolf.agent.utils.PropertiesHolder;
-
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -21,6 +19,10 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.web.client.RestTemplate;
+
+import it.mate.wolf.adapter.model.AgentStatus;
+import it.mate.wolf.agent.utils.LoggingRequestInterceptor;
+import it.mate.wolf.agent.utils.PropertiesHolder;
 
 public class AgentAdapterImpl implements AgentAdapter {
 
@@ -209,7 +211,10 @@ public class AgentAdapterImpl implements AgentAdapter {
     throw new RuntimeException("Prova runtime exception");
   }
   
-  public void setLastExceptionText(String text) {
+  public void setLastException(Exception ex) {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    ex.printStackTrace(new PrintStream(baos));
+    String text = new String(baos.toByteArray());
     getLocalStatus().setLastException(text);
     getLocalStatus().setLastExceptionTime(new Date());
   }
