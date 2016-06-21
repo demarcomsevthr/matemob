@@ -5,10 +5,12 @@ public interface AgentAdapter {
   
   public void getAgentStatus();
   
-  public void sendAgentStatusText() throws Exception;
-
   public void sendAgentStatus() throws Exception;
   
   public void sendMagicPacket() throws Exception;
+  
+  public void testException() throws Exception;
+  
+  public void setLastExceptionText(String text);
 
 }

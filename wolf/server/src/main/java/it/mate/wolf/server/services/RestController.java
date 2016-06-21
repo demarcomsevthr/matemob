@@ -69,10 +69,16 @@ public class RestController {
       response.getWriter().println(String.format("<p>Agent temperature = %s</p>", status.getTemperature()));
       response.getWriter().println(String.format("<p>Agent memory = %s</p>", status.getMemory()));
       response.getWriter().println(String.format("<p>User agent = %s</p>", status.getUserAgent()));
+      response.getWriter().println(String.format("<p>Last command = %s</p>", status.getLastCommand()));
+      response.getWriter().println(String.format("<p>Last command time = %s</p>", dateToStringWithZone(status.getLastCommandTime(), "Europe/Rome") ));
+      response.getWriter().println(String.format("<p>Last exception = %s</p>", status.getLastException()));
+      response.getWriter().println(String.format("<p>Last exception time = %s</p>", dateToStringWithZone(status.getLastExceptionTime(), "Europe/Rome") ));
     }
   }
   
   private String dateToStringWithZone(Date date, String timeZone) {
+    if (date == null)
+      return null;
     Calendar calendar = new GregorianCalendar();
     calendar.setTimeInMillis(date.getTime());
     DateFormat formatter = new SimpleDateFormat("dd MMM yyyy HH:mm:ss.SSS z");

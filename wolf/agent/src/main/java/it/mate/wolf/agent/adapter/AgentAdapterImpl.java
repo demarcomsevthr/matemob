@@ -17,7 +17,6 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -27,7 +26,14 @@ public class AgentAdapterImpl implements AgentAdapter {
 
   private static Logger logger = Logger.getLogger(AgentAdapterImpl.class);
 
-  private String lastCommand;
+  private AgentStatus localStatus;
+
+  protected AgentStatus getLocalStatus() {
+    if (localStatus == null) {
+      localStatus = new AgentStatus();
+    }
+    return localStatus;
+  }
 
   @Override
   public void getAgentStatus() {
@@ -44,47 +50,18 @@ public class AgentAdapterImpl implements AgentAdapter {
     AgentStatus response = rt.getForObject(url, AgentStatus.class);
     logger.debug("Received: " + response);
   }
-
-  @Override
-  public void sendAgentStatusText() throws Exception {
-    String serverurl = PropertiesHolder.getString("agent.serverurl");
-    String method = PropertiesHolder.getString("agent.status.method", "/rest/postAgentStatusObject");
-    String status = "";
-    status = "hostname=" + getHostname();
-    status += "|ips=" + getAllIps();
-    status += "|" + getTemperature();
-    status += "|memory=" + getMemory();
-    logger.debug("Sending agent status");
-    String url = serverurl + method;
-    Map<String, String> params = new HashMap<String, String>();
-    RestTemplate rt = new RestTemplate();
-
-    if (PropertiesHolder.getBoolean("agent.status.trace", false)) {
-      addLoggingRequestInterceptor(rt, false);
-    }
-
-    AgentStatus response = rt.postForObject(url, status, AgentStatus.class, params);
-    logger.debug("Received: " + response);
-
-  }
-
+  
   @Override
   public void sendAgentStatus() throws Exception {
     String serverurl = PropertiesHolder.getString("agent.serverurl");
     String method = PropertiesHolder.getString("agent.status.method", "/rest/postAgentStatusObject");
 
-    /*
-     * String status = ""; status = "hostname=" + getHostname(); status +=
-     * "|ips=" + getAllIps(); status += "|" + getTemperature(); status +=
-     * "|memory=" + getMemory();
-     */
-
-    AgentStatus request = new AgentStatus();
-    request.setStatus("ON" + (lastCommand != null ? (";" + lastCommand) : ""));
-    request.setHostname(getHostname());
-    request.setIp(getAllIps());
-    request.setTemperature(getTemperature());
-    request.setMemory(getMemory());
+    AgentStatus agentStatus = getLocalStatus();
+    agentStatus.setStatus("ON");
+    agentStatus.setHostname(getHostname());
+    agentStatus.setIp(getAllIps());
+    agentStatus.setTemperature(getTemperature());
+    agentStatus.setMemory(getMemory());
 
     logger.debug("Sending agent status");
     String url = serverurl + method;
@@ -94,14 +71,15 @@ public class AgentAdapterImpl implements AgentAdapter {
       addLoggingRequestInterceptor(rt, false);
     }
 
-    AgentStatus response = rt.postForObject(url, request, AgentStatus.class, new HashMap<String, String>());
-    logger.debug("Received: " + response);
+    AgentStatus responseStatus = rt.postForObject(url, agentStatus, AgentStatus.class, new HashMap<String, String>());
+    logger.debug("Received: " + responseStatus);
 
-    if (response.getCommand() != null) {
-      if (AgentStatus.COMMAND_WOL.equalsIgnoreCase(response.getCommand())) {
-        logger.debug("EXECUTING COMMAND " + response.getCommand());
+    if (responseStatus.getCommand() != null) {
+      if (AgentStatus.COMMAND_WOL.equalsIgnoreCase(responseStatus.getCommand())) {
+        logger.debug("EXECUTING COMMAND " + responseStatus.getCommand());
         sendMagicPacket();
-        lastCommand = "WOL AT " + new Date();
+        getLocalStatus().setLastCommand(responseStatus.getCommand());
+        getLocalStatus().setLastCommandTime(new Date());
         resetAgentCommand();
       }
     }
@@ -225,6 +203,15 @@ public class AgentAdapterImpl implements AgentAdapter {
     List<ClientHttpRequestInterceptor> ris = new ArrayList<ClientHttpRequestInterceptor>();
     ris.add(ri);
     rt.setInterceptors(ris);
+  }
+  
+  public void testException() throws Exception {
+    throw new RuntimeException("Prova runtime exception");
+  }
+  
+  public void setLastExceptionText(String text) {
+    getLocalStatus().setLastException(text);
+    getLocalStatus().setLastExceptionTime(new Date());
   }
 
 }

@@ -3,10 +3,16 @@ package it.mate.wolf.agent;
 import it.mate.wolf.agent.adapter.AgentAdapter;
 import it.mate.wolf.agent.utils.PropertiesHolder;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class AgentMain {
+  
+  private static Logger logger = Logger.getLogger(AgentMain.class);
   
   @SuppressWarnings("resource")
   public static void main(String[] args) {
@@ -17,17 +23,30 @@ public class AgentMain {
         if (PropertiesHolder.getBoolean("agent.test.execute", false)) {
           adapter.getAgentStatus();
         }
-        if (PropertiesHolder.getBoolean("agent.status.sendText", false)) {
-          adapter.sendAgentStatusText();
-        }
-        if (PropertiesHolder.getBoolean("agent.status.sendJson", false)) {
+        if (PropertiesHolder.getString("agent.status.method") != null) {
           adapter.sendAgentStatus();
         }
         if (PropertiesHolder.getBoolean("agent.test.wol", false)) {
           adapter.sendMagicPacket();
         }
+        if (PropertiesHolder.getBoolean("agent.test.exception", false)) {
+          adapter.testException();
+        }
       } catch (Exception ex) {
-        ex.printStackTrace();
+        logger.error("error", ex);
+        
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ex.printStackTrace(new PrintStream(baos));
+        String text = new String(baos.toByteArray());
+
+        /*
+        System.out.println("================================");
+        System.out.println(text);
+        System.out.println("================================");
+        */
+        adapter.setLastExceptionText(text);
+        
+        
       } finally {
         try {
           Thread.sleep(Integer.parseInt(PropertiesHolder.getString("agent.delay", "10000")));

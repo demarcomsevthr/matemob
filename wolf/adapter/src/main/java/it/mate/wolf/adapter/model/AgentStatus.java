@@ -23,11 +23,20 @@ public class AgentStatus implements Serializable {
   private String temperature;
   
   private String memory;
+  
+  private String lastCommand;
+  
+  private Date lastCommandTime;
+
+  private String lastException;
+  
+  private Date lastExceptionTime;
 
   @Override
   public String toString() {
     return "AgentStatus [userAgent=" + userAgent + ", status=" + status + ", lastAccess=" + lastAccess + ", command=" + command + ", hostname=" + hostname
-        + ", ip=" + ip + ", temperature=" + temperature + ", memory=" + memory + "]";
+        + ", ip=" + ip + ", temperature=" + temperature + ", memory=" + memory + ", lastCommand=" + lastCommand + ", lastCommandTime=" + lastCommandTime
+        + ", lastException=" + lastException + ", lastExceptionTime=" + lastExceptionTime + "]";
   }
 
   public String getUserAgent() {
@@ -92,6 +101,38 @@ public class AgentStatus implements Serializable {
 
   public void setMemory(String memory) {
     this.memory = memory;
+  }
+
+  public String getLastCommand() {
+    return lastCommand;
+  }
+
+  public void setLastCommand(String lastCommand) {
+    this.lastCommand = lastCommand;
+  }
+
+  public Date getLastCommandTime() {
+    return lastCommandTime;
+  }
+
+  public void setLastCommandTime(Date lastCommandTime) {
+    this.lastCommandTime = lastCommandTime;
+  }
+
+  public String getLastException() {
+    return lastException;
+  }
+
+  public void setLastException(String lastException) {
+    this.lastException = lastException;
+  }
+
+  public Date getLastExceptionTime() {
+    return lastExceptionTime;
+  }
+
+  public void setLastExceptionTime(Date lastExceptionTime) {
+    this.lastExceptionTime = lastExceptionTime;
   }
 
 }
