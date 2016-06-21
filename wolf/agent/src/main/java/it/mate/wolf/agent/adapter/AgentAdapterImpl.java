@@ -99,7 +99,8 @@ public class AgentAdapterImpl implements AgentAdapter {
 
     if (response.getCommand() != null) {
       if (AgentStatus.COMMAND_WOL.equalsIgnoreCase(response.getCommand())) {
-        logger.debug("TODO: EXECUTING COMMAND " + response.getCommand());
+        logger.debug("EXECUTING COMMAND " + response.getCommand());
+        sendMagicPacket();
         lastCommand = "WOL AT " + new Date();
         resetAgentCommand();
       }
