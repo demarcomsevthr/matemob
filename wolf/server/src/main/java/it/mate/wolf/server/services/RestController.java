@@ -87,41 +87,6 @@ public class RestController {
     return formatter.format(calendar.getTime());    
   }
   
-  @RequestMapping ("/setAgentStatus/{agentStatus}")
-  public void setAgentStatus(HttpServletRequest request, HttpServletResponse response, @PathVariable String agentStatus) throws Exception {
-    String userAgent = request.getHeader("User-Agent");
-    logger.debug("adapter setAgentStatus");
-    logger.debug("userAgent="+userAgent);
-    logger.debug("agentStatus="+agentStatus);
-    //response.setContentType("text/html");
-    response.getWriter().println("Received Agent Status");
-    response.getWriter().println(String.format("User Agent = %s", userAgent));
-    response.getWriter().println(String.format("Agent Status = %s", agentStatus));
-  }
-  
-  @RequestMapping (method=RequestMethod.POST, value="/postAgentStatus")
-  public void postAgentStatus(HttpServletRequest request, HttpServletResponse response, @RequestBody String agentStatus) throws Exception {
-    String userAgent = request.getHeader("User-Agent");
-    logger.debug("adapter setAgentStatus");
-    logger.debug("userAgent="+userAgent);
-    logger.debug("agentStatus="+agentStatus);
-    
-    AgentStatus status = null;
-    status = adapter.getAgentStatus();
-    if (status == null) {
-      status = new AgentStatus();
-    }
-    status.setStatus(agentStatus);
-    status.setUserAgent(userAgent);
-    status.setLastAccess(new Date());
-    adapter.setAgentStatus(status);
-    
-    //response.setContentType("text/html");
-    response.getWriter().println("Received Agent Status");
-    response.getWriter().println(String.format("User Agent = %s", userAgent));
-    response.getWriter().println(String.format("Agent Status = %s", agentStatus));
-  }
-  
   @RequestMapping (method=RequestMethod.GET, value="/getAgentStatusObject")
   public @ResponseBody AgentStatus getAgentStatusObject(HttpServletRequest request, HttpServletResponse response) throws Exception {
     String userAgent = request.getHeader("User-Agent");
@@ -145,29 +110,15 @@ public class RestController {
   }
   
   @RequestMapping (method=RequestMethod.POST, value="/postAgentStatusObject")
-  public @ResponseBody AgentStatus postAgentStatusObject(HttpServletRequest request, HttpServletResponse response, @RequestBody AgentStatus receivedAgentStatus) throws Exception {
+  public @ResponseBody AgentStatus postAgentStatusObject(HttpServletRequest request, HttpServletResponse response, @RequestBody AgentStatus status) throws Exception {
     String userAgent = request.getHeader("User-Agent");
     logger.debug("adapter setAgentStatus");
     logger.debug("userAgent="+userAgent);
-    
-    AgentStatus status = null;
-    status = adapter.getAgentStatus();
-    if (status == null) {
-      status = new AgentStatus();
-    }
-    status.setStatus(receivedAgentStatus.getStatus());
-    status.setHostname(receivedAgentStatus.getHostname());
-    status.setIp(receivedAgentStatus.getIp());
-    status.setTemperature(receivedAgentStatus.getTemperature());
-    status.setMemory(receivedAgentStatus.getMemory());
     status.setUserAgent(userAgent);
     status.setLastAccess(new Date());
     adapter.setAgentStatus(status);
-    
     logger.debug("agentStatus="+status);
-    
     return status;
-    
   }
   
   @RequestMapping ("/setAgentCommand/{agentCommand}")
