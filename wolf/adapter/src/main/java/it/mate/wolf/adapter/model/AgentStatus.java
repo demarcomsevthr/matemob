@@ -8,6 +8,8 @@ public class AgentStatus implements Serializable {
 
   public static final String COMMAND_WOL = "wol";
 
+  public static final String COMMAND_NOOP = "noop";
+
   private String userAgent;
 
   private String status;
