@@ -3,9 +3,6 @@ package it.mate.wolf.agent;
 import it.mate.wolf.agent.adapter.AgentAdapter;
 import it.mate.wolf.agent.utils.PropertiesHolder;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

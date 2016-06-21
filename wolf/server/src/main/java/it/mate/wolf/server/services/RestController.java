@@ -114,6 +114,14 @@ public class RestController {
     String userAgent = request.getHeader("User-Agent");
     logger.debug("adapter setAgentStatus");
     logger.debug("userAgent="+userAgent);
+    
+    String queuedCommand = null;
+    AgentStatus queuedStatus = adapter.getAgentStatus();
+    if (queuedStatus != null) {
+      queuedCommand = queuedStatus.getCommand();
+    }
+
+    status.setCommand(queuedCommand);
     status.setUserAgent(userAgent);
     status.setLastAccess(new Date());
     adapter.setAgentStatus(status);
