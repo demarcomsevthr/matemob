@@ -1,11 +1,9 @@
 package it.mate.testleaflet.server.service;
 
-import it.mate.testleaflet.shared.service.FacadeException;
-import it.mate.testleaflet.shared.service.RemoteFacade;
 import it.mate.gwtcommons.shared.rpc.RpcMap;
+import it.mate.testleaflet.shared.service.RemoteFacade;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -59,30 +57,6 @@ public class RemoteFacadeTestImpl extends RemoteServiceServlet implements Remote
   public Boolean checkConnection() {
     logger.debug("calling " + moduleBaseUrl);
     return remoteFacade.checkConnection();
-  }
-
-  @Override
-  public List<RpcMap> getTimbri() throws FacadeException {
-    logger.debug("calling " + moduleBaseUrl);
-    return remoteFacade.getTimbri();
-  }
-
-  @Override
-  public RpcMap saveOrder(RpcMap entity) {
-    logger.debug("calling " + moduleBaseUrl);
-    return remoteFacade.saveOrder(entity);
-  }
-
-  @Override
-  public List<RpcMap> findOrdersByAccount(String accountId, Date lastUpdate) throws FacadeException {
-    logger.debug("calling " + moduleBaseUrl);
-    return remoteFacade.findOrdersByAccount(accountId, lastUpdate);
-  }
-
-  @Override
-  public RpcMap checkForUpdates(String accountId) throws FacadeException {
-    logger.debug("calling " + moduleBaseUrl);
-    return remoteFacade.checkForUpdates(accountId);
   }
 
 }

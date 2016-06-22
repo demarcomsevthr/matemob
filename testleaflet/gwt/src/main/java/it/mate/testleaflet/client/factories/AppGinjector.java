@@ -2,7 +2,6 @@ package it.mate.testleaflet.client.factories;
 
 import it.mate.gwtcommons.client.factories.CommonGinModule;
 import it.mate.gwtcommons.client.factories.CommonGinjector;
-import it.mate.phgcommons.client.utils.Dao;
 import it.mate.testleaflet.client.activities.mapper.MainActivityMapper;
 import it.mate.testleaflet.client.view.HomeView;
 import it.mate.testleaflet.client.view.MenuView;
@@ -17,8 +16,6 @@ public interface AppGinjector extends CommonGinjector {
   public MainActivityMapper getMainActivityMapper();
   
   public RemoteFacadeAsync getRemoteFacade();
-  
-  public Dao getMainDao();
   
   public MenuView getMenuView();
   
