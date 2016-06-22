@@ -12,38 +12,12 @@
         <div class="left">
           <o:OnsToolbarButton ui:field="btnMenu" visible="false"><o:OnsIcon icon="fa-bars"/></o:OnsToolbarButton>
         </div>
-        <div class="center">TIMBRI COPYCART</div>
+        <div class="center">MY APP</div>
       </o:OnsToolbar>
 
-        <g:HTML addStyleNames="app-home-presentation">
-          <i>Presentazione del servizio</i>
-          
-          <div class='app-home-presentation-panel'>
-          <p>Ciao! Siamo una azienda specializzata nella realizzazione di timbri.</p>
-          <p>Con questa app ti offriamo la possibilità di creare i tuoi timbri personalizzati acquistandoli con un particolare sconto sul prezzo di listino.</p>
-          <p>Per procedere, scegli il timbro che ti occorre, componi il contenuto e inviaci l'ordine.<br/>
-             Ti risponderemo creando un'anteprima in pdf del timbro finale.<br/>
-             Se ti piacerà potrai procedere con il pagamento e ricevere i tuoi timbri tramite il nostro corriere espresso.</p>
-          </div>
-          
-        </g:HTML>
-        <g:HTML addStyleNames="app-home-updates" ui:field="htmlOrderUpdates"/>
-        
-      <g:VerticalPanel width="100%">
-      </g:VerticalPanel>
-      
-      <g:VerticalPanel horizontalAlignment="left" addStyleNames="app-home-buttonbar" ui:field="bottomPanel">
-        <o:OnsButton ui:field="btnCategorie" addStyleNames="app-home-btnpanel app-stamp-img" text="Timbri"/>
-        <o:OnsButton ui:field="btnCart" addStyleNames="app-home-btnpanel" icon="fa-shopping-cart" text="Carrello"/>
-        <o:OnsButton ui:field="btnOrdini" addStyleNames="app-home-btnpanel" icon="fa-credit-card" text="Ordini"/>
-        <!-- 
-        <o:OnsButton ui:field="btnSettings" addStyleNames="app-home-btnpanel" icon="fa-cog" text="Settings"/>
-         -->
-      </g:VerticalPanel>
-      
-      <!-- 
-      <g:Label ui:field="homeLbl" addStyleNames="app-home-lbl"/>
-       -->
+      <g:HTML addStyleNames="app-home-presentation">
+        <i>Presentazione del servizio</i>
+      </g:HTML>
       
     </o:OnsPage>
     

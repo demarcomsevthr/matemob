@@ -13,21 +13,9 @@
       <g:SimplePanel addStyleNames="menu">
         <o:OnsPage>
           <o:OnsToolbar addStyleNames="app-menu-toolbar-panel">
-            <div class="center">Timbri Copycart</div>
+            <div class="center">App Toolbar</div>
           </o:OnsToolbar>
           <o:OnsList addStyleNames="app-menu-list">
-            <o:OnsListItem ui:field="btnTimbri" modifier="chevron" addStyleNames="app-menu-item-timbri">
-              <table><tr><td><span class="app-stamp-img"></span></td> <td><span class="app-menu-text">Timbri</span></td> </tr></table>
-            </o:OnsListItem>
-            <o:OnsListItem ui:field="btnCart" modifier="chevron">
-              <table><tr><td><span class="fa fa-shopping-cart"></span></td> <td><span class="app-menu-text">Carrello</span></td> </tr></table>
-            </o:OnsListItem>
-            <o:OnsListItem ui:field="btnOrdini" modifier="chevron">
-              <table><tr><td><span class="fa fa-credit-card"></span></td> <td><span class="app-menu-text">I tuoi ordini</span></td> </tr></table>
-            </o:OnsListItem>
-            <o:OnsListItem ui:field="btnMessaggi" modifier="chevron">
-              <table><tr><td><span class="fa fa-comment"></span></td> <td><span class="app-menu-text">Messaggi</span></td> </tr></table>
-            </o:OnsListItem>
             <o:OnsListItem ui:field="btnSettings" modifier="chevron">
               <table><tr><td><span class="fa fa-cog"></span></td> <td><span class="app-menu-text">Opzioni</span></td> </tr></table>
             </o:OnsListItem>

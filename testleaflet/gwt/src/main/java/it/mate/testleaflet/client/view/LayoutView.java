@@ -1,12 +1,12 @@
 package it.mate.testleaflet.client.view;
 
-import it.mate.testleaflet.client.view.LayoutView.Presenter;
 import it.mate.gwtcommons.client.mvp.AbstractBaseView;
 import it.mate.gwtcommons.client.mvp.BasePresenter;
 import it.mate.onscommons.client.event.TapEvent;
 import it.mate.onscommons.client.ui.OnsLayoutView;
 import it.mate.onscommons.client.ui.OnsNavigator;
 import it.mate.onscommons.client.ui.OnsSlidingMenu;
+import it.mate.testleaflet.client.view.LayoutView.Presenter;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -19,11 +19,6 @@ public class LayoutView extends AbstractBaseView<Presenter> implements OnsLayout
   public interface Presenter extends BasePresenter {
     public void goToHomeView();
     public void goToSettingsView();
-    public void goToTimbriListView();
-    public void goToMessageListView();
-    public void goToCategorieListView();
-    public void goToOrderListView();
-    public void goToCartListView();
   }
 
   public interface ViewUiBinder extends UiBinder<Widget, LayoutView> { }
@@ -66,26 +61,6 @@ public class LayoutView extends AbstractBaseView<Presenter> implements OnsLayout
   @UiHandler("btnSettings")
   public void onBtnSettings(TapEvent event) {
     getPresenter().goToSettingsView();
-  }
-  
-  @UiHandler("btnTimbri")
-  public void onBtnTimbri(TapEvent event) {
-    getPresenter().goToCategorieListView();
-  }
-  
-  @UiHandler("btnMessaggi")
-  public void onBtnMessaggi(TapEvent event) {
-    getPresenter().goToMessageListView();
-  }
-  
-  @UiHandler("btnOrdini")
-  public void onBtnOrdini(TapEvent event) {
-    getPresenter().goToOrderListView();
-  }
-  
-  @UiHandler("btnCart")
-  public void onBtnCart(TapEvent event) {
-    getPresenter().goToCartListView();
   }
   
 }

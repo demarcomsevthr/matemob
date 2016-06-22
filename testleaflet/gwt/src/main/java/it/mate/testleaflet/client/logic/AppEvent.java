@@ -11,8 +11,6 @@ public class AppEvent extends GwtEvent<AppEvent.Handler> {
   
   public final static int DB_READY = 1;
   
-  public final static int UPDATED_ORDERS_AVAILABLE = 2;
-  
   private int state;
   
   private Object model;
