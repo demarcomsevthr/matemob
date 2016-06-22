@@ -41,7 +41,7 @@ public class MainActivity extends OnsAbstractActivity implements
     
     if (place.getToken().equals(MainPlace.HOME)) {
 //    PhgUtils.setDesktopDebugBorder(384, 682); // LG G3 5.5' RATIO (1440x2560)
-      PhgUtils.setDesktopDebugBorder(384, 568); // NEXUS 4 4.7' RATIO (768 x 1280)
+//    PhgUtils.setDesktopDebugBorder(384, 568); // NEXUS 4 4.7' RATIO (768 x 1280)
     }
     
     if (place.getToken().equals(MainPlace.HOME)) {

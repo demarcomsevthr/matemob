@@ -5,6 +5,7 @@
 
 <web-app>
 
+  <!-- 
   <servlet>
     <servlet-name>remoteFacade</servlet-name>
     <servlet-class>it.mate.testleaflet.server.service.RemoteFacadeTestImpl</servlet-class>
@@ -24,6 +25,7 @@
     <servlet-name>imageServlet</servlet-name>
     <url-pattern>*.image</url-pattern>
   </servlet-mapping>
+   -->
 
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
