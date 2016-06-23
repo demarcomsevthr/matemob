@@ -6,10 +6,9 @@
        
   <g:HTMLPanel ui:field="wrapperPanel" addStyleNames="app-page-wrapper-panel">
   
-    
+    <o:OnsSlidingMenu ui:field="slidingMenu" menuPage="menu">
 
-    <o:OnsSlidingMenu ui:field="slidingMenu">
-    
+      <!--     
       <g:SimplePanel addStyleNames="menu">
         <o:OnsPage>
           <o:OnsToolbar addStyleNames="app-menu-toolbar-panel">
@@ -22,6 +21,7 @@
           </o:OnsList>
         </o:OnsPage>
       </g:SimplePanel>
+       -->
     
       <g:SimplePanel addStyleNames="main">
         <o:OnsNavigator ui:field="navigator">
@@ -32,6 +32,19 @@
     
     </o:OnsSlidingMenu>
     
+    <o:OnsTemplate templateId="menu">
+        <o:OnsPage>
+          <o:OnsToolbar addStyleNames="app-menu-toolbar-panel">
+            <div class="center">App Toolbar</div>
+          </o:OnsToolbar>
+          <o:OnsList addStyleNames="app-menu-list">
+            <o:OnsListItem ui:field="btnSettings" modifier="chevron">
+              <table><tr><td><span class="fa fa-cog"></span></td> <td><span class="app-menu-text">Opzioni</span></td> </tr></table>
+            </o:OnsListItem>
+          </o:OnsList>
+        </o:OnsPage>
+    </o:OnsTemplate>
+
   </g:HTMLPanel>
   
 </ui:UiBinder>

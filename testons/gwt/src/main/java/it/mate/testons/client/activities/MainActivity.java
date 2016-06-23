@@ -98,6 +98,7 @@ public class MainActivity extends OnsAbstractActivity implements
 
   @Override
   public void showMenu() {
+    PhgUtils.log("showMenu");
     OnsenUi.getSlidingMenu().toggleMenu();
   }
 

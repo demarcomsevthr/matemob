@@ -59,7 +59,7 @@
     
     <dependency>
       <groupId>it.mate</groupId>
-      <artifactId>onscommons</artifactId>
+      <artifactId>onscommons2</artifactId>
       <version>1.0</version>
     </dependency>
     

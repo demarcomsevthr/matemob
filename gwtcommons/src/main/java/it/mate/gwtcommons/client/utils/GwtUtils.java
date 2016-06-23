@@ -398,10 +398,6 @@ public class GwtUtils {
     onAvailable(id, MAX_WAIT_FOR_AVAILABLE_ELEMENTS, delegate);
   }
   
-  //TODO
-  //TODO
-  //TODO
-  
   public static void onAvailable (final String id, final long maxWait, final Delegate<Element> delegate) {
     
     if (useAvailableElementsCache) {
@@ -1325,7 +1321,14 @@ public class GwtUtils {
     return obj[name];
   }-*/;
 
+  
+  // TODO
   public native static String getJsPropertyString(JavaScriptObject obj, String name) /*-{
+  
+    if (obj == null) {
+      @it.mate.gwtcommons.client.utils.GwtUtils::logWithStackTrace(Ljava/lang/String;)('obj is null!');
+    }
+  
     if (obj[name]===undefined) {
       return null;
     }
@@ -1460,6 +1463,15 @@ public class GwtUtils {
   
   public static void setUseAvailableElementsCache(boolean useAvailableElementsCache) {
     GwtUtils.useAvailableElementsCache = useAvailableElementsCache;
+  }
+  
+  public static void logWithStackTrace(String msg) {
+    GwtUtils.log(msg);
+    try {
+      throw new RuntimeException("Printing stack: " + msg);
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
   }
   
 }

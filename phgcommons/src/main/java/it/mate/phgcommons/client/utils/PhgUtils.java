@@ -645,4 +645,14 @@ public class PhgUtils {
     PhgUtils.useConsole = useConsole;
   }
   
+  public static void logWithStackTrace(String msg) {
+    PhgUtils.log(msg);
+    try {
+      throw new RuntimeException("Printing stack: " + msg);
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+  }
+  
+  
 }

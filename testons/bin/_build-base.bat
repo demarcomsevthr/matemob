@@ -29,7 +29,7 @@ if "%SKIP_MOBILE_DEPENDENCIES%"=="true" GOTO NO_MOBILE_DEPENDENCIES
 cd %BASEAPPDIR%\..\phgcommons
 call %MVN2CMD% %DEP_CLEAN% install
 
-cd %BASEAPPDIR%\..\onscommons
+cd %BASEAPPDIR%\..\onscommons2
 call %MVN2CMD% %DEP_CLEAN% install
 
 :NO_GWT_DEPENDENCIES
