@@ -4,7 +4,7 @@
   <groupId>it.mate</groupId>
   <artifactId>onscommons2</artifactId>
   <version>1.0</version>
-  <name>onscommons</name>
+  <name>onscommons2</name>
   
   <properties>
     <maven.compiler.source>1.7</maven.compiler.source>
