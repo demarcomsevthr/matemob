@@ -1,0 +1,100 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>it.mate</groupId>
+  <artifactId>onscommons2</artifactId>
+  <version>1.0</version>
+  <name>onscommons</name>
+  
+  <properties>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
+    <gwt.version>2.7.0</gwt.version>
+    <gin.version>1.5.0</gin.version>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>repo1</id>
+      <url>http://repo1.maven.org/maven2</url>
+    </repository>
+  </repositories>
+  
+  <dependencies>
+      
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-servlet</artifactId>
+      <version>${gwt.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-user</artifactId>
+      <version>${gwt.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>it.mate</groupId>
+      <artifactId>gwtcommons</artifactId>
+      <version>2.5.1</version>
+    </dependency>
+      
+    <dependency>
+      <groupId>it.mate</groupId>
+      <artifactId>phgcommons</artifactId>
+      <version>1.0</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.googlecode.gwtphonegap</groupId>
+      <artifactId>gwtphonegap</artifactId>
+      <version>3.5.0.0</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+      
+    <resources>
+      <!-- ATTENZIONE: occorre inserire i sorgenti nel jar per il GWT compiler -->
+      <resource>
+        <directory>src/main/java</directory>
+        <includes>
+          <include>**/*.xml</include>
+          <include>**/*.css</include>
+          <include>**/client/**/*.java</include>
+          <include>**/client/**/*.png</include>
+          <include>**/shared/**/*.java</include>
+          <include>**/public/**/*</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <excludes>
+          <exclude>log4j*.properties</exclude>
+        </excludes>
+      </resource>
+    </resources>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.8.1</version>
+        <configuration>
+          <skipTests>true</skipTests>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.4.3</version>
+        <configuration>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+      </plugins>
+
+  </build>
+  
+</project>
