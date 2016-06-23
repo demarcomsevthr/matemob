@@ -17,6 +17,6 @@
 <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="com.google.gdt.eclipse.maven.mavenClasspathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.google.gwt.dev.DevMode"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-nosuperDevMode -startupUrl index.html -war G:\matemob\testons\gwt\target\testons-gwt -port 8889 -remoteUI &quot;${gwt_remote_ui_server_port}:${unique_id}&quot; -logLevel INFO -codeServerPort 9998 it.mate.testons.main"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="testleaflet-gwt"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="testons-gwt"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx512m"/>
 </launchConfiguration>
