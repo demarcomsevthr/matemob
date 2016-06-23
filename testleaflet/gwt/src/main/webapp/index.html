@@ -7,45 +7,36 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     
-	<!-- 
-         CONTENT SECURITY POLICY FOR cordova-plugin-whitelist 
-         SEE 
-             https://github.com/apache/cordova-plugin-whitelist#content-security-policy
-             http://content-security-policy.com/
-
-	    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
-	    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
-	    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
-	        * Enable inline JS: add 'unsafe-inline' to default-src
-	        * Enable eval(): add 'unsafe-eval' to default-src
-	        
-	-->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: gap: https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *; connect-src *">
     
-    <script type="text/javascript" language="javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
     
-    <!-- NONOSTANTE DIA UN WARNING SU ONSENUI SEMBRA PIU' VELOCE INCLUDERE JQUERY PRIMA DI ONSEN
-    <script type="text/javascript" language="javascript" src="jquery-1.9.1.min.js"></script>
-     -->
-    <script type="text/javascript" language="javascript" src="jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="main/js/jquery/jquery-1.11.2.min.js"></script>
     
-    <script type="text/javascript" language="javascript" src="main/js/debug.js"></script>
-    
+    <script type="text/javascript" src="main/js/debug.js"></script>
+
+    <!--     
     <link rel="stylesheet" href="main/js/onsen/css/onsenui.css">
     <link rel="stylesheet" href="main/js/onsen/css/onsen-css-components-blue-basic-theme.css">
     <script src="main/js/onsen/js/angular/angular.js"></script>
-    
     <script src="main/js/onsen/js/onsenui.js"></script>
-    <!-- 
-    <script src="main/js/onsen/js/onsenui_all.js"></script>
      -->
      
-    <!--  incluso in onsenui_all
-    <script src="main/js/hammer.js"></script>
-     -->
+    <script>
+      var ONSEN_VERSION="2.0.0";
+    </script> 
      
-    <script type="text/javascript" language="javascript" src="main/js/onsenui-extension.js"></script>
+    <link rel="stylesheet" href="main/js/onsen-2.0.0-rc.14/css/onsenui.css">
+    <link rel="stylesheet" href="main/js/onsen-2.0.0-rc.14/css/onsen-css-components-blue-basic-theme.css">
+    <script src="main/js/onsen/js/angular/angular.js"></script>
+    <script src="main/js/onsen-2.0.0-rc.14/js/onsenui.js"></script>
+    <script src="main/js/onsen-2.0.0-rc.14/js/angular-onsenui.js"></script>
     
+    <script type="text/javascript" src="main/js/onsenui-extension.js"></script>
+    <link rel="stylesheet" href="main/css/onsenui-extension.css">
+    
+    <link rel="stylesheet" href="main/css/main-keyframes.css">
+
     <script type="text/javascript" language="javascript" src="main/main.nocache.js"></script>
     
   </head>
