@@ -1,0 +1,37 @@
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+       xmlns:g="urn:import:com.google.gwt.user.client.ui" 
+       xmlns:gc="urn:import:it.mate.gwtcommons.client.ui" 
+       ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
+       ui:generateLocales="default" xmlns:o="urn:import:it.mate.onscommons.client.ui">
+       
+  <g:HTMLPanel ui:field="wrapperPanel" addStyleNames="app-page-wrapper-panel">
+  
+    
+
+    <o:OnsSlidingMenu ui:field="slidingMenu">
+    
+      <g:SimplePanel addStyleNames="menu">
+        <o:OnsPage>
+          <o:OnsToolbar addStyleNames="app-menu-toolbar-panel">
+            <div class="center">App Toolbar</div>
+          </o:OnsToolbar>
+          <o:OnsList addStyleNames="app-menu-list">
+            <o:OnsListItem ui:field="btnSettings" modifier="chevron">
+              <table><tr><td><span class="fa fa-cog"></span></td> <td><span class="app-menu-text">Opzioni</span></td> </tr></table>
+            </o:OnsListItem>
+          </o:OnsList>
+        </o:OnsPage>
+      </g:SimplePanel>
+    
+      <g:SimplePanel addStyleNames="main">
+        <o:OnsNavigator ui:field="navigator">
+        
+        </o:OnsNavigator>
+      
+      </g:SimplePanel>
+    
+    </o:OnsSlidingMenu>
+    
+  </g:HTMLPanel>
+  
+</ui:UiBinder>

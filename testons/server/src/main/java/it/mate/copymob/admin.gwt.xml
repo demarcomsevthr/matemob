@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='admin'>
+
+  <inherits name='com.google.gwt.user.User'/>
+  <inherits name="com.google.gwt.inject.Inject"/>
+  <inherits name="com.google.gwt.i18n.I18N"/>
+  <inherits name="com.google.gwt.place.Place"/>
+  <inherits name="com.google.gwt.inject.Inject"/>
+  <inherits name="com.google.gwt.activity.Activity"/>
+  <inherits name='com.google.gwt.user.theme.standard.Standard' />
+  
+  <inherits name="it.mate.gwtcommons.Commons" />
+  <inherits name='it.mate.testons.Adapter'/>
+  
+  <extend-property name="locale" values="it"/>
+  <set-property name="locale" value="it"/>
+  
+  <replace-with class="it.mate.testons.client.factories.AdminClientFactoryImpl">
+    <when-type-is class="it.mate.testons.client.factories.AdminClientFactory"/>
+  </replace-with>
+
+  <entry-point class='it.mate.testons.client.AdminEP'/>
+
+  <source path='client'/>
+  <source path='shared'/>
+  <public path="public"/>
+  
+  <set-configuration-property name="UiBinder.useSafeHtmlTemplates" value="true"/>
+  
+  <!-- LOGGING  -->
+  <!-- [22/04/2015]
+       ATTENZIONE
+       A DIFFERENZA DELLA PARTE MOBILE SE SI DEFINISCE QUI LA PROPERTY CAUSA
+       L'ISSUE 'undefined.cache.js'
+  <define-property name="gwt.logging.popupHandler" values="ENABLED, DISABLED" />
+   -->
+  <inherits name="com.google.gwt.logging.Logging"/>
+  
+  <collapse-all-properties />
+  
+</module>

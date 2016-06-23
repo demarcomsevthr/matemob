@@ -1,0 +1,487 @@
+
+@external gwt*, phg*, app*, ons*, popover, fa*, center*, list*, page*;
+
+@eval windowWidth it.mate.protoph.client.ui.theme.CustomTheme.getWindowWidth();
+
+@eval windowHeight it.mate.protoph.client.ui.theme.CustomTheme.getWindowHeight();
+
+.app-home-page .page__content {
+  background: url('main/images/home-background-1280-bn.jpg') 100% 100% !important;
+}
+
+.app-home-presentation {
+  width: 100%;
+  text-align: center;
+  padding-top: 1em;
+}
+
+.app-home-presentation-panel {
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+.app-home-updates {
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+.app-home-updated-orders-link {
+  color: rgba(38,100,171,0.81);
+  padding-left: 1em;
+}
+
+.app-home-alert-title {
+  height: 1.6em;
+  border-bottom: 1px solid rgb(100, 100, 100);
+  padding-top: 0.2em;
+}
+
+.app-home-alert-message {
+  font-size: 0.7em;
+  font-weight: bold;
+  text-align: center;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.app-home-alert-button {
+  width: 8em;
+  line-height: 1.6em;
+  margin-bottom: 0.5em;
+}
+
+.app-home-buttonbar {
+  position: absolute;
+  bottom: 0.5em;
+  width: 100%;
+}
+
+.app-home-buttonbar .ons-button {
+  text-align: left;
+  height: 3em;
+  padding-top: 0.5em;
+  padding-left: 1.5em;
+}
+	
+.app-home-lbl {
+  position: absolute;
+  bottom: 0.5em;
+  width: 100%;
+  text-align: center;
+}
+
+.app-toolbar-search-box {
+  margin-top: 0.2em;
+  height: 2.4em;
+  width: 150%;
+}
+
+.app-timbri-carousel {
+  width: 100%;
+  height: 100%;
+}
+
+/** SU AND 4.4 NON FUNZIONA **/
+.app-timbri-carousel-80 {
+  width: 80%;
+  height: 80%;
+  opacity: 1 !important;
+}
+
+.app-timbri-scroller, .app-timbri-scroller div {
+  height: 100%;
+}
+
+.app-timbri-carousel ons-carousel-item, .app-timbri-carousel-panel {
+  background-color: rgb(228, 241, 255);
+}
+
+.app-timbri-carousel-panel {
+  padding-top: 5%;
+}
+
+.app-carousel-item-inner {
+  height: 100%;
+}
+
+.app-carousel-item-inner img {
+  border-radius: 5%;
+  width: 80%;
+  height: 65%;
+  margin-left: 10%;
+}
+
+.app-carousel-item-name {
+  margin-left: 12%;
+  font-size: 1.2em;
+  margin-top: 6%;
+  margin-bottom: 2%;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.app-carousel-item-price {
+  margin-left: 15%;
+  line-height: 3em;
+  font-size: 1.2em;
+}
+
+.app-timbri-inner-page {
+  width: 80%;
+  height: 80%;
+  border: 40px solid rgb(228, 241, 255);
+}
+
+.app-timbri-page {
+  width: 100%;
+  background-color: rgb(228, 241, 255);
+}
+
+.app-timbri-choose-btn, .app-confirm-btn {
+  position: absolute;
+  bottom: 0.5em;
+}
+
+.app-timbri-bottom-panel {
+  position: absolute;
+  bottom: 0.5em;
+  width: 100%;
+  background-color: transparent;
+}
+
+.app-timbri-bottom-panel .list__item {
+  border-bottom: 0; 
+}
+
+.app-home-btnpanel .app-btn-img {
+  background: url('main/images/stamp-64w.png') no-repeat;
+  background-size: 1.6em;
+  width: 1.6em;
+  height: 1.6em;
+  float: left;
+  padding-right: 0.2em;
+}
+
+.app-home-buttonbar .ons-button.app-stamp-img {
+  background: url(main/images/stamp-64w.png) no-repeat 1.4em 0.75em;
+  background-color: #14b9d6;
+  background-size: 1.6em;
+  padding-left: 3.3em;
+}
+
+.app-item-preview {
+  border: 1px solid red;
+  margin: 5px;
+}
+
+.app-edit-btn-cfg {
+  color: rgba(24, 103, 194, 0.81);
+  height: 2em;
+  padding: 0;
+  padding-left: 0.5em;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  width: 2em;
+  margin-top: -0.2em;
+  position: absolute;
+  right: 0.5em;
+  top: 0.5em;
+}
+
+.app-edit-text {
+  width: 92%;
+  height: 100%;
+  margin-top: 1%;
+  margin-left: -2%;
+}
+
+.app-edit-controlbar {
+  display: none;
+  position: absolute;
+  /* background-color: #8aeacf; */
+  background-color: #88b131;
+  padding: 0.3em;
+  padding-top: 0.2em;
+  padding-bottom: 0.45em;
+  border-radius: 0.3em;
+  overflow: hidden;
+  height: 0;
+  width: 0;
+}
+
+.app-edit-controlbar-btn {
+  width: 36px;
+  height: 32px;
+  padding: 0;
+  line-height: 1.4em;
+  padding-top: 0.2em;
+  font-size: 0.9em;
+  margin-left: 0.06em;
+}
+
+.app-edit-controlbar-btn .ons-icon {
+  width: 32px;
+}
+
+.app-edit-controlbar-btn-size-text {
+  background: #f9f9f9;
+  color: black;
+  padding-top: 0.25em;
+}
+
+.app-bold {
+  font-weight: bold;
+}
+
+.app-italic {
+  font-style: italic;
+}
+
+.app-underline {
+  text-decoration: underline;
+}
+
+.app-viewfinder {
+  position: absolute;
+  background-color: red;
+  width: 4px;
+  height: 4px;
+}
+
+.app-edit-fontsizebar {
+  display: none;
+  position: absolute;
+  background-color: #88b131;
+  padding: 0.1em;
+  border-radius: 0.3em;
+  overflow: hidden;
+  height: 0;
+  width: 0;
+  margin-top: -0.5em;
+}
+
+.app-edit-fontsizebar-btn {
+  background: rgb(220, 230, 246);
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  color: rgb(0, 0, 0);
+  margin-bottom: 0.1em;
+}
+
+.app-edit-fontsizebar-btn-selected {
+  border-width: 3px;
+}
+
+
+.app-edit-controlbar-2 {
+  display: none;
+  position: absolute;
+  overflow: hidden;
+  height: 0;
+  width: 0;
+  background: rgb(248, 248, 248);
+}
+
+.app-edit-controlbar-2-btn {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  line-height: 2.0em;
+  padding-top: 0.2em;
+  font-size: 0.76em;
+  background: rgb(248, 248, 248);
+  color: black;
+  border: 1px solid rgb(214, 214, 214);
+  box-shadow: none;
+  border-radius: 0;
+  padding-left: 0.5em;
+}
+
+.app-edit-fontsizebar-2 {
+  display: none;
+  position: absolute;
+  overflow: hidden;
+  height: 0;
+  width: 0;
+}
+
+.app-msg-bottombar {
+  position: absolute;
+  bottom: 0.2em;
+  width: 100%;
+  background-color: lightgray;
+}
+
+.app-setting-label {
+  font-size: 0.8em;
+  opacity: 0.9;
+  display: inline;
+  padding-left: 1em;
+}
+
+.app-cart-item-img {
+  width: 40px
+}
+
+.app-cart-item-name {
+  font-size: 0.8em;
+  height: 2em;
+  width: 6em;
+  overflow: hidden;
+  font-weight: bold;
+}
+
+.app-cart-prezzo-label {
+  font-size: 0.9em;
+  margin-top: -0.7em;
+}
+
+.app-cart-item-state {
+  font-size: 0.8em;
+}
+
+.app-cart-item-label {
+  font-size: 0.8em;
+}
+
+.app-cart-btn-edit {
+  position: absolute;
+  right: 0.2em;
+  top: 0.2em;
+}
+
+.app-cart-btn-edit ons-icon {
+  font-size: 1.8em !important;
+}
+
+.app-cart-empty-lbl {
+  text-align: center;
+  height: 20em;
+  margin-top: 30%;
+  font-size: 1.5em;
+}
+
+.app-order-list-item-icon {
+  font-size: 0.8em;
+  height: 100%;
+  position: absolute;
+  top: 22%;
+  left: 4.5%;
+}
+
+.app-order-list-item-data-panel {
+  padding-left: 1em;
+}
+
+.app-order-list-item-name {
+  font-size: 0.8em;
+  height: 2em;
+}
+
+.app-order-list-item-date {
+  position: absolute;
+  right: 6em;
+  font-size: 0.8em;
+  height: 2em;
+}
+
+.app-order-list-item-state {
+  font-size: 0.8em;
+}
+
+.app-ons-list-item-message {
+  height: 7em;
+  padding-top: 0.5em;
+}
+
+.app-ons-list-item-message .popover {
+  width: 80%;
+}
+
+.app-ons-list-item-message-content {
+  display: -webkit-box;
+  height: 4.8em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
+
+.app-msg-newmsg-box {
+  width: 100%;
+  min-height: 2.8em;
+}
+
+.app-timbri-image-panel {
+  width: 100%;
+}
+
+.app-order-item-btn-edit ons-icon {
+  font-size: 1.8em !important;
+}
+
+.app-menu-toolbar-panel {
+  height: 10em;
+  /* background: url(main/images/dandelion-640.jpg) no-repeat 0em 0em; */
+  background: url(main/images/stamp-640.jpg) no-repeat 0em 0em;
+  background-color: transparent !important;
+  background-size: 100% 100%;
+}
+
+.app-menu-list {
+  padding-top: 7.6em;
+}
+
+.app-menu-list * {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.app-menu-list .list__item:active {
+  background-color: rgb(226, 244, 251) !important;
+}
+
+.app-menu-list span.app-stamp-img {
+  background: url(main/images/stamp-64b.png) no-repeat 0.4em 0.2em;
+  width: 2em;
+  height: 2em;
+  display: inline-block;
+  background-size: 1.6em;
+}
+
+.app-menu-list span.fa {
+  font-size: 1.6em;
+  height: 1.25em;
+  padding-top: 0.2em;
+  padding-right: 0.2em;
+  padding-left: 0.2em;
+  color: #14b9d6;
+}
+
+.app-menu-item-timbri {
+  line-height: initial;
+}
+
+.app-menu-list span.app-menu-text {
+  font-size: 1.1em;
+  padding-left: 1.1em;
+}
+
+.app-menu-list span.app-menu-text {
+  font-size: 1em;
+  padding-left: 1.1em;
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: bold;
+  font-family: arial;
+}
+
+.app-bottom-ver-lbl {
+  font-family: Trebuchet MS;
+  font-size: 14px;
+  position: absolute;
+  left: 6%;
+  bottom: 0.8em;
+}

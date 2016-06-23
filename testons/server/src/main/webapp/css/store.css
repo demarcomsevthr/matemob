@@ -1,0 +1,47 @@
+
+body {
+  height: 100%;
+  background-color: #10578D;
+  font: 14px Verdana, Arial, Helvetica, sans-serif;
+}
+
+h1 {
+  font: normal 2.4em Georgia, "Times New Roman", Times, serif;
+  color: #FFFFFF;
+  padding-top: 25px;
+  margin-left: 10%;
+}
+
+h2 {
+  font: normal 1.5em Georgia, "Times New Roman", Times, serif;
+  color: #004F8B;
+  letter-spacing: 1px;
+  background: url('.img/h2-bg.gif') no-repeat 0 53%;
+  padding-left: 25px;
+  margin-bottom: 7px;
+}
+
+p {
+  font: 0.9em Verdana, Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+  margin: 0 0 10px 25px;
+  color: #242424;
+}
+
+.ui-header {
+  background-color: rgba(0, 0, 0, 0.68);
+  width: 80%;
+  margin-left: 10%;
+}
+
+.ui-menu {
+  float: left;
+  width: 20%;
+  background-color: #10578D;
+}
+
+.ui-body {
+  background-color: white;
+  margin-left: 20%;
+  margin-right: 10%;
+}
