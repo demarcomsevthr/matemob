@@ -5,6 +5,7 @@ import it.mate.gwtcommons.client.mvp.BasePresenter;
 import it.mate.onscommons.client.event.TapEvent;
 import it.mate.onscommons.client.onsen.OnsenUi;
 import it.mate.onscommons.client.ui.OnsToolbarButton;
+import it.mate.onscommons.client.utils.OnsDialogUtils;
 import it.mate.phgcommons.client.utils.PhgUtils;
 import it.mate.testons.client.logic.AppEvent;
 import it.mate.testons.client.view.HomeView.Presenter;
@@ -53,6 +54,11 @@ public class HomeView extends AbstractBaseView<Presenter> {
   public void onBtnMenu(TapEvent event) {
     PhgUtils.log("btnMenu.tapped");
     getPresenter().showMenu();
+  }
+  
+  @UiHandler("btnDialog")
+  public void onBtnDialog(TapEvent event) {
+    OnsDialogUtils.alert("Un dialog!");
   }
   
 }

@@ -19,6 +19,19 @@
         <i>Presentazione del servizio</i>
       </g:HTML>
       
+      <o:OnsScroller>
+      
+        <o:OnsList addStyleNames="app-detail-list" ui:field="list">
+        
+          <o:OnsListItem ui:field="btnDialog" modifier="chevron">
+            <span class="app-menu-text">Test Dialog</span>
+          </o:OnsListItem>
+          
+        </o:OnsList>
+        
+      </o:OnsScroller>
+      
+      
     </o:OnsPage>
     
   </g:HTMLPanel>
