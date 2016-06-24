@@ -27,11 +27,16 @@ public class Options extends JavaScriptObject {
   
   //TODO [ONS2]
   public final void setOnTransitionEnd(JavaScriptObject value) {
-    if (OnsenUi.getOnsenVersion().startsWith("1.")) {
+    if (OnsenUi.isVersion1()) {
       GwtUtils.setJsPropertyJso(this, "onTransitionEnd", value);
     } else {
       GwtUtils.setJsPropertyJso(this, "callback", value);
     }
+  }
+  
+  //TODO [ONS2]
+  public final void setPageHTML(String pageHTML) {
+    GwtUtils.setJsPropertyString(this, "pageHTML", pageHTML);
   }
   
 }

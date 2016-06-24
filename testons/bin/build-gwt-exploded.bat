@@ -5,7 +5,7 @@ set MODULE=gwt
 set SKIP_PAUSE=false
 ::set SKIP_DEPENDENCIES=true
 set SKIP_DEPENDENCIES_CLEAN=true
-::set SKIP_GWT_DEPENDENCIES=true
+set SKIP_GWT_DEPENDENCIES=true
 
 set goals=
 ::set goals=%goals% -e

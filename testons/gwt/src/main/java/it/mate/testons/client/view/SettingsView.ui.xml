@@ -14,6 +14,32 @@
         </div>
         <div class="center">Settings</div>
       </o:OnsToolbar>
+      
+      <o:OnsScroller>
+      
+        <o:OnsList addStyleNames="app-detail-list" ui:field="list">
+        
+          <o:OnsListItem ui:field="btnProfilo" modifier="chevron">
+            <span class="app-menu-text">Profilo</span>
+          </o:OnsListItem>
+            
+          <o:OnsListItem>
+            <span class="app-settings-label-column">Promemoria in calendario</span>
+            <span class="app-settings-value-column">
+              <o:OnsCheckBox ui:field="calendarCbx"/>
+            </span>
+          </o:OnsListItem>
+          
+          <o:OnsListItem>
+            <span class="app-settings-label-column">Ore anticipo promemoria</span>
+            <span class="app-settings-value-column">
+              <o:OnsIntegerBox ui:field="orePromemoriaBox" width="3.2em"/>
+            </span>
+          </o:OnsListItem>
+          
+        </o:OnsList>
+        
+      </o:OnsScroller>
   
       <o:OnsLabel ui:field="counterLbl"/>
       

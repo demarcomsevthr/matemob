@@ -63,8 +63,22 @@ public class PhgUtils {
     log("Device.uuid " + getDeviceUuid());
     log("Device.version " + getDeviceVersion());
     log("AppLocalLanguage = " + getAppLocalLanguage());
+    
+    if ("true".equals(GwtUtils.getJSVar("phgutils_exportMethodsToJs", "false"))) {
+      exportMethodsToJs();
+    }
+    
   }
   
+  private native static void exportMethodsToJs() /*-{
+    $wnd.phgUtils_log = $entry(function(message) {
+      @it.mate.phgcommons.client.utils.PhgUtils::log(Ljava/lang/String;)(message);
+    });
+    $wnd.phgUtils_callDebugHook = $entry(function(jso) {
+      @it.mate.phgcommons.client.utils.PhgUtils::callDebugHook(Lcom/google/gwt/core/client/JavaScriptObject;)(jso);
+    });
+  }-*/;
+
   public static void commonInitializations() {
     commonInitializations(null, null, null);
   }

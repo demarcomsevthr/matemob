@@ -90,9 +90,11 @@ public abstract class OnsActivityManagerWithSlidingNavigator extends OnsActivity
     return navigator.getCurrentPage();
   }
   
+  // TODO [ONS2]
   private void pushPage(Place newPlace, Integer insertIndex) {
     
     compileActivePanel();
+    
     HasToken hasToken = (HasToken)newPlace;
     String newToken =  hasToken.getToken();
     putPlace(newPlace);
@@ -150,7 +152,12 @@ public abstract class OnsActivityManagerWithSlidingNavigator extends OnsActivity
             if ("home".equalsIgnoreCase(newToken)) {
               navigator.resetToPage(newToken);
             } else {
-              navigator.pushPage(newToken, onPushTransitionEndDelegate);
+              if (OnsenUi.isVersion2()) {
+                PhgUtils.log("push page version 2");
+                navigator.pushPage(newToken, getActivePanelInnerHtml(), onPushTransitionEndDelegate);
+              } else {
+                navigator.pushPage(newToken, onPushTransitionEndDelegate);
+              }
             }
           }
           
@@ -159,16 +166,10 @@ public abstract class OnsActivityManagerWithSlidingNavigator extends OnsActivity
       }
     } else {
       
-      if (OnsenUi.getOnsenVersion().startsWith("2.")) {
-        PhgUtils.log("deferring push page");
-        final String fnewToken = newToken;
-        final Delegate<Void> fOnPushTransitionEndDelegate = onPushTransitionEndDelegate;
-        GwtUtils.deferredExecution(100, new Delegate<Void>() {
-          public void execute(Void element) {
-            navigator.pushPage(fnewToken, fOnPushTransitionEndDelegate);
-//          navigator.resetToPage(fnewToken);
-          }
-        });
+      if (OnsenUi.isVersion2()) {
+        PhgUtils.log("push page version 2");
+        navigator.pushPage(newToken, getActivePanelInnerHtml(), onPushTransitionEndDelegate);
+        pagePushed = true;
       } else {
         navigator.pushPage(newToken, onPushTransitionEndDelegate);
         pagePushed = true;
@@ -239,6 +240,7 @@ public abstract class OnsActivityManagerWithSlidingNavigator extends OnsActivity
   }
   
   private void onShowPage(String logMsg, Page page, boolean tryCurrentView) {
+    PhgUtils.log("onShowPage");
     String pageName = page.getName();
     PhgUtils.log(logMsg+" NAME = " + pageName);
     AbstractBaseView view = page.getView();
@@ -257,6 +259,7 @@ public abstract class OnsActivityManagerWithSlidingNavigator extends OnsActivity
     }
   }
   
+  // TODO [ONS2]
   protected void setBeforePagePopHandler() {
     if (!navigatorInitialized) {
       GwtUtils.deferredExecution(new Delegate<Void>() {
@@ -288,7 +291,9 @@ public abstract class OnsActivityManagerWithSlidingNavigator extends OnsActivity
             String prevPageName = prevPage.getName();
             PhgUtils.log("PREV PAGE NAME = " + prevPageName);
             PhgUtils.log("DESTROYING PAGE " + prevPage);
-            prevPage.destroy();
+            if (OnsenUi.isVersion1()) {
+              prevPage.destroy();
+            }
             PhgUtils.log("CANCELING POP EVENT");
             event.cancel();
             navigator.log("AFTER DESTROY PAGE");

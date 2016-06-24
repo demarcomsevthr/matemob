@@ -3773,12 +3773,9 @@ limitations under the License.
        * @param {Function} [options.callback]
        */
       toggle: function toggle(options) {
-  	    console.log('toggle#1');
         if (this._logic.isClosed()) {
-   	      console.log('toggle#2');
           this.open(options);
         } else {
-  	      console.log('toggle#3');
           this.close(options);
         }
       },
@@ -3787,8 +3784,6 @@ limitations under the License.
        * Toggle sliding-menu page.
        */
       toggleMenu: function toggleMenu() {
-  	    glbDebugHook(this);
-  	    console.log('calling this.toggle.apply');
         return this.toggle.apply(this, arguments);
       },
 

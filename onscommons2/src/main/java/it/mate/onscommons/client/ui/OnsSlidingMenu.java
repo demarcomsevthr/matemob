@@ -3,6 +3,7 @@ package it.mate.onscommons.client.ui;
 import it.mate.gwtcommons.client.utils.Delegate;
 import it.mate.onscommons.client.onsen.OnsenUi;
 import it.mate.onscommons.client.onsen.dom.SlidingMenu;
+import it.mate.phgcommons.client.utils.PhgUtils;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
@@ -45,6 +46,8 @@ public class OnsSlidingMenu extends ComplexPanel implements HasWidgets {
           public void execute(Element templateElement) {
             slidingMenuElement.setAttribute("menu-page", pageId);
             OnsenUi.compileElement(slidingMenuElement);
+            PhgUtils.log("SETTING MENU PAGE " + pageId);
+            getController().setMenuPage(pageId);;
           }
         });
       }

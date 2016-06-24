@@ -8,6 +8,7 @@ import it.mate.phgcommons.client.utils.callbacks.JSOCallback;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.dom.client.Element;
 
 public class Navigator extends JavaScriptObject {
 
@@ -20,17 +21,20 @@ public class Navigator extends JavaScriptObject {
   }
   
   public final void pushPage(String pageId) {
-    pushPage(pageId, null, null);
+    pushPageProtected(pageId, null, null);
   }
   
   public final void pushPage(String pageId, Delegate<Void> onTransitionEndDelegate) {
-    pushPage(pageId, null, onTransitionEndDelegate);
+    pushPageProtected(pageId, null, onTransitionEndDelegate);
   }
   
-  protected final void pushPage(String pageId, Options options, final Delegate<Void> onTransitionEndDelegate) {
-    if (options == null) {
-      options = Options.create();
-    }
+  public final void pushPage(String pageId, String pageHTML, final Delegate<Void> onTransitionEndDelegate) {
+    pushPageProtected(pageId, pageHTML, onTransitionEndDelegate);
+  }
+
+  // TODO [ONS2]
+  protected final void pushPageProtected(String pageId, String pageHTML, final Delegate<Void> onTransitionEndDelegate) {
+    Options options = Options.create();
     if (pushAnimation != null) {
       options.setAnimation(pushAnimation);
     }
@@ -46,7 +50,18 @@ public class Navigator extends JavaScriptObject {
         }
       }
     }));
-    PhgUtils.logWithStackTrace("PUSHING PAGE " + pageId);
+    if (pageHTML != null) {
+      options.setPageHTML(pageHTML);
+    }
+    
+    if (OnsenUi.isVersion2()) {
+      if (pageHTML == null) {
+        PhgUtils.logWithStackTrace("PUSHING PAGE VER 2" + pageId);
+        Element pageElement = GwtUtils.getElementById(pageId);
+        PhgUtils.log("PUSHING PAGE VER 2 - " + pageElement);
+      }
+    }
+    
     PhgUtils.log("PUSHING PAGE " + pageId);
     pushPageImpl(pageId, options);
   }

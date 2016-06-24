@@ -1474,4 +1474,8 @@ public class GwtUtils {
     }
   }
   
+  public static native String getOuterHtml(Element element) /*-{
+    return element.outerHTML;
+  }-*/;
+  
 }

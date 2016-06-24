@@ -34,8 +34,10 @@ import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.user.client.ui.Widget;
 
 
+@SuppressWarnings("rawtypes")
 public class OnsenUi {
   
+  // TODO [ONS2]
   private static String onsenVersion = "1.0";
   
   private static boolean doLog = true;
@@ -90,12 +92,7 @@ public class OnsenUi {
   
   private static boolean checkReconfigurableAppModule;
   
-  @SuppressWarnings("rawtypes")
   private static AbstractBaseView currentView;
-  
-  public static String getOnsenVersion() {
-    return onsenVersion;
-  }
   
   public static void initializeOnsen(OnsenReadyHandler handler) {
     if (!initialized) {
@@ -112,9 +109,6 @@ public class OnsenUi {
       }
       ensureJQueryDocumentSelector();
       
-      // dovrebbe servire solo per AND 5+
-      // 21/05/2015: serve anche su ios
-//    if (OsDetectionUtils.isAndroid() && PhgUtils.getDeviceVersion().startsWith("5")) {
       if (!OsDetectionUtils.isDesktop()) {
         setPreventTapHandlerWherScrollerMoves(true);
       }
@@ -127,6 +121,7 @@ public class OnsenUi {
     }
   }
   
+  // TODO [ONS2]
   protected static native void initOnsenImpl(OnsenReadyHandler handler, boolean checkReconfigurableAppModule) /*-{
 
     @it.mate.phgcommons.client.utils.PhgUtils::log(Ljava/lang/String;)('ONSEN INIT IMPL');
@@ -232,7 +227,6 @@ public class OnsenUi {
     compileElementInternal(element);
   }
   
-  //TODO
   public static void compileElement(Element element) {
     lastElementCompilationTime = System.currentTimeMillis();
     if (compilationSuspended) {
@@ -670,5 +664,45 @@ public class OnsenUi {
     }
     return false;
   }
+  
+  
+  /************************************************************************************************
+   * 
+   *  ONSEN 2 UPGRADE
+   * 
+   */
+  
+  // TODO [ONS2]
+  protected static String getOnsenVersion() {
+    return onsenVersion;
+  }
+  
+  // TODO [ONS2]
+  public static boolean isVersion2() {
+    return onsenVersion.startsWith("2.");
+  }
+  
+  // TODO [ONS2]
+  public static boolean isVersion1() {
+    return onsenVersion.startsWith("1.");
+  }
+  
+  // TODO [ONS2]
+  public static native JavaScriptObject getInternal() /*-{
+    @it.mate.phgcommons.client.utils.PhgUtils::log(Ljava/lang/String;)('ONSEN2: getInternal');
+    return $wnd.ons._internal;
+  }-*/;
+  
+  // TODO [ONS2]
+  public static native String getCacheTemplate(String templateId) /*-{
+    @it.mate.phgcommons.client.utils.PhgUtils::log(Ljava/lang/String;)('ONSEN2: getCacheTemplate ' + templateId);
+    return $wnd.ons._internal.templateStore.get(templateId);
+  }-*/;
+  
+  // TODO [ONS2]
+  public static native void setCacheTemplate(String templateId, String templateHTML) /*-{
+    @it.mate.phgcommons.client.utils.PhgUtils::log(Ljava/lang/String;)('ONSEN2: setCacheTemplate ' + templateId);
+    return $wnd.ons._internal.templateStore.set(templateId, templateHTML);
+  }-*/;
   
 }
