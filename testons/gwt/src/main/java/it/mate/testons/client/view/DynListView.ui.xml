@@ -10,26 +10,14 @@
     
       <o:OnsToolbar>
         <div class="left">
-          <o:OnsToolbarButton ui:field="btnMenu" visible="false"><o:OnsIcon icon="fa-bars"/></o:OnsToolbarButton>
+          <o:OnsBackButton/>
         </div>
-        <div class="center">MY APP</div>
+        <div class="center">DYN LIST</div>
       </o:OnsToolbar>
 
-      <g:HTML addStyleNames="app-home-presentation">
-        <i>Presentazione del servizio</i>
-      </g:HTML>
-      
       <o:OnsScroller>
       
-        <o:OnsList addStyleNames="app-detail-list" ui:field="list">
-        
-          <o:OnsListItem ui:field="btnDialog" modifier="chevron">
-            <span class="app-menu-text">Test Dialog</span>
-          </o:OnsListItem>
-          
-          <o:OnsListItem ui:field="btnDynList" modifier="chevron">
-            <span class="app-menu-text">Dynamic list</span>
-          </o:OnsListItem>
+        <o:OnsList addStyleNames="app-detail-list" ui:field="resultsList">
           
         </o:OnsList>
         

@@ -7286,7 +7286,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          var cache = internal.templateStore.get(page);
          
          phgUtils_log('ANGULAR DEBUG >>> getTemplateHTMLAsync');
-         phgUtils_callDebugHook(internal.templateStore);
+         //phgUtils_callDebugHook(internal.templateStore);
 
          if (cache) {
            var html = typeof cache === 'string' ? cache : cache[1];

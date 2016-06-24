@@ -22,13 +22,13 @@ public class HomeView extends AbstractBaseView<Presenter> {
     public void goToSettingsView();
     public void showMenu();
     public void addAppEventHandler(AppEvent.Handler handler);
+    public void goToDynListView();
   }
 
   public interface ViewUiBinder extends UiBinder<Widget, HomeView> { }
 
   private static ViewUiBinder uiBinder = GWT.create(ViewUiBinder.class);
   
-//@UiField Label homeLbl;
   @UiField OnsToolbarButton btnMenu;
   
   public HomeView() {
@@ -59,6 +59,11 @@ public class HomeView extends AbstractBaseView<Presenter> {
   @UiHandler("btnDialog")
   public void onBtnDialog(TapEvent event) {
     OnsDialogUtils.alert("Un dialog!");
+  }
+  
+  @UiHandler("btnDynList")
+  public void onBtnDynList(TapEvent event) {
+    getPresenter().goToDynListView();
   }
   
 }

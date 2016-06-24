@@ -3,6 +3,7 @@ package it.mate.testons.client.factories;
 import it.mate.gwtcommons.client.factories.CommonGinModule;
 import it.mate.gwtcommons.client.factories.CommonGinjector;
 import it.mate.testons.client.activities.mapper.MainActivityMapper;
+import it.mate.testons.client.view.DynListView;
 import it.mate.testons.client.view.HomeView;
 import it.mate.testons.client.view.MenuView;
 import it.mate.testons.client.view.SettingsView;
@@ -22,5 +23,7 @@ public interface AppGinjector extends CommonGinjector {
   public HomeView getHomeView();
   
   public SettingsView getSettingsView();
+  
+  public DynListView getDynListView();
   
 }

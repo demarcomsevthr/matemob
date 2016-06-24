@@ -6,7 +6,7 @@
 @eval windowHeight it.mate.protoph.client.ui.theme.CustomTheme.getWindowHeight();
 
 .app-home-page .page__content {
-  background: url('main/images/home-background-1280-bn.jpg') 100% 100% !important;
+  background: rgb(229, 232, 215) !important;
 }
 
 .app-home-presentation {
@@ -484,4 +484,13 @@
   position: absolute;
   left: 6%;
   bottom: 0.8em;
+}
+
+.app-prz-item-img {
+  background-color: transparent;
+  width: 22px;
+  height: 32px;
+  padding-top: 4px;
+  margin-bottom: -8px;
+  padding-right: 4px;
 }

@@ -220,17 +220,24 @@ public class OnsenUi {
   }
   
   public static void resumeCompilations() {
+    if (doLog) PhgUtils.log("RESUME COMPILATION");
     OnsenUi.compilationSuspended = false;
+    compilationSuspendedLogged = false;
   }
 
   public static void compileElementImmediately(Element element) {
     compileElementInternal(element);
   }
   
+  private static boolean compilationSuspendedLogged = false;
+  
   public static void compileElement(Element element) {
     lastElementCompilationTime = System.currentTimeMillis();
     if (compilationSuspended) {
-      if (doLog) PhgUtils.log("COMPILATION DISABLED");
+      if (!compilationSuspendedLogged) {
+        compilationSuspendedLogged = true;
+        if (doLog) PhgUtils.log("COMPILATION DISABLED");
+      }
       return;
     }
     compileElementInternal(element);

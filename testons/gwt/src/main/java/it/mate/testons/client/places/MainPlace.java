@@ -17,29 +17,8 @@ public class MainPlace extends Place implements HasToken {
   
   public static final String ABOUT = "about";
   
-  public static final String CATEGORIE_LIST = "categorieList";
+  public static final String DYN_LIST = "dynList";
   
-  public static final String TIMBRI_LIST = "timbriList";
-  
-  public static final String TIMBRO_DETAIL = "timbroDetail";
-  
-  public static final String ORDER_ITEM_EDIT = "ordItemEdit";
-  
-  public static final String ORDER_ITEM_COMPOSE = "ordItemCompose";
-  
-  public static final String ORDER_ITEM_IMAGE = "ordItemImage";
-  
-  public static final String MESSAGE_LIST = "messageList";
-  
-  public static final String ACCOUNT_EDIT = "accountEdit";
-  
-  public static final String CART_LIST = "cartList";
-  
-  public static final String CART_CONF = "cartConf";
-  
-  public static final String ORDER_LIST = "orderList";
-  
-  public static final String ORDER_EDIT = "orderEdit";
   
   private String token;
   
