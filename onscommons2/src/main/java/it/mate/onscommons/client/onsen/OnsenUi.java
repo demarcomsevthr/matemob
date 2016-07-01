@@ -38,7 +38,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class OnsenUi {
   
   // TODO [ONS2]
-  private static String onsenVersion = "1.0";
+  private static String onsenVersion = null;
   
   private static boolean doLog = true;
   
@@ -97,13 +97,11 @@ public class OnsenUi {
   public static void initializeOnsen(OnsenReadyHandler handler) {
     if (!initialized) {
       
-      onsenVersion = GwtUtils.getJSVar("ONSEN_VERSION", "1.0");
-      
       PhgUtils.log("Initializing onsen version " + onsenVersion);
       
       initialized = true;
       initOnsenImpl(handler, checkReconfigurableAppModule);
-      PhgUtils.log("after initOnsenImpl");
+      
       for (Delegate<Void> initHandler : initializationHandlers) {
         initHandler.execute(null);
       }
@@ -681,17 +679,20 @@ public class OnsenUi {
   
   // TODO [ONS2]
   protected static String getOnsenVersion() {
+    if (onsenVersion == null) {
+      onsenVersion = GwtUtils.getJSVar("ONSEN_VERSION", "1.0");
+    }
     return onsenVersion;
   }
   
   // TODO [ONS2]
   public static boolean isVersion2() {
-    return onsenVersion.startsWith("2.");
+    return getOnsenVersion().startsWith("2.");
   }
   
   // TODO [ONS2]
   public static boolean isVersion1() {
-    return onsenVersion.startsWith("1.");
+    return getOnsenVersion().startsWith("1.");
   }
   
   // TODO [ONS2]

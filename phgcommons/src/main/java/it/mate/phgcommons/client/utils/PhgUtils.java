@@ -630,10 +630,12 @@ public class PhgUtils {
         if (!PhgUtils.isSuspendUncaughtExceptionAlerts()) {
 //        Window.alert("uncaught: " + ex.getClass().getName() + " - " + ex.getMessage());
         }
+        log("Uncaught exception: " + ex.getClass() + " - " + ex.getMessage());
         StackTraceElement stea[] = ex.getStackTrace();
         if (stea != null) {
           for (StackTraceElement ste : stea) {
-            System.out.println("Stack trace: " + ste.getClassName()+" "+ste.getMethodName());;
+//          System.out.println("Stack trace: " + ste.getClassName()+" "+ste.getMethodName());;
+            log("Stack trace: " + ste.getClassName()+" "+ste.getMethodName());
           }
         }
       }

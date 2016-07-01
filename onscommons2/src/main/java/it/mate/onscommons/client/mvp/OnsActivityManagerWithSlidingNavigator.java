@@ -139,7 +139,11 @@ public abstract class OnsActivityManagerWithSlidingNavigator extends OnsActivity
             String pageName = page.getName();
             if (pageName != null && ( pageName.equals(newToken) || pageName.trim().length() == 0)) {
               found = true;
-              navigator.resetToPage(newToken);
+              if (OnsenUi.isVersion2()) {
+                navigator.resetToPage(newToken, getActivePanelInnerHtml());
+              } else {
+                navigator.resetToPage(newToken);
+              }
               PhgUtils.log("------------------------------------");
               PhgUtils.log("AFTER RESET PAGE " + newToken);
               navigator.log("NAVIGATOR PAGE");
@@ -150,7 +154,11 @@ public abstract class OnsActivityManagerWithSlidingNavigator extends OnsActivity
           if (!found) {
             checkAutoRefreshHome(null, newToken);
             if ("home".equalsIgnoreCase(newToken)) {
-              navigator.resetToPage(newToken);
+              if (OnsenUi.isVersion2()) {
+                navigator.resetToPage(newToken, getActivePanelInnerHtml());
+              } else {
+                navigator.resetToPage(newToken);
+              }
             } else {
               if (OnsenUi.isVersion2()) {
                 PhgUtils.log("push page version 2");
@@ -178,7 +186,11 @@ public abstract class OnsActivityManagerWithSlidingNavigator extends OnsActivity
     }
     
     if (!pagePushed) {
-      navigator.resetToPage(newToken);
+      if (OnsenUi.isVersion2()) {
+        navigator.resetToPage(newToken, getActivePanelInnerHtml());
+      } else {
+        navigator.resetToPage(newToken);
+      }
     }
     
   }

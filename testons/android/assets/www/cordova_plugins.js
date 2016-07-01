@@ -21,17 +21,10 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/cordova-plugin-globalization/www/GlobalizationError.js",
-        "id": "cordova-plugin-globalization.GlobalizationError",
+        "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+        "id": "cordova-plugin-splashscreen.SplashScreen",
         "clobbers": [
-            "window.GlobalizationError"
-        ]
-    },
-    {
-        "file": "plugins/cordova-plugin-globalization/www/globalization.js",
-        "id": "cordova-plugin-globalization.globalization",
-        "clobbers": [
-            "navigator.globalization"
+            "navigator.splashscreen"
         ]
     },
     {
@@ -161,6 +154,11 @@ module.exports = [
         ]
     },
     {
+        "file": "plugins/cordova-plugin-file/www/browser/isChrome.js",
+        "id": "cordova-plugin-file.isChrome",
+        "runs": true
+    },
+    {
         "file": "plugins/cordova-plugin-file/www/android/FileSystem.js",
         "id": "cordova-plugin-file.androidFileSystem",
         "merges": [
@@ -195,40 +193,22 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/com.phonegap.plugins.PushPlugin/www/PushNotification.js",
-        "id": "com.phonegap.plugins.PushPlugin.PushNotification",
+        "file": "plugins/cordova-plugin-file-opener2/www/plugins.FileOpener2.js",
+        "id": "cordova-plugin-file-opener2.FileOpener2",
+        "clobbers": [
+            "cordova.plugins.fileOpener2"
+        ]
+    },
+    {
+        "file": "plugins/phonegap-plugin-push/www/push.js",
+        "id": "phonegap-plugin-push.PushNotification",
         "clobbers": [
             "PushNotification"
-        ]
-    },
-    {
-        "file": "plugins/com.synconset.imagepicker/www/imagepicker.js",
-        "id": "com.synconset.imagepicker.ImagePicker",
-        "clobbers": [
-            "plugins.imagePicker"
-        ]
-    },
-    {
-        "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
-        "id": "cordova-plugin-splashscreen.SplashScreen",
-        "clobbers": [
-            "navigator.splashscreen"
         ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
-{
-    "cordova-plugin-whitelist": "1.0.1-dev",
-    "cordova-plugin-device": "1.0.0",
-    "cordova-plugin-inappbrowser": "1.0.0",
-    "cordova-plugin-console": "1.0.0",
-    "cordova-plugin-globalization": "1.0.0",
-    "cordova-plugin-file": "2.0.0",
-    "cordova-plugin-file-transfer": "1.0.0",
-    "com.phonegap.plugins.PushPlugin": "2.4.0",
-    "com.synconset.imagepicker": "1.0.6",
-    "cordova-plugin-splashscreen": "2.0.0"
-}
+{}
 // BOTTOM OF METADATA
 });

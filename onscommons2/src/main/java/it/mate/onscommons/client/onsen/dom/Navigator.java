@@ -108,6 +108,15 @@ public class Navigator extends JavaScriptObject {
     resetToPageImpl(pageId, options);
   }
 
+  public final void resetToPage(String pageId, String pageHTML) {
+    PhgUtils.log("RESET TO PAGE " + pageId);
+    Options options = Options.create();
+    if (pageHTML != null) {
+      options.setPageHTML(pageHTML);
+    }
+    resetToPageImpl(pageId, options);
+  }
+
   protected final native void resetToPageImpl(String pageId, Options options) /*-{
     this.resetToPage(pageId, options);    
   }-*/;

@@ -18,6 +18,8 @@
         <include>main/images/*.*</include>
         <include>main/js/*.*</include>
         <include>main/js/onsen/**/*.*</include>
+        <include>main/js/onsen-2.0.0-rc.14/**/*.*</include>
+        <include>main/js/jquery/**/*.*</include>
         <include>main/data/*</include>
         <include>**/*.html</include>
         <include>**/app*.js</include>
@@ -37,9 +39,6 @@
       <includes>
         <include>*.gwt.rpc</include>
       </includes>
-      <!-- 
-      <outputDirectory>../../../server/src/main/webapp/main</outputDirectory>
-       -->
       <outputDirectory>server/src/main/webapp/main</outputDirectory>
     </fileSet>
     <fileSet>
@@ -47,9 +46,6 @@
       <includes>
         <include>*.gwt.rpc</include>
       </includes>
-      <!-- 
-      <outputDirectory>../../src/main/resources</outputDirectory>
-       -->
       <outputDirectory>gwt/src/main/resources</outputDirectory>
     </fileSet>
      

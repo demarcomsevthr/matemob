@@ -5,7 +5,7 @@
        ui:generateLocales="default" xmlns:o="urn:import:it.mate.onscommons.client.ui">
        
   <g:HTMLPanel ui:field="wrapperPanel" addStyleNames="app-page-wrapper-panel">
-
+  
     <o:OnsPage addStyleNames="app-home-page">
     
       <o:OnsToolbar>
@@ -33,6 +33,9 @@
           
         </o:OnsList>
         
+        <!-- excludeFromPageRefresh="true" -->
+        <o:OnsButton ui:field="testBtn" text="TEST" addStyleNames="app-test-btn" />
+
       </o:OnsScroller>
       
       

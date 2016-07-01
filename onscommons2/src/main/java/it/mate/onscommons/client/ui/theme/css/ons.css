@@ -295,3 +295,24 @@ ons-dialog .dialog.dialog_anti_font_blur_correction {
   color: #444;
 }
 
+/*
+   MODIFICHE ONSEN 2
+*/
+
+@if (it.mate.onscommons.client.onsen.OnsenUi.isVersion2()) {
+	
+  ons-scroller {
+    /* overflow: scroll; */
+    overflow-y: auto;
+  } 
+
+  .list__item--material {
+    height: 2.8em;
+  }
+  
+  .ons-toolbar .navigation-bar__title {
+    margin-top: 5px;
+  }
+
+}
+

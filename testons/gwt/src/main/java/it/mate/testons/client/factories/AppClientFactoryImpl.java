@@ -73,6 +73,8 @@ public class AppClientFactoryImpl extends BaseClientFactoryImpl<AppGinjector> im
   }
   
   private void initDisplay(Panel modulePanel) {
+    
+    PhgUtils.setDefaultExceptionHandler(null);
 
     initLog();
     
