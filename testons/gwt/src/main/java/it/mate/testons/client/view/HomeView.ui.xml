@@ -34,7 +34,9 @@
         </o:OnsList>
         
         <!-- excludeFromPageRefresh="true" -->
-        <o:OnsButton ui:field="testBtn" text="TEST" addStyleNames="app-test-btn" />
+        <o:OnsButton ui:field="testBtn" text="TEST 1" addStyleNames="app-test-btn" />
+
+        <o:OnsButton ui:field="test2Btn" text="TEST 2" addStyleNames="app-test-btn" />
 
       </o:OnsScroller>
       

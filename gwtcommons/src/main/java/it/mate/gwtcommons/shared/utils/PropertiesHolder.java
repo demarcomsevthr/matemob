@@ -39,7 +39,7 @@ public class PropertiesHolder {
   
   public static Object get(String name, Object defaultValue) {
     if (INSTANCE == null || INSTANCE.properties == null)
-      return null;
+      return defaultValue;
     Object value = INSTANCE.properties.get(name);
     if (value == null) {
       return defaultValue;

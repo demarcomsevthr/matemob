@@ -86,7 +86,7 @@ public class OnsenUi {
   
   public static final String EXCLUDE_FROM_PAGE_REFRESH_ATTR = "excludeFromPageRefresh";
   
-  private static boolean addDirectWithPlainHtml = false;
+  //private static boolean addDirectWithPlainHtml = false;
   
   private static boolean usePlaceControllerHistory = false;
   
@@ -94,10 +94,20 @@ public class OnsenUi {
   
   private static AbstractBaseView currentView;
   
+  private static String currentPageId = null;
+  
+  private static boolean compilationSuspendedLogged = false;
+  
+  private final static String ELEMENT_COMPILED_ATTR = "_onsenui_element_compiled";
+  
   public static void initializeOnsen(OnsenReadyHandler handler) {
     if (!initialized) {
       
       PhgUtils.log("Initializing onsen version " + onsenVersion);
+      
+      if (OnsenUi.isVersion2()) {
+        removeToolbarDuringPageRefresh = false;
+      }
       
       initialized = true;
       initOnsenImpl(handler, checkReconfigurableAppModule);
@@ -223,12 +233,6 @@ public class OnsenUi {
     compilationSuspendedLogged = false;
   }
 
-  public static void compileElementImmediately(Element element) {
-    compileElementInternal(element);
-  }
-  
-  private static boolean compilationSuspendedLogged = false;
-  
   public static void compileElement(Element element) {
     lastElementCompilationTime = System.currentTimeMillis();
     if (compilationSuspended) {
@@ -238,10 +242,14 @@ public class OnsenUi {
       }
       return;
     }
-    compileElementInternal(element);
+    compileElement_(element);
   }
   
-  private static void compileElementInternal(Element element) {
+  public static void compileElementImmediately(Element element) {
+    compileElement_(element);
+  }
+  
+  private static void compileElement_(Element element) {
     if (element == null) {
       return;
     }
@@ -252,8 +260,17 @@ public class OnsenUi {
     removeElementAttribute(element, "_compiled");
     if (doLog) PhgUtils.log("COMPILING ELEMENT " + element);
     compileElementImpl(element);
+    element.setAttribute(ELEMENT_COMPILED_ATTR, "true");
   }
   
+  public static void initializeElementCompileAttr(Element element) {
+    element.setAttribute(ELEMENT_COMPILED_ATTR, "false");
+  }
+  
+  private static native void compileElementImpl(Element element) /*-{
+    $wnd.ons.compile(element);
+  }-*/;
+
   private static final native void removeElementAttribute(Element element, String name) /*-{
     element.removeAttribute(name);
   }-*/;
@@ -274,12 +291,12 @@ public class OnsenUi {
     refreshCurrentPage(delay, null);
   }
   
-  private static String currentPageId = null;
-  
   public static void setCurrentPageId(String currentPageId) {
     PhgUtils.log("CURRENT PAGE ID = " + currentPageId);
     OnsenUi.currentPageId = currentPageId;
   }
+  
+  // TODO: REFRESH CURRENT PAGE OPTIMIZATION
   
   public static void refreshCurrentPage(final int delay, final Delegate<JavaScriptObject> delegate) {
     GwtUtils.deferredExecution(delay, new Delegate<Void>() {
@@ -289,6 +306,9 @@ public class OnsenUi {
           refreshCurrentPage(delay, delegate);
           return;
         }
+        
+        if (doLog) PhgUtils.log("REFRESH CURRENT PAGE");
+        
         if (doLog) PhgUtils.log("LAST CREATED PAGE ID = " + OnsPage.getLastCreatedPage().getElement().getId());
 
         // 18/05/2015
@@ -298,6 +318,21 @@ public class OnsenUi {
         
         OnsenUi.onAvailableElement(actualCurrentPageId, new Delegate<Element>() {
           public void execute(final Element pageElement) {
+
+            boolean doRefresh = false;
+            if ("false".equals(pageElement.getAttribute(ELEMENT_COMPILED_ATTR))) {
+              doRefresh = true;
+            } else {
+              if (doLog) PhgUtils.log("cerco discendenti non compilati");
+              List<Element> notCompiledElements = queryElements("#"+pageElement.getId()+" *["+ELEMENT_COMPILED_ATTR+"='false']");
+              if (notCompiledElements != null && notCompiledElements.size() > 0) {
+                doRefresh = true;
+              }
+            }
+            if (!doRefresh) {
+              if (doLog) PhgUtils.log("CURRENT PAGE IS JUST COMPILED OR NOT CONTAINS NOT COMPILED ELEMENTS");
+              return;
+            }
             
             resumeCompilations();
             
@@ -310,6 +345,7 @@ public class OnsenUi {
             final ObjectWrapper<Element> toolbarElement = new ObjectWrapper<Element>();
             
             if (removeToolbarDuringPageRefresh) {
+              if (doLog) PhgUtils.log("Rimozione toolbar element durante il refresh della pagina");
               for (int it = 0; it < pageElement.getChildCount(); it++) {
                 Element pageChildElement = pageElement.getChild(it).cast();
                 if (pageChildElement.getNodeName() != null && pageChildElement.getNodeName().equalsIgnoreCase("ons-toolbar")) {
@@ -321,10 +357,14 @@ public class OnsenUi {
             }
             
             final List<ExcludedElement> excludedElements = new ArrayList<OnsenUi.ExcludedElement>();
+            if (doLog) PhgUtils.log("Ricerca elementi esclusi dal refresh");
             findAndSaveExcludedElements(pageElement, excludedElements);
-
+            
+            if (doLog) PhgUtils.log("Setting page init callback");
             addInitCallbackImpl(pageElement, new JSOCallback() {
               public void handle(JavaScriptObject event) {
+                
+                if (doLog) PhgUtils.log("PAGE INIT CALLBACK #" + pageElement.getId());
                 
                 if (toolbarElement.get() != null) {
                   if (doLog) PhgUtils.log("REINSERTING TOOLBAR ELEMENT " + toolbarElement.get());
@@ -336,23 +376,28 @@ public class OnsenUi {
                 }
                 
                 if (doLog) PhgUtils.log("PAGE IS COMPILED");
+                
                 fadeInCurrentPage();
+                
                 if (delegate != null) {
                   delegate.execute(event);
                 }
+                
               }
             });
             
 
-            PhgUtils.log("REFRESHING CURRENT PAGE WITH ID " + pageElement.getId());
+            PhgUtils.log("COMPILING CURRENT PAGE #" + pageElement.getId());
             
             if (doLog) PhgUtils.log("COMPILING PAGE ELEMENT " + pageElement);
-            compileElementImpl(pageElement);
+//          compileElementImpl(pageElement);
+            compileElement_(pageElement);
             
             if (doLog) PhgUtils.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
             
             GwtUtils.deferredExecution(500, new Delegate<Void>() {
               public void execute(Void element) {
+                if (doLog) PhgUtils.log("Setting use doc event listener false");
                 HasTapHandlerImpl.setUseDocEventListener(false);
               }
             });
@@ -397,9 +442,9 @@ public class OnsenUi {
     @it.mate.onscommons.client.onsen.OnsenUi::jQueryDocumentSelector.on('ons-page:init', '#'+elementId, jsCallback);
   }-*/;
     
-  public static List<Element> queryElements(String query) {
+  public static List<Element> queryElements(String queryString) {
     List<Element> results = new ArrayList<Element>();
-    JavaScriptObject jsResults = queryElementsImpl(".ons-fadein");
+    JavaScriptObject jsResults = queryElementsImpl(queryString);
     if (jsResults != null) {
       JsArray<Element> elements = jsResults.cast();
       for (int it = 0; it < elements.length(); it++) {
@@ -412,10 +457,6 @@ public class OnsenUi {
   
   protected static native JavaScriptObject queryElementsImpl(String query) /*-{
     return $wnd.$(query);
-  }-*/;
-
-  protected static native void compileElementImpl(Element element) /*-{
-    $wnd.ons.compile(element);
   }-*/;
 
   public static void setUsePlaceControllerHistory(boolean usePlaceControllerHistory) {
@@ -530,6 +571,26 @@ public class OnsenUi {
   }
   
   private static void findAndSaveExcludedElements(Element rootElement, List<ExcludedElement> excludedElements) {
+
+    /* [06/07/2016]
+     * USO JQUERY
+     */
+    
+    List<Element> foundExcludedElements = queryElements("#"+rootElement.getId()+" *["+EXCLUDE_FROM_PAGE_REFRESH_ATTR+"='true']");
+    if (foundExcludedElements != null && foundExcludedElements.size() > 0) {
+      for (Element element : foundExcludedElements) {
+        PhgUtils.log("FOUND EXCLUDED ELEMENT " + element.getNodeName()+"#"+element.getId());
+        ExcludedElement excludedElement = new ExcludedElement();
+        excludedElement.element = element;
+        excludedElement.parentElement = element.getParentElement();
+        excludedElement.nextSibling = element.getNextSibling();
+        excludedElements.add(excludedElement);
+        element.getParentElement().removeChild(element);
+      }
+    }
+    
+    /*
+    
     for (int it = 0; it < rootElement.getChildCount(); it++) {
       Element childElement = rootElement.getChild(it).cast();
       if (childElement.getNodeType() != Node.TEXT_NODE) {
@@ -546,6 +607,9 @@ public class OnsenUi {
         }
       }
     }
+    
+    */
+    
   }
   
   private static void insertExcludedElements(List<ExcludedElement> excludedElements) {
@@ -574,31 +638,11 @@ public class OnsenUi {
     element.addClassName("ons-fadein");
   }
   
-
-  /**
-   * 
-   * 25/05/2015
-   * 
-   * TORNO INDIETRO PERCHE' NON DOVREBBE FUNZIONARE
-   * 
-   * Quando viene eseguita la ons.compile l'element viene staccato e riattaccato al dom (credo?) quindi tutti gli element reference nei widget vengono tutti invalidati
-   * (questo e' il motivo percui funzionano le varie onavailable...)
-   * 
-   * 
-   */
+  /*
   public static boolean isAddDirectWithPlainHtml() {
     return false;
   }
-  
-  /*
-  public static void setAddDirectWithPlainHtml(boolean addDirectWithPlainHtml) {
-    OnsenUi.addDirectWithPlainHtml = addDirectWithPlainHtml;
-  }
-  
-  public static boolean isAddDirectWithPlainHtml() {
-    return addDirectWithPlainHtml;
-  }
-   */
+  */
   
   public static String getPlainHtml(Element element) {
     String html = "";

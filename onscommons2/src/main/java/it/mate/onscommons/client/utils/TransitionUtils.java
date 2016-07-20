@@ -91,11 +91,11 @@ public class TransitionUtils {
   
   public static void fadeIn(Element element, final int duration) {
     OnsenUi.onAvailableElement(element, new Delegate<Element>() {
-      public void execute(final Element availableElement) {
-        GwtUtils.setJsPropertyString(availableElement.getStyle(), "transition", "opacity " + duration + "ms");
+      public void execute(final Element attachedElement) {
+        GwtUtils.setJsPropertyString(attachedElement.getStyle(), "transition", "opacity " + duration + "ms");
         GwtUtils.deferredExecution(new Delegate<Void>() {
           public void execute(Void element) {
-            availableElement.getStyle().setOpacity(1.0);
+            attachedElement.getStyle().setOpacity(1.0);
           }
         });
       }

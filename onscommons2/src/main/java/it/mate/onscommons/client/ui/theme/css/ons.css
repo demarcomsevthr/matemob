@@ -300,6 +300,10 @@ ons-dialog .dialog.dialog_anti_font_blur_correction {
 */
 
 @if (it.mate.onscommons.client.onsen.OnsenUi.isVersion2()) {
+
+  .page__content {
+    background-color: #f9f9f9 !important;
+  }
 	
   ons-scroller {
     /* overflow: scroll; */
@@ -307,12 +311,16 @@ ons-dialog .dialog.dialog_anti_font_blur_correction {
   } 
 
   .list__item--material {
-    height: 2.8em;
+    /* height: 2.8em; */
   }
   
+  .list__item--material > div {
+    padding: 0;
+  }
+
   .ons-toolbar .navigation-bar__title {
     margin-top: 5px;
   }
-
+  
 }
 

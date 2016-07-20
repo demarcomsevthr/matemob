@@ -1,0 +1,4 @@
+#!/bin/bash
+export JAVA_HOME=/opt/java8
+export M2_HOME=/opt/apache-maven-3.3.9
+export ANT_HOME=/opt/apache-ant-1.9.7

@@ -66,11 +66,9 @@ public class HomeView extends AbstractBaseView<Presenter> {
     getPresenter().goToDynListView();
   }
   
-  /*
   @UiHandler("testBtn")
   public void onTestBtn(TapEvent event) {
     OnsDialogUtils.alert("Test btn!");
   }
-  */
   
 }

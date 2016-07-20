@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+  <buildnumber file="${antfiledir}/build.number" />
+  <property name="versionables.dir" location="target/versionables"/>
+  <property name="webapp.dir" location="src/main/webapp"/>
+  
+  <property name="ant.execution.task">prepare-package</property>
+
+  <target name="execution-shell">
+    <antcall target="${ant.execution.task}" />
+  </target>
+  
+  <target name="info">
+    <echo message="info task" />
+    <echo message="basedir =  ${basedir}" />
+    <echo message="project.groupId =  ${project.groupId}" />
+    <echo message="project.artifactId =  ${project.artifactId}" />
+    <echo message="project.version =  ${project.version}" />
+    <echo message="project.packaging =  ${project.packaging}" />
+    <echo message="project.build.sourceDirectory =  ${project.build.sourceDirectory}" />
+    <echo message="project.build.directory =  ${project.build.directory}" />
+    <echo message="user timezone =  ${user.timezone}" />
+  </target>
+  
+  <target name="post-build">
+    <echo message="executing task post-build..."/>
+    <antcall target="info"/>
+    <antcall target="deploy-openshift"/>
+  </target>
+  
+  <target name="deploy-openshift">
+    <echo message="executing task deploy-openshift..."/>
+    
+    <property name="adaptersrcdir" location="${basedir}/../adapter/src/main/java"></property>
+    <property name="serversrcdir" location="${basedir}/src/main/java"></property>
+    <property name="serverwebappdir" location="${project.build.directory}\${project.artifactId}-${project.version}"></property>
+    
+    <property name="deploysrcdir" location="${openshiftdir}/src/main/java"></property>
+    <property name="deploywebappdir" location="${openshiftdir}/src/main/webapp"></property>
+    
+    <echo message="serverwebappdir =  ${serverwebappdir}" />
+    <echo message="serversrcdir =  ${serversrcdir}" />
+    <echo message="deploywebappdir =  ${deploywebappdir}" />
+    <echo message="deploysrcdir =  ${deploysrcdir}" />
+    
+    <echo message="copying ${serversrcdir} to ${deploysrcdir}"/>
+    <copy todir="${deploysrcdir}" overwrite="true" verbose="true">
+      <fileset dir="${serversrcdir}">
+        <include name="**/*.java"/>
+      </fileset>
+    </copy>
+    
+    <echo message="copying ${adaptersrcdir} to ${deploysrcdir}"/>
+    <copy todir="${deploysrcdir}" overwrite="true" verbose="true">
+      <fileset dir="${adaptersrcdir}">
+        <include name="**/*.java"/>
+      </fileset>
+    </copy>
+    
+    <echo message="copying ${serverwebappdir} to ${deploywebappdir}"/>
+    <copy todir="${deploywebappdir}" overwrite="true" verbose="true">
+      <fileset dir="${serverwebappdir}">
+        <!-- <include name="WEB-INF/lib/tickler-adapter-*.jar"/>  -->
+        <include name="WEB-INF/lib/gaecommons-*.jar"/>
+        <include name="WEB-INF/lib/gwtcommons-*.jar"/>
+      </fileset>
+    </copy>
+    
+  </target>
+  
+</project>

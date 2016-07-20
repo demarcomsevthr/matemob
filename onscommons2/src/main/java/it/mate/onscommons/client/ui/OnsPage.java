@@ -41,13 +41,9 @@ public class OnsPage extends HTMLPanel implements AcceptsOneWidget {
       PhgUtils.log(">>>>>>>> OnsPage::add - ADDING ELEMENT " + widget.getElement());
     }
     
-    if (OnsenUi.isAddDirectWithPlainHtml()) {
-      OnsenUi.appendInnerHtml(getElement(), OnsenUi.getPlainHtml(widget.getElement()));
-    } else {
-      super.add(widget, getElement());
-      if (widget.getElement().getNodeName().toLowerCase().startsWith("ons")) {
-        OnsenUi.compileElement(widget.getElement());
-      }
+    super.add(widget, getElement());
+    if (widget.getElement().getNodeName().toLowerCase().startsWith("ons")) {
+      OnsenUi.compileElement(widget.getElement());
     }
   }
 
