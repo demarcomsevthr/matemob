@@ -299,15 +299,17 @@ public class OnsenUi {
   // TODO: REFRESH CURRENT PAGE OPTIMIZATION
   
   public static void refreshCurrentPage(final int delay, final Delegate<JavaScriptObject> delegate) {
+    if (doLog) PhgUtils.log("REFRESH CURRENT PAGE # 1");
     GwtUtils.deferredExecution(delay, new Delegate<Void>() {
       public void execute(Void element) {
+        if (doLog) PhgUtils.log("REFRESH CURRENT PAGE # 2");
         long currentTime = System.currentTimeMillis();
         if (lastElementCompilationTime > currentTime - REFRESH_CURRENT_PAGE_DELAY) {
           refreshCurrentPage(delay, delegate);
           return;
         }
         
-        if (doLog) PhgUtils.log("REFRESH CURRENT PAGE");
+        if (doLog) PhgUtils.log("REFRESH CURRENT PAGE # 3");
         
         if (doLog) PhgUtils.log("LAST CREATED PAGE ID = " + OnsPage.getLastCreatedPage().getElement().getId());
 

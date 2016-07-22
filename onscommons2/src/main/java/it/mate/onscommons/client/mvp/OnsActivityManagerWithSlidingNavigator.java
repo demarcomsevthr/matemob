@@ -257,10 +257,10 @@ public abstract class OnsActivityManagerWithSlidingNavigator extends OnsActivity
     PhgUtils.log(logMsg+" NAME = " + pageName);
     AbstractBaseView view = page.getView();
     if (view != null) {
-      PhgUtils.log(">>> "+logMsg+" VIEW CLASS = " + view.getClass());
+      PhgUtils.log(logMsg+" VIEW CLASS = " + view.getClass());
       view.onShowView();
     } else {
-      PhgUtils.log(">>> "+logMsg+" VIEW IS NULL");
+      PhgUtils.log(logMsg+" VIEW IS NULL");
       if (tryCurrentView) {
         PhgUtils.log("trying current view");
         AbstractBaseView currentView = OnsenUi.getCurrentView();
