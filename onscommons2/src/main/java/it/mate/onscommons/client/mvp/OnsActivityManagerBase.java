@@ -159,7 +159,7 @@ public abstract class OnsActivityManagerBase extends ActivityManager {
       
       String activePanelHTML = GwtUtils.getOuterHtml(activePanel.getElement());
       activePanelInnerHtml = activePanel.getElement().getInnerHTML();
-      OnsenUi.setCacheTemplate(activePanelId, activePanelHTML);
+      OnsenUi.addCachedTemplate(activePanelId, activePanelHTML);
       
     } else {
       if (!PhgUtils.isReallyAttached(activePanelId)) {

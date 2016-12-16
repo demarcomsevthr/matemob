@@ -46,7 +46,7 @@ public class OnsListItem extends HTMLPanel implements HasTapHandler, HasModel {
       }
     }
     
-    if (doLog) PhgUtils.log("COSTRUTTORE " + html);
+//  if (doLog) PhgUtils.log("COSTRUTTORE " + html);
     
   }
   

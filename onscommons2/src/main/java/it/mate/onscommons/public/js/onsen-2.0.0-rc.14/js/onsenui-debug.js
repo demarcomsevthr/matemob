@@ -7284,9 +7284,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
      return new Promise(function (resolve, reject) {
        setImmediate(function () {
          var cache = internal.templateStore.get(page);
-         
-         phgUtils_log('ANGULAR DEBUG >>> getTemplateHTMLAsync');
-         //phgUtils_callDebugHook(internal.templateStore);
+
+         if (cache) {
+           phgUtils_log('ANGULAR DEBUG: getTemplateHTMLAsync page '+page+' FOUND cache of type ' + (typeof cache));
+         } else {
+           phgUtils_log('ANGULAR DEBUG: getTemplateHTMLAsync page '+page+' NOT FOUND');
+         }
 
          if (cache) {
            var html = typeof cache === 'string' ? cache : cache[1];

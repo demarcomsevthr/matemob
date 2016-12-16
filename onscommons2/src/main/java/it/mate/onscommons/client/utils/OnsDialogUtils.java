@@ -80,16 +80,20 @@ public class OnsDialogUtils {
     }
     synchronizedAlert = true;
     synchronizedAlertRetry = -1;
-    alertImpl(Options.create().setTitle(title).setMessage(message).setMessageHtml(messageHtml)
-      .setButtonLabel(buttonLabel).setAnimation(animation).setCallback(new JSOCallback() {
-        public void handle(JavaScriptObject jso) {
-          synchronizedAlert = false;
-          synchronizedAlertRetry = -1;
-          if (delegate != null) {
-            delegate.execute(null);
-          }
-        }
-      }));
+    GwtUtils.deferredExecution(500, new Delegate<Void>() {
+      public void execute(Void element) {
+        alertImpl(Options.create().setTitle(title).setMessage(message).setMessageHtml(messageHtml)
+            .setButtonLabel(buttonLabel).setAnimation(animation).setCallback(new JSOCallback() {
+              public void handle(JavaScriptObject jso) {
+                synchronizedAlert = false;
+                synchronizedAlertRetry = -1;
+                if (delegate != null) {
+                  delegate.execute(null);
+                }
+              }
+            }));
+      }
+    });
   }
   
   protected static native void alertImpl(JavaScriptObject options) /*-{

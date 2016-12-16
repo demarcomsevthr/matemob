@@ -420,7 +420,7 @@ public class OnsenUi {
       JsArray<Element> elements = results.cast();
       for (int it = 0; it < elements.length(); it++) {
         Element fadingElement = elements.get(it);
-        if (doLog) PhgUtils.log("EXECUTING FADEIN ON ELEMENT " + fadingElement);
+//      if (doLog) PhgUtils.log("EXECUTING FADEIN ON ELEMENT " + fadingElement);
         TransitionUtils.fadeIn(fadingElement, fadeinDuration);
       }
     }
@@ -748,14 +748,14 @@ public class OnsenUi {
   }-*/;
   
   // TODO [ONS2]
-  public static native String getCacheTemplate(String templateId) /*-{
-    @it.mate.phgcommons.client.utils.PhgUtils::log(Ljava/lang/String;)('ONSEN2: getCacheTemplate ' + templateId);
+  public static native String getCachedTemplate(String templateId) /*-{
+    @it.mate.phgcommons.client.utils.PhgUtils::log(Ljava/lang/String;)('ONSEN2: getCachedTemplate ' + templateId);
     return $wnd.ons._internal.templateStore.get(templateId);
   }-*/;
   
   // TODO [ONS2]
-  public static native void setCacheTemplate(String templateId, String templateHTML) /*-{
-    @it.mate.phgcommons.client.utils.PhgUtils::log(Ljava/lang/String;)('ONSEN2: setCacheTemplate ' + templateId);
+  public static native void addCachedTemplate(String templateId, String templateHTML) /*-{
+    @it.mate.phgcommons.client.utils.PhgUtils::log(Ljava/lang/String;)('ONSEN2: addCachedTemplate ' + templateId);
     return $wnd.ons._internal.templateStore.set(templateId, templateHTML);
   }-*/;
   
