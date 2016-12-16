@@ -1,20 +1,22 @@
 
+var _onsenui_readyHandler_callback = null;
 
-/*
-(function() {
-  'use strict;';
-  */
+function _onsenui_readyHandler(callback) {
+  if (_onsenui_readyHandler_callback != null) {
+	  _onsenui_readyHandler_callback();
+  }
+}
+
+
+/*************  ONSEN 2 PORTING
+
 
   var module = angular.module('onsen');
 
   module.factory('ReverseSlideTransitionAnimator', function(NavigatorTransitionAnimator) {
 
-    /**
-     * Slide animator for navigator transition.
-     */
     var ReverseSlideTransitionAnimator = NavigatorTransitionAnimator.extend({
 
-      /** Black mask */
       backgroundMask : angular.element(
         '<div style="z-index: 2; position: absolute; width: 100%;' +
         'height: 100%; background-color: black; opacity: 0;"></div>'
@@ -31,11 +33,6 @@
         this.duration = options.duration !== undefined ? options.duration : this.duration;
       },
 
-      /**
-       * @param {Object} enterPage
-       * @param {Object} leavePage
-       * @param {Function} callback
-       */
       push: function(enterPage, leavePage, callback) {
         var mask = this.backgroundMask.remove();
         leavePage.element[0].parentNode.insertBefore(mask[0], leavePage.element[0].nextSibling);
@@ -98,11 +95,6 @@
         );
       },
 
-      /**
-       * @param {Object} enterPage
-       * @param {Object} leavePage
-       * @param {Function} done
-       */
       pop: function(enterPage, leavePage, done) {
         var mask = this.backgroundMask.remove();
         enterPage.element[0].parentNode.insertBefore(mask[0], enterPage.element[0].nextSibling);
@@ -181,6 +173,4 @@
     document.body.appendChild(elem);
   });
 
-/*
-})();
-*/
+************/
