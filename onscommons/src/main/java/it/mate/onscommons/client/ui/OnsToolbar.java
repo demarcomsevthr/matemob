@@ -67,7 +67,7 @@ public class OnsToolbar extends HTMLPanel {
         toolbarWaitingDiv.getStyle().setOpacity(1);
         toolbarWaitingDiv.getStyle().setZIndex(999999);
         if (OnsenUi.isVersion2()) {
-          toolbarWaitingDiv.getStyle().setHeight(56, Unit.PX);
+          toolbarWaitingDiv.getStyle().setHeight(48, Unit.PX);
         } else {
           toolbarWaitingDiv.getStyle().setHeight(40, Unit.PX);
         }

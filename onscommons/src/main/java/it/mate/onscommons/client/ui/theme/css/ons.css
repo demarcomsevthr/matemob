@@ -304,16 +304,11 @@ ons-dialog .dialog.dialog_anti_font_blur_correction {
   .page__content {
     background-color: #f9f9f9 !important;
   }
-	
+  
   ons-scroller {
-    /* overflow: scroll; */
     overflow-y: auto;
   } 
 
-  .list__item--material {
-    /* height: 2.8em; */
-  }
-  
   .list__item--material > div {
     padding: 0;
   }
@@ -329,19 +324,29 @@ ons-dialog .dialog.dialog_anti_font_blur_correction {
     }
   
     .ons-waiting-div {
-      padding-top: 8px;
+      padding-top: 4px;
+      top: 20px;
+      height: 40px !important;
     }
     
+    .dialog-mask {
+      margin-top: 64px !important;
+    }
+	
   } @else {
   
-    .ons-waiting-div {
-      padding-top: 8px;
-    }
-    
 	.ons-toolbar .navigation-bar__title {
       margin-top: 5px;
     }
 
+    .ons-waiting-div {
+      padding-top: 8px;
+    }
+    
+    .dialog-mask {
+      margin-top: 56px !important;
+    }
+	
   }
   
 }

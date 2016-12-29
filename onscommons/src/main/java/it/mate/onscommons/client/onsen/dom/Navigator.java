@@ -171,6 +171,16 @@ public class Navigator extends JavaScriptObject {
     }
   }-*/;
   
+  public final native int getPageCount() /*-{
+    if (typeof this.getPages !== "undefined") {
+      return this.getPages().length;
+    } else if (typeof this.pages !== "undefined") {
+      return this.pages.length;
+    } else {
+      return 0;
+    }
+  }-*/;
+
   public final void onAfterPagePush(final Delegate<NavigatorEvent> delegate) {
     onAfterPagePushImpl(new JSOCallback() {
       public void handle(JavaScriptObject jso) {
