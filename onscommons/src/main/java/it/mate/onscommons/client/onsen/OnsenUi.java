@@ -34,7 +34,13 @@ import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.user.client.ui.Widget;
 
 
+@SuppressWarnings("rawtypes")
 public class OnsenUi {
+  
+  // TODO [ONS2]
+  private static String onsenVersion = null;
+  
+  private static boolean doLog = true;
   
   private static boolean initialized = false;
   
@@ -76,33 +82,41 @@ public class OnsenUi {
   
   private static boolean removeToolbarDuringPageRefresh = true; 
   
-  private static boolean doLog = false;
-  
   private static boolean preventTapHandlerWherScrollerMoves = false;
   
   public static final String EXCLUDE_FROM_PAGE_REFRESH_ATTR = "excludeFromPageRefresh";
   
-  private static boolean addDirectWithPlainHtml = false;
+  //private static boolean addDirectWithPlainHtml = false;
   
   private static boolean usePlaceControllerHistory = false;
   
   private static boolean checkReconfigurableAppModule;
   
-  @SuppressWarnings("rawtypes")
   private static AbstractBaseView currentView;
+  
+  private static String currentPageId = null;
+  
+  private static boolean compilationSuspendedLogged = false;
+  
+  private final static String ELEMENT_COMPILED_ATTR = "_onsenui_element_compiled";
   
   public static void initializeOnsen(OnsenReadyHandler handler) {
     if (!initialized) {
+      
+      PhgUtils.log("Initializing onsen version " + onsenVersion);
+      
+      if (OnsenUi.isVersion2()) {
+        removeToolbarDuringPageRefresh = false;
+      }
+      
       initialized = true;
       initOnsenImpl(handler, checkReconfigurableAppModule);
+      
       for (Delegate<Void> initHandler : initializationHandlers) {
         initHandler.execute(null);
       }
       ensureJQueryDocumentSelector();
       
-      // dovrebbe servire solo per AND 5+
-      // 21/05/2015: serve anche su ios
-//    if (OsDetectionUtils.isAndroid() && PhgUtils.getDeviceVersion().startsWith("5")) {
       if (!OsDetectionUtils.isDesktop()) {
         setPreventTapHandlerWherScrollerMoves(true);
       }
@@ -115,6 +129,47 @@ public class OnsenUi {
     }
   }
   
+  // TODO [ONS2]
+  protected static native void initOnsenImpl(OnsenReadyHandler handler, boolean checkReconfigurableAppModule) /*-{
+
+    @it.mate.phgcommons.client.utils.PhgUtils::log(Ljava/lang/String;)('ONSEN INIT IMPL');
+    
+    if (typeof $wnd.ons == "undefined") {
+      @it.mate.phgcommons.client.utils.PhgUtils::log(Ljava/lang/String;)('WINDOW.ONS IS UNDEFINED!');
+    }
+      
+    if (checkReconfigurableAppModule) {
+      if ($wnd.ons.isReady() || $wnd.ngReconfigurableAppModule !== undefined) {
+        @it.mate.phgcommons.client.utils.PhgUtils::log(Ljava/lang/String;)('ONSEN ALREADY BOOTSTRAPPED - CONTINUE');
+        handler.@it.mate.onscommons.client.onsen.OnsenReadyHandler::onReady()();
+        return;
+      }
+    }    
+
+    // TODO [ONS2]
+    if (typeof $wnd.ons.bootstrap !== "undefined") {
+      @it.mate.phgcommons.client.utils.PhgUtils::log(Ljava/lang/String;)('CALLING ONSEN BOOTSTRAP');
+      $wnd.ons.bootstrap();
+    }
+    
+    @it.mate.phgcommons.client.utils.PhgUtils::log(Ljava/lang/String;)('CREATING ONSEN READY HANDLER');
+    var jsHandler = $entry(function() {
+      @it.mate.phgcommons.client.utils.PhgUtils::log(Ljava/lang/String;)('ONSEN READY HANDLER');
+      handler.@it.mate.onscommons.client.onsen.OnsenReadyHandler::onReady()();
+    });
+    
+    
+    if (typeof $wnd._onsenui_readyHandler !== "undefined") {
+      @it.mate.phgcommons.client.utils.PhgUtils::log(Ljava/lang/String;)('SETTING ONSEN READY USING GLOBAL CALLBACK');
+      $wnd._onsenui_readyHandler_callback = jsHandler;
+      $wnd.ons.ready($wnd._onsenui_readyHandler);
+    } else {
+      @it.mate.phgcommons.client.utils.PhgUtils::log(Ljava/lang/String;)('SETTING ONSEN READY USING INLINE CALLBACK');
+      $wnd.ons.ready(jsHandler);
+    }
+    
+  }-*/;
+  
   public static void addInitializationHandler(Delegate<Void> handler) {
     initializationHandlers.add(handler);
   }
@@ -126,28 +181,6 @@ public class OnsenUi {
   public static void setCheckReconfigurableAppModule(boolean checkReconfigurableAppModule) {
     OnsenUi.checkReconfigurableAppModule = checkReconfigurableAppModule;
   }
-  
-  protected static native void initOnsenImpl(OnsenReadyHandler handler, boolean checkReconfigurableAppModule) /*-{
-
-    if (checkReconfigurableAppModule) {
-      if ($wnd.ons.isReady() || $wnd.ngReconfigurableAppModule !== undefined) {
-        @it.mate.phgcommons.client.utils.PhgUtils::log(Ljava/lang/String;)('ONSEN ALREADY BOOTSTRAPPED - CONTINUE');
-        handler.@it.mate.onscommons.client.onsen.OnsenReadyHandler::onReady()();
-        return;
-      }
-    }    
-    
-    @it.mate.phgcommons.client.utils.PhgUtils::log(Ljava/lang/String;)('CALLING ONSEN BOOTSTRAP');
-    $wnd.ons.bootstrap();
-    
-    var jsHandler = $entry(function() {
-      @it.mate.phgcommons.client.utils.PhgUtils::log(Ljava/lang/String;)('ONSEN READY HANDLER');
-      handler.@it.mate.onscommons.client.onsen.OnsenReadyHandler::onReady()();
-    });
-    @it.mate.phgcommons.client.utils.PhgUtils::log(Ljava/lang/String;)('SETTING ONSEN READY');
-    $wnd.ons.ready(jsHandler);
-    
-  }-*/;
   
   public static Navigator getNavigator() {
     if (navigator == null) {
@@ -195,32 +228,52 @@ public class OnsenUi {
   }
   
   public static void resumeCompilations() {
+    if (doLog) PhgUtils.log("RESUME COMPILATION");
     OnsenUi.compilationSuspended = false;
+    compilationSuspendedLogged = false;
   }
 
-  public static void compileElementImmediately(Element element) {
-    compileElementInternal(element);
-  }
-  
   public static void compileElement(Element element) {
     lastElementCompilationTime = System.currentTimeMillis();
     if (compilationSuspended) {
-      if (doLog) PhgUtils.log("COMPILATION DISABLED");
+      if (!compilationSuspendedLogged) {
+        compilationSuspendedLogged = true;
+        if (doLog) PhgUtils.log("COMPILATION DISABLED");
+      }
       return;
     }
-    compileElementInternal(element);
+    compileElement_(element);
   }
   
-  private static void compileElementInternal(Element element) {
+  public static void compileElementImmediately(Element element) {
+    compileElement_(element);
+  }
+  
+  private static void compileElement_(Element element) {
     if (element == null) {
       return;
     }
     if (element.getNodeName() == null) {
       return;
     }
+//  element.setAttribute("_compiled", "false");
+    removeElementAttribute(element, "_compiled");
     if (doLog) PhgUtils.log("COMPILING ELEMENT " + element);
     compileElementImpl(element);
+    element.setAttribute(ELEMENT_COMPILED_ATTR, "true");
   }
+  
+  public static void initializeElementCompileAttr(Element element) {
+    element.setAttribute(ELEMENT_COMPILED_ATTR, "false");
+  }
+  
+  private static native void compileElementImpl(Element element) /*-{
+    $wnd.ons.compile(element);
+  }-*/;
+
+  private static final native void removeElementAttribute(Element element, String name) /*-{
+    element.removeAttribute(name);
+  }-*/;
   
   public static void getCurrentPageElement(Delegate<Element> delegate) {
     if (OnsPage.getLastCreatedPage() == null) {
@@ -238,21 +291,26 @@ public class OnsenUi {
     refreshCurrentPage(delay, null);
   }
   
-  private static String currentPageId = null;
-  
   public static void setCurrentPageId(String currentPageId) {
     PhgUtils.log("CURRENT PAGE ID = " + currentPageId);
     OnsenUi.currentPageId = currentPageId;
   }
   
+  // TODO: REFRESH CURRENT PAGE OPTIMIZATION
+  
   public static void refreshCurrentPage(final int delay, final Delegate<JavaScriptObject> delegate) {
+    if (doLog) PhgUtils.log("REFRESH CURRENT PAGE # 1");
     GwtUtils.deferredExecution(delay, new Delegate<Void>() {
       public void execute(Void element) {
+        if (doLog) PhgUtils.log("REFRESH CURRENT PAGE # 2");
         long currentTime = System.currentTimeMillis();
         if (lastElementCompilationTime > currentTime - REFRESH_CURRENT_PAGE_DELAY) {
           refreshCurrentPage(delay, delegate);
           return;
         }
+        
+        if (doLog) PhgUtils.log("REFRESH CURRENT PAGE # 3");
+        
         if (doLog) PhgUtils.log("LAST CREATED PAGE ID = " + OnsPage.getLastCreatedPage().getElement().getId());
 
         // 18/05/2015
@@ -262,6 +320,21 @@ public class OnsenUi {
         
         OnsenUi.onAvailableElement(actualCurrentPageId, new Delegate<Element>() {
           public void execute(final Element pageElement) {
+
+            boolean doRefresh = false;
+            if ("false".equals(pageElement.getAttribute(ELEMENT_COMPILED_ATTR))) {
+              doRefresh = true;
+            } else {
+              if (doLog) PhgUtils.log("cerco discendenti non compilati");
+              List<Element> notCompiledElements = queryElements("#"+pageElement.getId()+" *["+ELEMENT_COMPILED_ATTR+"='false']");
+              if (notCompiledElements != null && notCompiledElements.size() > 0) {
+                doRefresh = true;
+              }
+            }
+            if (!doRefresh) {
+              if (doLog) PhgUtils.log("CURRENT PAGE IS JUST COMPILED OR NOT CONTAINS NOT COMPILED ELEMENTS");
+              return;
+            }
             
             resumeCompilations();
             
@@ -274,6 +347,7 @@ public class OnsenUi {
             final ObjectWrapper<Element> toolbarElement = new ObjectWrapper<Element>();
             
             if (removeToolbarDuringPageRefresh) {
+              if (doLog) PhgUtils.log("Rimozione toolbar element durante il refresh della pagina");
               for (int it = 0; it < pageElement.getChildCount(); it++) {
                 Element pageChildElement = pageElement.getChild(it).cast();
                 if (pageChildElement.getNodeName() != null && pageChildElement.getNodeName().equalsIgnoreCase("ons-toolbar")) {
@@ -285,10 +359,14 @@ public class OnsenUi {
             }
             
             final List<ExcludedElement> excludedElements = new ArrayList<OnsenUi.ExcludedElement>();
+            if (doLog) PhgUtils.log("Ricerca elementi esclusi dal refresh");
             findAndSaveExcludedElements(pageElement, excludedElements);
-
+            
+            if (doLog) PhgUtils.log("Setting page init callback");
             addInitCallbackImpl(pageElement, new JSOCallback() {
               public void handle(JavaScriptObject event) {
+                
+                if (doLog) PhgUtils.log("PAGE INIT CALLBACK #" + pageElement.getId());
                 
                 if (toolbarElement.get() != null) {
                   if (doLog) PhgUtils.log("REINSERTING TOOLBAR ELEMENT " + toolbarElement.get());
@@ -300,23 +378,28 @@ public class OnsenUi {
                 }
                 
                 if (doLog) PhgUtils.log("PAGE IS COMPILED");
+                
                 fadeInCurrentPage();
+                
                 if (delegate != null) {
                   delegate.execute(event);
                 }
+                
               }
             });
             
 
-            PhgUtils.log("REFRESHING CURRENT PAGE WITH ID " + pageElement.getId());
+            PhgUtils.log("COMPILING CURRENT PAGE #" + pageElement.getId());
             
             if (doLog) PhgUtils.log("COMPILING PAGE ELEMENT " + pageElement);
-            compileElementImpl(pageElement);
+//          compileElementImpl(pageElement);
+            compileElement_(pageElement);
             
             if (doLog) PhgUtils.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
             
             GwtUtils.deferredExecution(500, new Delegate<Void>() {
               public void execute(Void element) {
+                if (doLog) PhgUtils.log("Setting use doc event listener false");
                 HasTapHandlerImpl.setUseDocEventListener(false);
               }
             });
@@ -337,7 +420,7 @@ public class OnsenUi {
       JsArray<Element> elements = results.cast();
       for (int it = 0; it < elements.length(); it++) {
         Element fadingElement = elements.get(it);
-        if (doLog) PhgUtils.log("EXECUTING FADEIN ON ELEMENT " + fadingElement);
+//      if (doLog) PhgUtils.log("EXECUTING FADEIN ON ELEMENT " + fadingElement);
         TransitionUtils.fadeIn(fadingElement, fadeinDuration);
       }
     }
@@ -361,9 +444,9 @@ public class OnsenUi {
     @it.mate.onscommons.client.onsen.OnsenUi::jQueryDocumentSelector.on('ons-page:init', '#'+elementId, jsCallback);
   }-*/;
     
-  public static List<Element> queryElements(String query) {
+  public static List<Element> queryElements(String queryString) {
     List<Element> results = new ArrayList<Element>();
-    JavaScriptObject jsResults = queryElementsImpl(".ons-fadein");
+    JavaScriptObject jsResults = queryElementsImpl(queryString);
     if (jsResults != null) {
       JsArray<Element> elements = jsResults.cast();
       for (int it = 0; it < elements.length(); it++) {
@@ -376,10 +459,6 @@ public class OnsenUi {
   
   protected static native JavaScriptObject queryElementsImpl(String query) /*-{
     return $wnd.$(query);
-  }-*/;
-
-  protected static native void compileElementImpl(Element element) /*-{
-    $wnd.ons.compile(element);
   }-*/;
 
   public static void setUsePlaceControllerHistory(boolean usePlaceControllerHistory) {
@@ -494,6 +573,26 @@ public class OnsenUi {
   }
   
   private static void findAndSaveExcludedElements(Element rootElement, List<ExcludedElement> excludedElements) {
+
+    /* [06/07/2016]
+     * USO JQUERY
+     */
+    
+    List<Element> foundExcludedElements = queryElements("#"+rootElement.getId()+" *["+EXCLUDE_FROM_PAGE_REFRESH_ATTR+"='true']");
+    if (foundExcludedElements != null && foundExcludedElements.size() > 0) {
+      for (Element element : foundExcludedElements) {
+        PhgUtils.log("FOUND EXCLUDED ELEMENT " + element.getNodeName()+"#"+element.getId());
+        ExcludedElement excludedElement = new ExcludedElement();
+        excludedElement.element = element;
+        excludedElement.parentElement = element.getParentElement();
+        excludedElement.nextSibling = element.getNextSibling();
+        excludedElements.add(excludedElement);
+        element.getParentElement().removeChild(element);
+      }
+    }
+    
+    /*
+    
     for (int it = 0; it < rootElement.getChildCount(); it++) {
       Element childElement = rootElement.getChild(it).cast();
       if (childElement.getNodeType() != Node.TEXT_NODE) {
@@ -510,6 +609,9 @@ public class OnsenUi {
         }
       }
     }
+    
+    */
+    
   }
   
   private static void insertExcludedElements(List<ExcludedElement> excludedElements) {
@@ -538,31 +640,11 @@ public class OnsenUi {
     element.addClassName("ons-fadein");
   }
   
-
-  /**
-   * 
-   * 25/05/2015
-   * 
-   * TORNO INDIETRO PERCHE' NON DOVREBBE FUNZIONARE
-   * 
-   * Quando viene eseguita la ons.compile l'element viene staccato e riattaccato al dom (credo?) quindi tutti gli element reference nei widget vengono tutti invalidati
-   * (questo e' il motivo percui funzionano le varie onavailable...)
-   * 
-   * 
-   */
+  /*
   public static boolean isAddDirectWithPlainHtml() {
     return false;
   }
-  
-  /*
-  public static void setAddDirectWithPlainHtml(boolean addDirectWithPlainHtml) {
-    OnsenUi.addDirectWithPlainHtml = addDirectWithPlainHtml;
-  }
-  
-  public static boolean isAddDirectWithPlainHtml() {
-    return addDirectWithPlainHtml;
-  }
-   */
+  */
   
   public static String getPlainHtml(Element element) {
     String html = "";
@@ -634,15 +716,47 @@ public class OnsenUi {
     return false;
   }
   
-
-  // TODO
   
-  public static String getOnsenUiVersion() {
-    
-    
-    
-    return null;
+  /************************************************************************************************
+   * 
+   *  ONSEN 2 UPGRADE
+   * 
+   */
+  
+  // TODO [ONS2]
+  protected static String getOnsenVersion() {
+    if (onsenVersion == null) {
+      onsenVersion = GwtUtils.getJSVar("ONSEN_VERSION", "1.0");
+    }
+    return onsenVersion;
   }
   
-
+  // TODO [ONS2]
+  public static boolean isVersion2() {
+    return getOnsenVersion().startsWith("2.");
+  }
+  
+  // TODO [ONS2]
+  public static boolean isVersion1() {
+    return getOnsenVersion().startsWith("1.");
+  }
+  
+  // TODO [ONS2]
+  public static native JavaScriptObject getInternal() /*-{
+    @it.mate.phgcommons.client.utils.PhgUtils::log(Ljava/lang/String;)('ONSEN2: getInternal');
+    return $wnd.ons._internal;
+  }-*/;
+  
+  // TODO [ONS2]
+  public static native String getCachedTemplate(String templateId) /*-{
+    @it.mate.phgcommons.client.utils.PhgUtils::log(Ljava/lang/String;)('ONSEN2: getCachedTemplate ' + templateId);
+    return $wnd.ons._internal.templateStore.get(templateId);
+  }-*/;
+  
+  // TODO [ONS2]
+  public static native void addCachedTemplate(String templateId, String templateHTML) /*-{
+    @it.mate.phgcommons.client.utils.PhgUtils::log(Ljava/lang/String;)('ONSEN2: addCachedTemplate ' + templateId);
+    return $wnd.ons._internal.templateStore.set(templateId, templateHTML);
+  }-*/;
+  
 }

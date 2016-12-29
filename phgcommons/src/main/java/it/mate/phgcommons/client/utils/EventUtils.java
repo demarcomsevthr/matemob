@@ -10,6 +10,7 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class EventUtils {
   
@@ -33,14 +34,24 @@ public class EventUtils {
    *          
    */
   public static void createModalHandler(final PanelGetter panelGetter, final Delegate<HandlerRegistration> registrationDelegate) {
+    createModalHandler(panelGetter.getPanel().getElement(), registrationDelegate);
+  }
+  
+  public static void createModalHandler(final Widget widget, final Delegate<HandlerRegistration> registrationDelegate) {
+    createModalHandler(widget.getElement(), registrationDelegate);
+  }
+  
+  public static void createModalHandler(final Element targetElement, final Delegate<HandlerRegistration> registrationDelegate) {
     GwtUtils.deferredExecution(new Delegate<Void>() {
       public void execute(Void element) {
         HandlerRegistration registration = Event.addNativePreviewHandler(new NativePreviewHandler() {
           public void onPreviewNativeEvent(NativePreviewEvent event) {
-            previewNativeEvent(event, panelGetter);
+            previewNativeEvent(event, targetElement);
           }
         });
-        registrationDelegate.execute(registration);
+        if (registrationDelegate != null) {
+          registrationDelegate.execute(registration);
+        }
       }
     });
   }
@@ -66,33 +77,24 @@ public class EventUtils {
     }
   }
   
-  private static void previewNativeEvent(NativePreviewEvent event, PanelGetter panelGetter) {
-    
+  private static void previewNativeEvent(NativePreviewEvent event, Element targetElement) {
     Event nativeEvent = Event.as(event.getNativeEvent());
-    
-    boolean eventTargetsThis = false;
+    boolean eventTargetsElement = false;
     EventTarget target = nativeEvent.getEventTarget();
     if (Element.is(target)) {
-      eventTargetsThis = panelGetter.getPanel().getElement().isOrHasChild(Element.as(target));
+      eventTargetsElement = targetElement.isOrHasChild(Element.as(target));
     }
-    
     // If the event has been canceled or consumed, ignore it
     if (event.isCanceled() || event.isConsumed()) {
-      
       // We need to ensure that we cancel the event even if its been consumed so
       // that popups lower on the stack do not auto hide
       event.cancel();
-      
     } else {
-      
-      if (eventTargetsThis) {
+      if (eventTargetsElement) {
         event.consume();
       }
-      
       event.cancel();
-      
     }
-    
   }
 
 }

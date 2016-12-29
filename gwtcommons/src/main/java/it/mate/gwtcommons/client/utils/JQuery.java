@@ -1,5 +1,7 @@
 package it.mate.gwtcommons.client.utils;
 
+import it.mate.gwtcommons.client.resources.GwtCommonsClientBundle;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,17 @@ import com.google.gwt.dom.client.Style;
 
 @SuppressWarnings("rawtypes")
 public class JQuery extends JavaScriptObject {
+  
+  static {
+    ensureJQuery();
+  }
+  
+  public static void ensureJQuery() {
+    if (!isJQueryDefined()) {
+      GwtUtils.log("JQUERY UNDEFINED >> injecting via GwtCommonsClientBundle from " + JQuery.class.getName());
+      GwtCommonsClientBundle.Util.initJQuery();
+    }
+  }
 
   public static JQuery select (String selector) {
     return selectImpl(selector).cast();
@@ -36,6 +49,14 @@ public class JQuery extends JavaScriptObject {
   
   public static JQuery withElement(Element element) {
     return jQueryImpl(element).cast();
+  }
+  
+  public static JQuery wrap(Element element) {
+    if (element.getId() != null) {
+      return select("#"+element.getId());
+    } else {
+      return withElement(element);
+    }
   }
   
   public static StyleProperties createStyleProperties() {
@@ -143,6 +164,10 @@ public class JQuery extends JavaScriptObject {
     });
   }
   
+  public final JQuery focus() {
+    return focusImpl();
+  }
+  
   public final JQuery focus(final Delegate<Element> delegate) {
     return focusImpl(new JQueryEventCallback() {
       public void execute(JQueryEvent event) {
@@ -218,6 +243,10 @@ public class JQuery extends JavaScriptObject {
 
   }
   
+  private static native boolean isJQueryDefined() /*-{
+    return !($wnd.jQuery === undefined);
+  }-*/;
+
   private static native JavaScriptObject selectImpl(String selector) /*-{
     return $wnd.$(selector);
   }-*/;
@@ -306,6 +335,10 @@ public class JQuery extends JavaScriptObject {
     return this.blur(jsHandler);
   }-*/;
 
+  private static native JQuery focusImpl() /*-{
+    return this.focus();
+  }-*/;
+
   private static native JQuery focusImpl(JQueryEventCallback handler) /*-{
     var jsHandler = $entry(function(event) {
       handler.@it.mate.gwtcommons.client.utils.JQuery.JQueryEventCallback::execute(Lit/mate/gwtcommons/client/utils/JQueryEvent;)(event);
@@ -334,6 +367,26 @@ public class JQuery extends JavaScriptObject {
     options['weekdaysShort'] = ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'];
     options['today'] = 'Oggi';
     return this.pickadate(options);
+  }-*/;
+
+  public final native String getPropString(String name) /*-{
+    return this.prop(name);
+  }-*/;
+
+  public final native void setPropString(String name, String value) /*-{
+    this.prop(name, value);
+  }-*/;
+
+  public final native boolean getPropBool(String name) /*-{
+    return this.prop(name);
+  }-*/;
+
+  public final native void setPropBool(String name, boolean value) /*-{
+    this.prop(name, value);
+  }-*/;
+
+  public final native JQuery find(String selector) /*-{
+    return this.find(selector);
   }-*/;
 
 }

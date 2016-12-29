@@ -7,6 +7,7 @@ import it.mate.onscommons.client.event.TapHandler;
 import it.mate.onscommons.client.mvp.OnsActivityManagerBase;
 import it.mate.onscommons.client.onsen.OnsenUi;
 import it.mate.onscommons.client.utils.TransitionUtils;
+import it.mate.phgcommons.client.utils.OsDetectionUtils;
 import it.mate.phgcommons.client.utils.PhgUtils;
 
 import com.google.gwt.dom.client.Element;
@@ -18,7 +19,7 @@ public class OnsBackButton extends Widget implements HasTapHandler {
   
   private HasTapHandlerImpl hasTapHandlerImpl;
   
-  private boolean isSlidingMenuPresentAndIsHome = false;
+  private boolean isMenuButton = false;
   
   
   public OnsBackButton() {
@@ -26,22 +27,19 @@ public class OnsBackButton extends Widget implements HasTapHandler {
   }
 
   protected OnsBackButton(Element element, boolean doFadeIn) {
-    
-    if (OnsenUi.isNavigatorPresent() && OnsenUi.isSlidingMenuPresent()) {
-      
+
+    if (OnsenUi.isSlidingMenuPresent() && (OsDetectionUtils.isAndroid() || OsDetectionUtils.isDesktop())) {
+      isMenuButton = true;
+    } else if (OnsenUi.isNavigatorPresent() && OnsenUi.isSlidingMenuPresent()) {
       int actualPageCount = OnsenUi.getNavigator().getActualPageCount();
       String activePlace = OnsActivityManagerBase.IMPL.getActivePlace().getToken();
-      
       PhgUtils.log("OnsBackButton CONSTRUCTOR actual navigator page count = " + actualPageCount + " - ACTIVE PLACE = " + OnsActivityManagerBase.IMPL.getActivePlace().getToken());
-      
       if (actualPageCount == 0 || "home".equalsIgnoreCase(activePlace) ) {
-        isSlidingMenuPresentAndIsHome = true;
+        isMenuButton = true;
       }
-      
-      
     }
 
-    if (isSlidingMenuPresentAndIsHome) {
+    if (isMenuButton) {
       Element icon = DOM.createElement("ons-icon");
       icon.setAttribute("icon", "fa-bars");
       element.appendChild(icon);
@@ -61,7 +59,7 @@ public class OnsBackButton extends Widget implements HasTapHandler {
     
     addTapHandler(new TapHandler() {
       public void onTap(TapEvent event) {
-        if (isSlidingMenuPresentAndIsHome) {
+        if (isMenuButton) {
           OnsenUi.getSlidingMenu().toggleMenu();
         } else {
           try {

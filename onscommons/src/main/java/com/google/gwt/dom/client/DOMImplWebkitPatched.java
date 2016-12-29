@@ -15,6 +15,7 @@ public class DOMImplWebkitPatched extends DOMImplWebkit {
   public Element createElement(Document doc, String tag) {
     Element element = super.createElement(doc, tag);
     OnsenUi.ensureId(element);
+    OnsenUi.initializeElementCompileAttr(element);
     return element;
   }
   

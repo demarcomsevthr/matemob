@@ -17,26 +17,43 @@ public class Page extends JavaScriptObject {
     return GwtUtils.getJsPropertyString(this, "name");
   }
   
+  // TODO [ONS2]
   public final Element getPageElement() {
-    JavaScriptObject pageElement = GwtUtils.getJsPropertyJso(this, "element");
-    Element pageContextElement = GwtUtils.getJsPropertyJso(pageElement, "context").cast();
-    return pageContextElement;
+    if (OnsenUi.isVersion2()) {
+      Element pageElement = (Element)this.cast();
+      return pageElement;
+    } else {
+      JavaScriptObject pageElement = GwtUtils.getJsPropertyJso(this, "element");
+      Element pageContextElement = GwtUtils.getJsPropertyJso(pageElement, "context").cast();
+      return pageContextElement;
+    }
   }
   
+  // TODO [ONS2]
   public final Element getInnerPageElement() {
-    Element pageElement = getPageElement();
-    NodeList<Element> nodeList = pageElement.getElementsByTagName("div");
-    for (int it = 0; it < nodeList.getLength(); it++) {
-      Element innerElem = nodeList.getItem(it);
-      if (innerElem.getClassName().contains("ons-page-inner")) {
-        return innerElem;
+    if (OnsenUi.isVersion2()) {
+      Element pageElement = getPageElement();
+      NodeList<Element> nodeList = pageElement.getElementsByTagName("div");
+      for (int it = 0; it < nodeList.getLength(); it++) {
+        Element innerElem = nodeList.getItem(it);
+        if (innerElem.getClassName().contains("page__content")) {
+          return innerElem;
+        }
+      }
+    } else {
+      Element pageElement = getPageElement();
+      NodeList<Element> nodeList = pageElement.getElementsByTagName("div");
+      for (int it = 0; it < nodeList.getLength(); it++) {
+        Element innerElem = nodeList.getItem(it);
+        if (innerElem.getClassName().contains("ons-page-inner")) {
+          return innerElem;
+        }
       }
     }
     return null;
   }
   
   public final Integer getIndex() {
-//  JsArray<Page> pages = OnsenUi.getPages();
     JsArray<Page> pages = OnsenUi.getNavigator().getPages();
     for (int it = 0; it < pages.length(); it++) {
       Page page = pages.get(it);

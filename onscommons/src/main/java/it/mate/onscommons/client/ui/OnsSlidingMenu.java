@@ -1,7 +1,9 @@
 package it.mate.onscommons.client.ui;
 
+import it.mate.gwtcommons.client.utils.Delegate;
 import it.mate.onscommons.client.onsen.OnsenUi;
 import it.mate.onscommons.client.onsen.dom.SlidingMenu;
+import it.mate.phgcommons.client.utils.PhgUtils;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
@@ -36,5 +38,20 @@ public class OnsSlidingMenu extends ComplexPanel implements HasWidgets {
   public final native SlidingMenu getController() /*-{
     return $wnd.app.menu;
   }-*/;
+  
+  public void setMenuPage(final String pageId) {
+    OnsenUi.onAvailableElement(this, new Delegate<Element>() {
+      public void execute(final Element slidingMenuElement) {
+        OnsenUi.onAvailableElement(pageId, new Delegate<Element>() {
+          public void execute(Element templateElement) {
+            slidingMenuElement.setAttribute("menu-page", pageId);
+            OnsenUi.compileElement(slidingMenuElement);
+            PhgUtils.log("SETTING MENU PAGE " + pageId);
+            getController().setMenuPage(pageId);;
+          }
+        });
+      }
+    });
+  }
   
 }

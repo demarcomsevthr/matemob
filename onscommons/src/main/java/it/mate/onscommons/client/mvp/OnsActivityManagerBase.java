@@ -1,6 +1,7 @@
 package it.mate.onscommons.client.mvp;
 
 import it.mate.gwtcommons.client.places.HasToken;
+import it.mate.gwtcommons.client.utils.GwtUtils;
 import it.mate.onscommons.client.onsen.OnsenReadyHandler;
 import it.mate.onscommons.client.onsen.OnsenUi;
 import it.mate.onscommons.client.onsen.dom.Page;
@@ -65,10 +66,10 @@ public abstract class OnsActivityManagerBase extends ActivityManager {
   
   protected abstract Page getCurrentPage();
   
-  public static AcceptsOneWidget getActivePanel() {
-    return (AcceptsOneWidget)activePanel;
+  public static Panel getActivePanel() {
+    return activePanel;
   }
-  
+
   protected static void setActivePanel(Panel panel, String id) {
     activePanel = panel;
     activePanelId = id;
@@ -132,20 +133,52 @@ public abstract class OnsActivityManagerBase extends ActivityManager {
     }
   }
   
-  protected void compileActivePanel() {
-    if (!PhgUtils.isReallyAttached(activePanelId)) {
-      try {
-        RootPanel.get().remove(activePanel);
-      } catch (Exception ex) { }
-      PhgUtils.log("ADDING PANEL TO DOCUMENT - " + activePanel.getElement());
-      RootPanel.get().add(activePanel);
+  protected Element getActivePanelChildElement() {
+    Element activePanelChildElement = null;
+    if (activePanel != null && activePanel.getElement() != null && activePanel.getElement().getChildCount() > 0) {
+      activePanelChildElement = (Element)activePanel.getElement().getChild(0);
     }
-    if (PhgUtils.isReallyAttached(activePanelId)) {
-      Element templateElem = activePanel.getElement();
-      if (templateElem != null) {
-        OnsenUi.compileElement(templateElem);
+    return activePanelChildElement;
+  }
+  
+  private String activePanelInnerHtml = null;
+  
+  protected String getActivePanelInnerHtml() {
+    return activePanelInnerHtml;
+  }
+  
+  // TODO [ONS2]
+  protected Element compileActivePanel() {
+    
+    Element activePanelElement = activePanel.getElement();
+    
+    PhgUtils.log("compileActivePanel#1 activePanelId=" + activePanelId);
+    PhgUtils.log("compileActivePanel#1 activePanel=" + activePanel);
+    
+    if (OnsenUi.isVersion2()) {
+      
+      String activePanelHTML = GwtUtils.getOuterHtml(activePanel.getElement());
+      activePanelInnerHtml = activePanel.getElement().getInnerHTML();
+      OnsenUi.addCachedTemplate(activePanelId, activePanelHTML);
+      
+    } else {
+      if (!PhgUtils.isReallyAttached(activePanelId)) {
+        try {
+          RootPanel.get().remove(activePanel);
+        } catch (Exception ex) { }
+        PhgUtils.log("ADDING PANEL TO DOCUMENT - " + activePanel.getElement());
+        RootPanel.get().add(activePanel);
+      }
+      if (PhgUtils.isReallyAttached(activePanelId)) {
+        Element templateElem = activePanel.getElement();
+        if (templateElem != null) {
+          OnsenUi.compileElement(templateElem);
+        }
       }
     }
+    
+    return activePanelElement;
+    
   }
   
   protected void putPlace(Place place) {

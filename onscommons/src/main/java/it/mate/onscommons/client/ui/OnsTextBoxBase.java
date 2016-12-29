@@ -2,12 +2,14 @@ package it.mate.onscommons.client.ui;
 
 import it.mate.gwtcommons.client.utils.Delegate;
 import it.mate.gwtcommons.client.utils.GwtUtils;
+import it.mate.gwtcommons.client.utils.JQuery;
 import it.mate.onscommons.client.event.NativeGestureEvent;
 import it.mate.onscommons.client.event.NativeGestureHandler;
 import it.mate.onscommons.client.event.OnsEventUtils;
 import it.mate.onscommons.client.onsen.OnsenUi;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -25,7 +27,17 @@ public abstract class OnsTextBoxBase extends /* Widget */ ValueBoxBase<String>{
   private Element inputElement;
   
   protected OnsTextBoxBase(String type) {
-    this(DOM.createInputText(), type, "ons-textbox");
+    this(createInternalElement(), type, "ons-textbox");
+//  this(DOM.createInputText(), type, "ons-textbox");
+  }
+  
+  private static Element createInternalElement() {
+    if (OnsenUi.isVersion2()) {
+      return DOM.createElement("ons-input");
+//    return DOM.createInputText();
+    } else {
+      return DOM.createInputText();
+    }
   }
 
   protected OnsTextBoxBase(Element element, String type, String className) {
@@ -51,8 +63,25 @@ public abstract class OnsTextBoxBase extends /* Widget */ ValueBoxBase<String>{
     return inputElement;
   }
   
-  public void setPlaceholder(String placeholder) {
-    getElement().setAttribute("placeholder", placeholder);
+  public void setPlaceholder(final String placeholder) {
+    if (OnsenUi.isVersion2()) {
+//    getElement().setAttribute("float", "true");
+      GwtUtils.deferredExecution(500, new Delegate<Void>() {
+        public void execute(Void element) {
+          OnsenUi.onAvailableElement(OnsTextBoxBase.this, new Delegate<Element>() {
+            public void execute(Element element) {
+              NodeList<Element> inputs = element.getElementsByTagName("input");
+              if (inputs != null && inputs.getLength() > 0) {
+                inputs.getItem(0).setAttribute("placeholder", placeholder);
+              }
+              
+            }
+          });
+        }
+      });
+    } else {
+      getElement().setAttribute("placeholder", placeholder);
+    }
   }
   
   @Override
@@ -202,4 +231,22 @@ public abstract class OnsTextBoxBase extends /* Widget */ ValueBoxBase<String>{
     });
   }
 
+  public void setModifier(final String modifier) {
+    if (OnsenUi.isVersion2()) {
+      getElement().setAttribute("modifier", modifier);
+    }
+  }
+  
+  public void blur() {
+    if (OnsenUi.isVersion2()) {
+      JQuery.wrap(getElement()).find("input").blur();
+    }
+  }
+  
+  public void focus() {
+    if (OnsenUi.isVersion2()) {
+      JQuery.wrap(getElement()).find("input").focus();
+    }
+  }
+  
 }

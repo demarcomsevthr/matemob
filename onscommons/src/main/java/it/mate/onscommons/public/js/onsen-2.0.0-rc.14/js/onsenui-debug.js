@@ -16235,6 +16235,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
        value: function popPage() {
          var _this3 = this;
 
+         phgUtils_log('ANGULAR DEBUG: popPage#1');
+         
          var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
          var popUpdate = function popUpdate() {
@@ -16376,7 +16378,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
        value: function pushPage(page) {
          var _this5 = this;
 
-         phgUtils_log('ANGULAR DEBUG >>>> pushPage#1 ' + page);
+         phgUtils_log('ANGULAR DEBUG: pushPage#1 ' + page);
          
          var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
@@ -16393,7 +16395,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
            });
          };
 
-         phgUtils_log('ANGULAR DEBUG >>>> pushPage#2 ' + options.pageHTML);
+         phgUtils_log('ANGULAR DEBUG: pushPage#2 ' + options.pageHTML);
          
          if (options.pageHTML) {
            return this._pushPage(options, function () {
@@ -16504,6 +16506,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
        value: function replacePage(page) {
          var _this7 = this;
 
+         phgUtils_log('ANGULAR DEBUG: replacePage#1 ' + page);
+         
          var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
          options = this._prepareOptions(options, page);
@@ -16539,6 +16543,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
        value: function insertPage(index, page) {
          var _this8 = this;
 
+         phgUtils_log('ANGULAR DEBUG: insertPage#1 ' + index + ' ' + page);
+         
          var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 
          options = this._prepareOptions(options, page);
@@ -16594,6 +16600,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
        value: function resetToPage(page) {
          var _this9 = this;
 
+         phgUtils_log('ANGULAR DEBUG: resetToPage#1 ' + page);
+         
          var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
          options = this._prepareOptions(options, page);

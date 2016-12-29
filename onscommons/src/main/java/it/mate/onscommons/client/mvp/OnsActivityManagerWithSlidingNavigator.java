@@ -62,6 +62,8 @@ public abstract class OnsActivityManagerWithSlidingNavigator extends OnsActivity
     if (lastProcessedPlace != null && lastProcessedPlace.getToken().equals(newTokenizedPlace.getToken())) {
       PhgUtils.log("ON PLACE CHANGE: PLACE JUST PROCESSED (SKIP) newPlace = " + newPlace);
       slidingMenu.getController().closeMenu();
+      PhgUtils.log("refreshing current page");
+      OnsenUi.refreshCurrentPage();
       return;
     } else {
       lastProcessedPlace = newTokenizedPlace;
@@ -90,9 +92,11 @@ public abstract class OnsActivityManagerWithSlidingNavigator extends OnsActivity
     return navigator.getCurrentPage();
   }
   
+  // TODO [ONS2]
   private void pushPage(Place newPlace, Integer insertIndex) {
     
     compileActivePanel();
+    
     HasToken hasToken = (HasToken)newPlace;
     String newToken =  hasToken.getToken();
     putPlace(newPlace);
@@ -137,7 +141,11 @@ public abstract class OnsActivityManagerWithSlidingNavigator extends OnsActivity
             String pageName = page.getName();
             if (pageName != null && ( pageName.equals(newToken) || pageName.trim().length() == 0)) {
               found = true;
-              navigator.resetToPage(newToken);
+              if (OnsenUi.isVersion2()) {
+                navigator.resetToPage(newToken, getActivePanelInnerHtml());
+              } else {
+                navigator.resetToPage(newToken);
+              }
               PhgUtils.log("------------------------------------");
               PhgUtils.log("AFTER RESET PAGE " + newToken);
               navigator.log("NAVIGATOR PAGE");
@@ -148,9 +156,18 @@ public abstract class OnsActivityManagerWithSlidingNavigator extends OnsActivity
           if (!found) {
             checkAutoRefreshHome(null, newToken);
             if ("home".equalsIgnoreCase(newToken)) {
-              navigator.resetToPage(newToken);
+              if (OnsenUi.isVersion2()) {
+                navigator.resetToPage(newToken, getActivePanelInnerHtml());
+              } else {
+                navigator.resetToPage(newToken);
+              }
             } else {
-              navigator.pushPage(newToken, onPushTransitionEndDelegate);
+              if (OnsenUi.isVersion2()) {
+                PhgUtils.log("push page version 2");
+                navigator.pushPage(newToken, getActivePanelInnerHtml(), onPushTransitionEndDelegate);
+              } else {
+                navigator.pushPage(newToken, onPushTransitionEndDelegate);
+              }
             }
           }
           
@@ -158,12 +175,24 @@ public abstract class OnsActivityManagerWithSlidingNavigator extends OnsActivity
         pagePushed = true;
       }
     } else {
-      navigator.pushPage(newToken, onPushTransitionEndDelegate);
-      pagePushed = true;
+      
+      if (OnsenUi.isVersion2()) {
+        PhgUtils.log("push page version 2");
+        navigator.pushPage(newToken, getActivePanelInnerHtml(), onPushTransitionEndDelegate);
+        pagePushed = true;
+      } else {
+        navigator.pushPage(newToken, onPushTransitionEndDelegate);
+        pagePushed = true;
+      }
+      
     }
     
     if (!pagePushed) {
-      navigator.resetToPage(newToken);
+      if (OnsenUi.isVersion2()) {
+        navigator.resetToPage(newToken, getActivePanelInnerHtml());
+      } else {
+        navigator.resetToPage(newToken);
+      }
     }
     
   }
@@ -225,14 +254,15 @@ public abstract class OnsActivityManagerWithSlidingNavigator extends OnsActivity
   }
   
   private void onShowPage(String logMsg, Page page, boolean tryCurrentView) {
+    PhgUtils.log("onShowPage");
     String pageName = page.getName();
     PhgUtils.log(logMsg+" NAME = " + pageName);
     AbstractBaseView view = page.getView();
     if (view != null) {
-      PhgUtils.log(">>> "+logMsg+" VIEW CLASS = " + view.getClass());
+      PhgUtils.log(logMsg+" VIEW CLASS = " + view.getClass());
       view.onShowView();
     } else {
-      PhgUtils.log(">>> "+logMsg+" VIEW IS NULL");
+      PhgUtils.log(logMsg+" VIEW IS NULL");
       if (tryCurrentView) {
         PhgUtils.log("trying current view");
         AbstractBaseView currentView = OnsenUi.getCurrentView();
@@ -243,6 +273,7 @@ public abstract class OnsActivityManagerWithSlidingNavigator extends OnsActivity
     }
   }
   
+  // TODO [ONS2]
   protected void setBeforePagePopHandler() {
     if (!navigatorInitialized) {
       GwtUtils.deferredExecution(new Delegate<Void>() {
@@ -274,7 +305,9 @@ public abstract class OnsActivityManagerWithSlidingNavigator extends OnsActivity
             String prevPageName = prevPage.getName();
             PhgUtils.log("PREV PAGE NAME = " + prevPageName);
             PhgUtils.log("DESTROYING PAGE " + prevPage);
-            prevPage.destroy();
+            if (OnsenUi.isVersion1()) {
+              prevPage.destroy();
+            }
             PhgUtils.log("CANCELING POP EVENT");
             event.cancel();
             navigator.log("AFTER DESTROY PAGE");
@@ -321,18 +354,24 @@ public abstract class OnsActivityManagerWithSlidingNavigator extends OnsActivity
     return popinPageId;
   }
   
+  //TODO
+  
   private void setNavigator(final OnsNavigator onsNavigator) {
+    PhgUtils.log("setNavigator#1");
     OnsenUi.onAvailableElement(onsNavigator, new Delegate<Element>() {
       public void execute(Element navigatorElement) {
+        PhgUtils.log("setNavigator#2");
         OnsenUi.compileElement(navigatorElement);
+        PhgUtils.log("setNavigator#3");
         GwtUtils.deferredExecution(new Delegate<Void>() {
           public void execute(Void element) {
-            // NB: se si usa controller singleton va in loop
-//          Navigator navigator = onsNavigator.getControllerSingleton();
+            PhgUtils.log("setNavigator#4");
             Navigator navigator = onsNavigator.getController();
             if (navigator == null) {
+              PhgUtils.log("setNavigator#5");
               setNavigator(onsNavigator);
             } else {
+              PhgUtils.log("setNavigator#6");
               OnsActivityManagerWithSlidingNavigator.this.navigator = navigator;
               OnsenUi.setNavigator(navigator);
               navigatorInitialized = true;

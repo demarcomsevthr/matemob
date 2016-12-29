@@ -4,6 +4,7 @@ import it.mate.gwtcommons.client.utils.Delegate;
 import it.mate.onscommons.client.event.HasTapHandler;
 import it.mate.onscommons.client.event.TapHandler;
 import it.mate.onscommons.client.onsen.OnsenUi;
+import it.mate.phgcommons.client.utils.PhgUtils;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -19,13 +20,42 @@ public class OnsListItem extends HTMLPanel implements HasTapHandler, HasModel {
   
   private Object model;
   
+  private static boolean doLog = true;
+  
+  // costruito programmaticamente
   public OnsListItem() {
-    this("");
+    this("", false);
   }
 
+  // costruito negli ui.xml
   public OnsListItem(String html) {
-    super("ons-list-item", html);
+    this(html, true);
+  }
+  
+  protected OnsListItem(String html, boolean fromUiBinder) {
+    super("ons-list-item", getInitHtml(html));
+    if (OnsenUi.isVersion2()) {
+      getElement().setInnerHTML(html);
+    }
     hasTapHandlerImpl = new HasTapHandlerImpl(this);
+
+    if (OnsenUi.isVersion2()) {
+      getElement().addClassName("ons-fadein");
+      if (fromUiBinder) {
+        getElement().setAttribute("modifier", "nodivider");
+      }
+    }
+    
+//  if (doLog) PhgUtils.log("COSTRUTTORE " + html);
+    
+  }
+  
+  private static String getInitHtml(String html) {
+    if (OnsenUi.isVersion2()) {
+      return "";
+    } else {
+      return html;
+    }
   }
   
   @Override
@@ -45,19 +75,20 @@ public class OnsListItem extends HTMLPanel implements HasTapHandler, HasModel {
 
   @Override
   public HandlerRegistration addTapHandler(TapHandler handler) {
+    
+    if (OnsenUi.isVersion2()) {
+      getElement().setAttribute("tappable", "");
+    }
+    
     return hasTapHandlerImpl.addTapHandler(handler);
   }
   
   public void setModifier(final String modifier) {
-    if (OnsenUi.isAddDirectWithPlainHtml()) {
-      getElement().setAttribute("modifier", modifier);
-    } else {
-      OnsenUi.onAttachedElement(this, new Delegate<Element>() {
-        public void execute(Element element) {
-          element.setAttribute("modifier", modifier);
-        }
-      });
-    }
+    OnsenUi.onAttachedElement(this, new Delegate<Element>() {
+      public void execute(Element element) {
+        element.setAttribute("modifier", modifier);
+      }
+    });
   }
   
   public void setValue(String value) {
@@ -74,15 +105,11 @@ public class OnsListItem extends HTMLPanel implements HasTapHandler, HasModel {
   }
   
   public void setVisible(final boolean visible) {
-    if (OnsenUi.isAddDirectWithPlainHtml()) {
-      setVisible(getElement(), visible);
-    } else {
-      OnsenUi.onAvailableElement(this, new Delegate<Element>() {
-        public void execute(Element element) {
-          setVisible(element, visible);
-        }
-      });
-    }
+    OnsenUi.onAvailableElement(this, new Delegate<Element>() {
+      public void execute(Element element) {
+        setVisible(element, visible);
+      }
+    });
   }
   
 }

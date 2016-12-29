@@ -1,6 +1,7 @@
 package it.mate.onscommons.client.onsen.dom;
 
 import it.mate.gwtcommons.client.utils.GwtUtils;
+import it.mate.onscommons.client.onsen.OnsenUi;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
@@ -24,8 +25,18 @@ public class Options extends JavaScriptObject {
     GwtUtils.setJsPropertyString(this, "animation", value);
   }
   
+  //TODO [ONS2]
   public final void setOnTransitionEnd(JavaScriptObject value) {
-    GwtUtils.setJsPropertyJso(this, "onTransitionEnd", value);
+    if (OnsenUi.isVersion1()) {
+      GwtUtils.setJsPropertyJso(this, "onTransitionEnd", value);
+    } else {
+      GwtUtils.setJsPropertyJso(this, "callback", value);
+    }
+  }
+  
+  //TODO [ONS2]
+  public final void setPageHTML(String pageHTML) {
+    GwtUtils.setJsPropertyString(this, "pageHTML", pageHTML);
   }
   
 }

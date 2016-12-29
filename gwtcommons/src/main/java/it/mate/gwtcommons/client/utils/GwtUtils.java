@@ -1079,13 +1079,26 @@ public class GwtUtils {
   }
   
   private static String getCallingMethodName(String excludeMethodName) {
+    String result = null;
+    result = getCallingMethodName(excludeMethodName, true);
+    if (result == null || !result.startsWith("it.")) {
+      result = getCallingMethodName(excludeMethodName, false);
+    }
+    return result;
+  }
+  
+  private static String getCallingMethodName(String excludeMethodName, boolean excludeInnerClasses) {
     try {
       throw new RuntimeException();
     } catch (Exception ex) {
       StackTraceElement[] stacktrace = ex.getStackTrace();
       for (int it = 0; it < stacktrace.length; it++) {
-        if (!stacktrace[it].getMethodName().contains(excludeMethodName) && !stacktrace[it].getMethodName().equals("getCallingMethodName")) {
-          return stacktrace[it].getClassName()+"."+stacktrace[it].getMethodName()+"["+stacktrace[it].getLineNumber()+"]";
+        StackTraceElement st = stacktrace[it];
+        if (excludeInnerClasses && st.getClassName().contains("$")) {
+          continue;
+        }
+        if (!st.getMethodName().contains(excludeMethodName) && !st.getMethodName().equals("getCallingMethodName")) {
+          return st.getClassName()+"."+st.getMethodName()+"["+st.getLineNumber()+"]";
         }
       }
     }

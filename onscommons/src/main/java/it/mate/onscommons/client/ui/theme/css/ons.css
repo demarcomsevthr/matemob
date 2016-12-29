@@ -1,5 +1,5 @@
 
-@external ons*, gwt*, navigation*, span, dialog*, list*, picker*, page*, alert*;
+@external alert*, body*, dialog*, gwt*, list*, navigation*, ons*, page*, picker*, span;
 
 @def TOOLBAR_COLOR rgb(255, 255, 255);
 
@@ -293,5 +293,56 @@ ons-dialog .dialog.dialog_anti_font_blur_correction {
 
 .ons-date-picker-footer-close ons-icon {
   color: #444;
+}
+
+/*
+   MODIFICHE ONSEN 2
+*/
+
+@if (it.mate.onscommons.client.onsen.OnsenUi.isVersion2()) {
+
+  .page__content {
+    background-color: #f9f9f9 !important;
+  }
+	
+  ons-scroller {
+    /* overflow: scroll; */
+    overflow-y: auto;
+  } 
+
+  .list__item--material {
+    /* height: 2.8em; */
+  }
+  
+  .list__item--material > div {
+    padding: 0;
+  }
+
+  @if (it.mate.onscommons.client.ui.theme.DefaultTheme.isIOs()) {
+	
+    body {
+      margin-top: 0px !important;
+    }
+	
+    .ons-toolbar .navigation-bar__title {
+      margin-top: 0px;
+    }
+  
+    .ons-waiting-div {
+      padding-top: 8px;
+    }
+    
+  } @else {
+  
+    .ons-waiting-div {
+      padding-top: 8px;
+    }
+    
+	.ons-toolbar .navigation-bar__title {
+      margin-top: 5px;
+    }
+
+  }
+  
 }
 

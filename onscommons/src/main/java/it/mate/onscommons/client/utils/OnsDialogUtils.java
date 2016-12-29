@@ -80,16 +80,20 @@ public class OnsDialogUtils {
     }
     synchronizedAlert = true;
     synchronizedAlertRetry = -1;
-    alertImpl(Options.create().setTitle(title).setMessage(message).setMessageHtml(messageHtml)
-      .setButtonLabel(buttonLabel).setAnimation(animation).setCallback(new JSOCallback() {
-        public void handle(JavaScriptObject jso) {
-          synchronizedAlert = false;
-          synchronizedAlertRetry = -1;
-          if (delegate != null) {
-            delegate.execute(null);
-          }
-        }
-      }));
+    GwtUtils.deferredExecution(500, new Delegate<Void>() {
+      public void execute(Void element) {
+        alertImpl(Options.create().setTitle(title).setMessage(message).setMessageHtml(messageHtml)
+            .setButtonLabel(buttonLabel).setAnimation(animation).setCallback(new JSOCallback() {
+              public void handle(JavaScriptObject jso) {
+                synchronizedAlert = false;
+                synchronizedAlertRetry = -1;
+                if (delegate != null) {
+                  delegate.execute(null);
+                }
+              }
+            }));
+      }
+    });
   }
   
   protected static native void alertImpl(JavaScriptObject options) /*-{
@@ -278,6 +282,10 @@ public class OnsDialogUtils {
   }
   
   public static void showWaitingDialog(String message, Integer maxWait) {
+    showWaitingDialog(message, maxWait, false);
+  }
+  
+  public static void showWaitingDialog(String message, Integer maxWait, boolean cancelable) {
     if (synchronizedWaitingDialog == null) {
       HorizontalPanel panel = new HorizontalPanel();
       panel.getElement().getStyle().setPadding(5, Unit.PCT);
@@ -289,7 +297,7 @@ public class OnsDialogUtils {
       GwtUtils.ensureId(html.getElement());
       panel.add(icon);
       panel.add(html);
-      synchronizedWaitingDialog = OnsDialogUtils.createDialog(panel, true, null, "ons-waiting-dialog");
+      synchronizedWaitingDialog = OnsDialogUtils.createDialog(panel, cancelable, null, "ons-waiting-dialog");
       if (maxWait != null) {
         GwtUtils.deferredExecution(maxWait, new Delegate<Void>() {
           public void execute(Void element) {

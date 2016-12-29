@@ -43,48 +43,21 @@ public class OnsToolbar extends HTMLPanel {
   private static Element toolbarWaitingDiv = null;
   
   private void createWaitingIcon() {
-    
     OnsenUi.onAvailableElement(this, new Delegate<Element>() {
       public void execute(Element toolbarElement) {
         if (toolbarWaitingDiv == null) {
           Element waitingDiv = DOM.createDiv();
           waitingDiv.setClassName("navigation-bar ons-waiting-div");
-
           Element waitingIco = DOM.createElement("img");
           waitingIco.addClassName("ons-waiting-div-icon");
           waitingIco.setAttribute("src", GWT.getModuleBaseURL() + "images/preloader1.gif");
-          
           waitingDiv.appendChild(waitingIco);
-          
           toolbarWaitingDiv = waitingDiv;
-          
           setWaitingButtonVisible(false);
-          
           RootPanel.getBodyElement().appendChild(waitingDiv);
         }
       }
     });
-
-    /*
-    OnsenUi.onAttachedElement(this, new Delegate<Element>() {
-      public void execute(Element toolbarElement) {
-        Element waitingDiv = DOM.createDiv();
-        waitingDiv.setClassName("right");
-        Element waitingBtn = DOM.createElement("ons-toolbar-button");
-        waitingBtn.setClassName("ons-toolbar-button-waiting");
-        waitingBtn.setAttribute("disabled", "");
-        waitingBtn.setAttribute("var", "_onsToolbarButtonWaiting");
-        waitingBtn.getStyle().setOpacity(0);
-        Element waitingIco = DOM.createElement("img");
-        waitingIco.addClassName("ons-toolbar-button-waiting-icon");
-        waitingIco.setAttribute("src", GWT.getModuleBaseURL() + "images/preloader1.gif");
-        waitingBtn.appendChild(waitingIco);
-        waitingDiv.appendChild(waitingBtn);
-        toolbarElement.appendChild(waitingDiv);
-      }
-    });
-    */
-    
   }
   
   public static void setWaitingButtonVisible(boolean visible) {
@@ -93,7 +66,11 @@ public class OnsToolbar extends HTMLPanel {
       if (visible) {
         toolbarWaitingDiv.getStyle().setOpacity(1);
         toolbarWaitingDiv.getStyle().setZIndex(999999);
-        toolbarWaitingDiv.getStyle().setHeight(40, Unit.PX);
+        if (OnsenUi.isVersion2()) {
+          toolbarWaitingDiv.getStyle().setHeight(56, Unit.PX);
+        } else {
+          toolbarWaitingDiv.getStyle().setHeight(40, Unit.PX);
+        }
       } else {
         toolbarWaitingDiv.getStyle().setOpacity(0);
         toolbarWaitingDiv.getStyle().setZIndex(-1);

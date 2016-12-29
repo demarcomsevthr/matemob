@@ -8,6 +8,7 @@ import it.mate.phgcommons.client.utils.callbacks.JSOCallback;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.dom.client.Element;
 
 public class Navigator extends JavaScriptObject {
 
@@ -20,17 +21,20 @@ public class Navigator extends JavaScriptObject {
   }
   
   public final void pushPage(String pageId) {
-    pushPage(pageId, null, null);
+    pushPageInternal(pageId, null, null);
   }
   
   public final void pushPage(String pageId, Delegate<Void> onTransitionEndDelegate) {
-    pushPage(pageId, null, onTransitionEndDelegate);
+    pushPageInternal(pageId, null, onTransitionEndDelegate);
   }
   
-  protected final void pushPage(String pageId, Options options, final Delegate<Void> onTransitionEndDelegate) {
-    if (options == null) {
-      options = Options.create();
-    }
+  public final void pushPage(String pageId, String pageHTML, final Delegate<Void> onTransitionEndDelegate) {
+    pushPageInternal(pageId, pageHTML, onTransitionEndDelegate);
+  }
+
+  // TODO [ONS2]
+  protected final void pushPageInternal(String pageId, String pageHTML, final Delegate<Void> onTransitionEndDelegate) {
+    Options options = Options.create();
     if (pushAnimation != null) {
       options.setAnimation(pushAnimation);
     }
@@ -46,6 +50,18 @@ public class Navigator extends JavaScriptObject {
         }
       }
     }));
+    if (pageHTML != null) {
+      options.setPageHTML(pageHTML);
+    }
+    
+    if (OnsenUi.isVersion2()) {
+      if (pageHTML == null) {
+        PhgUtils.logWithStackTrace("PUSHING PAGE VER 2" + pageId);
+        Element pageElement = GwtUtils.getElementById(pageId);
+        PhgUtils.log("PUSHING PAGE VER 2 - " + pageElement);
+      }
+    }
+    
     PhgUtils.log("PUSHING PAGE " + pageId);
     pushPageImpl(pageId, options);
   }
@@ -77,8 +93,13 @@ public class Navigator extends JavaScriptObject {
     return getCurrentPageImpl();
   }
 
+  // TODO [ONS2]
   protected final native Page getCurrentPageImpl() /*-{
-    return this.getCurrentPage();    
+    if (typeof this.topPage !== "undefined") {
+      return this.topPage;
+    } else {
+      return this.getCurrentPage();
+    }
   }-*/;
   
   public final void resetToPage(String pageId) {
@@ -86,6 +107,40 @@ public class Navigator extends JavaScriptObject {
     Options options = Options.create();
     resetToPageImpl(pageId, options);
   }
+
+  public final void resetToPage(String pageId, String pageHTML) {
+    if (OnsenUi.isVersion2()) {
+      PhgUtils.log(">>>>>>>>>>> [ONS2] > RESET TO PAGE " + pageId);
+      PhgUtils.log("clear from page " + pageId);
+      clearFromPage2PatchImpl(pageId);
+      PhgUtils.log("push page " + pageId);
+      pushPageInternal(pageId, pageHTML, null);
+    } else {
+      PhgUtils.log("RESET TO PAGE " + pageId);
+      Options options = Options.create();
+      if (pageHTML != null) {
+        options.setPageHTML(pageHTML);
+      }
+      resetToPageImpl(pageId, options);
+    }
+  }
+
+  protected final native void replacePageImpl(String pageId, Options options) /*-{
+    this.replacePage(pageId, options);
+  }-*/;
+
+  protected final native void clearFromPage2PatchImpl(String pageId) /*-{
+    var startPos = 0;
+    for (var it = 0; it < this.pages.length; it++) {
+      if (this.pages[it].name === pageId) {
+        startPos = it;
+        break;
+      }
+    }
+    while (this.pages.length > startPos) {
+      this.pages[startPos]._destroy();
+    }
+  }-*/;
 
   protected final native void resetToPageImpl(String pageId, Options options) /*-{
     this.resetToPage(pageId, options);    
@@ -107,8 +162,13 @@ public class Navigator extends JavaScriptObject {
     return getPagesImpl().cast();
   }
 
+  // TODO [ONS2]
   protected final native JavaScriptObject getPagesImpl() /*-{
-    return this.getPages();    
+    if (typeof this.getPages !== "undefined") {
+      return this.getPages();
+    } else {
+      return this.pages;
+    }
   }-*/;
   
   public final void onAfterPagePush(final Delegate<NavigatorEvent> delegate) {
@@ -184,8 +244,24 @@ public class Navigator extends JavaScriptObject {
       String pageName = page.getName();
       PhgUtils.log( prompt + " - " + it + " - " + pageName);
     }
-    PhgUtils.log("CURRENT PAGE NAME = " + getCurrentPage().getName());
-    PhgUtils.log("CURRENT PAGE INDEX = " + getCurrentPage().getIndex());
+    Page currentPage = getCurrentPage();
+    if (currentPage != null) {
+      PhgUtils.log("CURRENT PAGE NAME = " + getCurrentPage().getName());
+      PhgUtils.log("CURRENT PAGE INDEX = " + getCurrentPage().getIndex());
+    } else {
+      PhgUtils.log("CURRENT PAGE IS NULL");
+    }
   }
   
+  public final void resetAllPages() {
+    PhgUtils.log("resetting all navigator pages");
+    resetAllPagesImpl();
+  }
+
+  protected final native void resetAllPagesImpl() /*-{
+    while (this.pages.length > 0) {
+      this.pages[0]._destroy();
+    }
+  }-*/;
+
 }

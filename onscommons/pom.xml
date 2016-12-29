@@ -9,40 +9,15 @@
   <properties>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
-    
-    <!-- 
-    <gwt.version>2.6.1</gwt.version>
-     -->
     <gwt.version>2.7.0</gwt.version>
-    
     <gin.version>1.5.0</gin.version>
   </properties>
 
   <repositories>
-  
-    <!-- 
-    
-          IMPORTANTE
-          
-          SE SI SPECIFICA IL MIRROR IN settings.xml OCCORRE ESCLUDERE QUESTI REPOSITORY
-          COSI':
-          
-          <mirror>
-            <id>nexus</id>
-            <mirrorOf>*,!axeiya,!plugins</mirrorOf>
-            <url>http://helpdesk.melograno.it/nexus-2.0.6/content/groups/public</url>
-          </mirror>
-          
-          (08/05/2013)
-    
-     -->  
-      
-    <!-- 20/05/2013 - IMPORTANTE: serve per escludere il repo melograno!!! -->
     <repository>
       <id>repo1</id>
       <url>http://repo1.maven.org/maven2</url>
     </repository>
-    
   </repositories>
   
   <dependencies>

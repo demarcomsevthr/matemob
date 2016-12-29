@@ -87,7 +87,7 @@ public class PhgUtils {
     
     log("Language initialization...");
     if (initialLanguage != null) {
-      setAppLocalLanguageImpl(initialLanguage);
+      setAppLocalLanguage(initialLanguage);
     }
     
     // 07/01/2015 - SPOSTATO NEL COSTRUTTORE
@@ -518,7 +518,7 @@ public class PhgUtils {
   }
   
   public static void setAppLocalLanguageAndReload(final String language) {
-    setAppLocalLanguageImpl(language);
+    setAppLocalLanguage(language);
     Cookies.setCookie("mgwtLanguage", language, GwtUtils.getDate(31, 12, 2020));
     reloadApp();
   }
@@ -548,6 +548,10 @@ public class PhgUtils {
       url = url.substring(0, pos);
     }
     Window.Location.assign(url);
+  }
+  
+  public static void setAppLocalLanguage(String language) {
+    setAppLocalLanguageImpl(language);
   }
   
   public static native void setAppLocalLanguageImpl(String language) /*-{

@@ -49,15 +49,11 @@ public class OnsIcon extends Widget {
   }
   
   public void setOpacity(final String opacity) {
-    if (OnsenUi.isAddDirectWithPlainHtml()) {
-      getElement().getStyle().setOpacity(Double.parseDouble(opacity));
-    } else {
-      OnsenUi.onAttachedElement(this, new Delegate<Element>() {
-        public void execute(Element element) {
-          element.getStyle().setOpacity(Double.parseDouble(opacity));
-        }
-      });
-    }
+    OnsenUi.onAttachedElement(this, new Delegate<Element>() {
+      public void execute(Element element) {
+        element.getStyle().setOpacity(Double.parseDouble(opacity));
+      }
+    });
   }
   
 }

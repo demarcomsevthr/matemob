@@ -14,6 +14,8 @@ public class OnsTemplate extends ComplexPanel implements HasWidgets, AcceptsOneW
   
   private boolean compiled = false;
   
+  private Element _element;
+  
   public OnsTemplate() {
     this("");
   }
@@ -21,6 +23,7 @@ public class OnsTemplate extends ComplexPanel implements HasWidgets, AcceptsOneW
   public OnsTemplate(String token) {
     this(DOM.createElement("ons-template"), token);
     this.token = token;
+    this._element = getElement();
   }
   
   public String getToken() {
@@ -33,6 +36,18 @@ public class OnsTemplate extends ComplexPanel implements HasWidgets, AcceptsOneW
   
   public void setId(String id) {
     this.token = id;
+  }
+  
+  public void setTemplateId(final String id) {
+    this.token = id;
+    _element.setId(id);
+    /*
+    OnsenUi.onAvailableElement(this, new Delegate<Element>() {
+      public void execute(Element element) {
+        element.setAttribute("id", id);
+      }
+    });
+    */
   }
   
   protected OnsTemplate(Element elem, String id) {

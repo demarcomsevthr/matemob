@@ -17,47 +17,49 @@ public class OnsList extends HTMLPanel {
   
   private Element listElement;
   
-  private static boolean doLog = false;
-  
-  private Element availableElement = null;
+  private static boolean doLog = true;
   
   private int addRequestsNumber = 0;
   
+  // costruito programmaticamente
   public OnsList() {
-    this(TAG_NAME, "");
+    this(TAG_NAME, "", false);
   }
   
+  // costruito negli ui.xml
   public OnsList(String html) {
-    this(TAG_NAME, html);
+    this(TAG_NAME, html, true);
   }
   
-  protected OnsList(String tag, String html) {
+  protected OnsList(String tag, String html, boolean fromUiBinder) {
     super(tag, html);
+    if (doLog) PhgUtils.log("COSTRUTTORE " + tag + " " + html);
     getElement().addClassName(TAG_NAME);
     OnsenUi.ensureId(getElement());
+    if (OnsenUi.isVersion2()) {
+      if (fromUiBinder) {
+        getElement().setAttribute("modifier", "noborder");
+      }
+    }
   }
 
   @Override
   public void add(final Widget widget) {
     
-    if (OnsenUi.isAddDirectWithPlainHtml()) {
-      listElement = getElement();
-      Element itemElem = widget.getElement();
-      OnsenUi.appendInnerHtml(getElement(), OnsenUi.getPlainHtml(itemElem));
-    } else {
-      super.add(widget, getElement());
-      String id = getElement().getId();
-      GwtUtils.onAvailable(id, new Delegate<Element>() {
-        public void execute(Element listElem) {
-          listElement = listElem;
-          Element itemElem = widget.getElement();
-          if (doLog) PhgUtils.log("Adding to OnsList element " + itemElem);
-          listElem.appendChild(itemElem);
-          OnsenUi.compileElement(listElem);
-          OnsenUi.compileElement(itemElem);
-        }
-      });
-    }
+    if (doLog) PhgUtils.log("ADD WIDGET " + widget);
+    
+    super.add(widget, getElement());
+    String id = getElement().getId();
+    GwtUtils.onAvailable(id, new Delegate<Element>() {
+      public void execute(Element listElem) {
+        listElement = listElem;
+        Element itemElem = widget.getElement();
+        if (doLog) PhgUtils.log("Adding to OnsList element " + itemElem);
+        listElem.appendChild(itemElem);
+        OnsenUi.compileElement(listElem);
+        OnsenUi.compileElement(itemElem);
+      }
+    });
     
   }
   
@@ -66,57 +68,40 @@ public class OnsList extends HTMLPanel {
     if (widget == null) {
       return;
     }
-    if (OnsenUi.isAddDirectWithPlainHtml()) {
-      listElement = getElement();
-      Element itemElem = widget.getElement();
-      OnsenUi.appendInnerHtml(getElement(), OnsenUi.getPlainHtml(itemElem));
-      if (delegate != null) {
-        delegate.execute(OnsList.this.listElement);
-      }
-    } else {
-      addRequestsNumber ++;
-      super.add(widget, getElement());
-      OnsenUi.onAvailableElement(this, new Delegate<Element>() {
-        public void execute(Element listElement) {
-          OnsList.this.listElement = listElement;
-          Element itemElem = widget.getElement();
-          if (doLog) PhgUtils.log("Adding to OnsList element " + itemElem);
-          listElement.appendChild(itemElem);
-          OnsenUi.compileElement(listElement);
-          OnsenUi.compileElement(itemElem);
-          GwtUtils.deferredExecution(100, new Delegate<Void>() {
-            public void execute(Void element) {
-              addRequestsNumber --;
-              if (delegate != null && addRequestsNumber <= 0) {
-                delegate.execute(OnsList.this.listElement);
-              }
+    addRequestsNumber ++;
+    super.add(widget, getElement());
+    OnsenUi.onAvailableElement(this, new Delegate<Element>() {
+      public void execute(Element listElement) {
+        OnsList.this.listElement = listElement;
+        Element itemElem = widget.getElement();
+        if (doLog) PhgUtils.log("Adding to OnsList element " + itemElem);
+        listElement.appendChild(itemElem);
+        OnsenUi.compileElement(listElement);
+        OnsenUi.compileElement(itemElem);
+        GwtUtils.deferredExecution(100, new Delegate<Void>() {
+          public void execute(Void element) {
+            addRequestsNumber --;
+            if (delegate != null && addRequestsNumber <= 0) {
+              delegate.execute(OnsList.this.listElement);
             }
-          });
-        }
-      });
-    }
+          }
+        });
+      }
+    });
   }
   
   public void insert(final Widget widget, final int beforeIndex) {
-    if (OnsenUi.isAddDirectWithPlainHtml()) {
-      listElement = getElement();
-      Element itemElem = widget.getElement();
-      String innerHtml = getElement().getInnerHTML();
-      innerHtml = OnsenUi.getPlainHtml(itemElem) + innerHtml;
-      getElement().setInnerHTML(innerHtml);
-    } else {
-      String id = getElement().getId();
-      GwtUtils.onAvailable(id, new Delegate<Element>() {
-        public void execute(Element listElem) {
-          listElement = listElem;
-          Element itemElem = widget.getElement();
-          Node beforeChild = listElem.getChild(beforeIndex);
-          listElem.insertBefore(itemElem, beforeChild);
-          OnsenUi.compileElement(listElem);
-          OnsenUi.compileElement(itemElem);
-        }
-      });
-    }
+    String id = getElement().getId();
+    GwtUtils.onAvailable(id, new Delegate<Element>() {
+      public void execute(Element listElem) {
+        listElement = listElem;
+        Element itemElem = widget.getElement();
+        Node beforeChild = listElem.getChild(beforeIndex);
+        listElem.insertBefore(itemElem, beforeChild);
+        OnsenUi.compileElement(listElem);
+        OnsenUi.compileElement(itemElem);
+      }
+    });
   }
   
   public int getItemCount() {

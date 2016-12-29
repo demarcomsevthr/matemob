@@ -2,6 +2,7 @@ package it.mate.onscommons.client.ui;
 
 import it.mate.gwtcommons.client.utils.Delegate;
 import it.mate.gwtcommons.client.utils.GwtUtils;
+import it.mate.gwtcommons.client.utils.JQuery;
 import it.mate.onscommons.client.event.HasTapHandler;
 import it.mate.onscommons.client.event.TapHandler;
 import it.mate.onscommons.client.onsen.OnsenUi;
@@ -36,35 +37,35 @@ public abstract class OnsButtonBase extends Widget implements HasTapHandler {
   }
   
   public void setTextDirect(String text) {
-    getElement().setInnerHTML(text);
+    if (OnsenUi.isVersion2()) {
+      addElementText(getElement(), text);
+    } else {
+      getElement().setInnerHTML(text);
+    }
     this.text = text;
   }
   
   protected static void addElementText(Element widgetElement, String text) {
-    if (OnsenUi.isAddDirectWithPlainHtml()) {
-      OnsenUi.appendInnerHtml(widgetElement, text);
+    Element attachedElement = GwtUtils.getElementById(widgetElement.getId());
+    if (attachedElement == null) {
+      String innerHtml = widgetElement.getInnerHTML();
+      innerHtml = innerHtml + text;
+      widgetElement.setInnerHTML(innerHtml);
     } else {
-      Element attachedElement = GwtUtils.getElementById(widgetElement.getId());
-      if (attachedElement == null) {
-        String innerHtml = widgetElement.getInnerHTML();
-        innerHtml = innerHtml + text;
-        widgetElement.setInnerHTML(innerHtml);
-      } else {
-        attachedElement.setInnerHTML(text);
-      }
+      attachedElement.setInnerHTML(text);
     }
   }
   
   public void setTextWhenAvailable(final String text) {
-    if (OnsenUi.isAddDirectWithPlainHtml()) {
-      getElement().setInnerText(text);
-    } else {
-      OnsenUi.onAvailableElement(getElement(), new Delegate<Element>() {
-        public void execute(Element element) {
+    OnsenUi.onAvailableElement(getElement(), new Delegate<Element>() {
+      public void execute(Element element) {
+        if (OnsenUi.isVersion2()) {
+          addElementText(getElement(), text);
+        } else {
           element.setInnerText(text);
         }
-      });
-    }
+      }
+    });
   }
   
   public String getText() {
@@ -76,31 +77,31 @@ public abstract class OnsButtonBase extends Widget implements HasTapHandler {
   }
   
   public void setDisabled(boolean disabled) {
-    if (OnsenUi.isAddDirectWithPlainHtml()) {
-      getElement().setAttribute("disabled", "");
-    } else {
-      OnsenUi.onAttachedElement(this, new Delegate<Element>() {
-        public void execute(Element element) {
-          element.setAttribute("disabled", "");
-        }
-      });
-    }
+    OnsenUi.onAttachedElement(this, new Delegate<Element>() {
+      public void execute(Element element) {
+        element.setAttribute("disabled", "");
+      }
+    });
   }
   
   public void setModifier(final String modifier) {
-    if (OnsenUi.isAddDirectWithPlainHtml()) {
-      getElement().setAttribute("modifier", modifier);
-    } else {
-      OnsenUi.onAttachedElement(this, new Delegate<Element>() {
-        public void execute(Element element) {
-          element.setAttribute("modifier", modifier);
-        }
-      });
-    }
+    OnsenUi.onAttachedElement(this, new Delegate<Element>() {
+      public void execute(Element element) {
+        element.setAttribute("modifier", modifier);
+      }
+    });
   }
   
   public void setExcludeFromPageRefresh(String excludeFromPageRefresh) {
     getElement().setAttribute(OnsenUi.EXCLUDE_FROM_PAGE_REFRESH_ATTR, "true");
+  }
+  
+  public void blur() {
+    JQuery.wrap(getElement()).blur();
+  }
+  
+  public void focus() {
+    JQuery.wrap(getElement()).focus();
   }
   
 }

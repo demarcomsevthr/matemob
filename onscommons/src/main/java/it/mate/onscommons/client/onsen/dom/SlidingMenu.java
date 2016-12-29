@@ -76,6 +76,7 @@ public class SlidingMenu extends JavaScriptObject {
   }-*/;
   
   public final void toggleMenu() {
+    PhgUtils.log("toggleMenu");
     toggleMenuImpl();
   }
   

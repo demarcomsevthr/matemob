@@ -52,6 +52,10 @@ public class DefaultTheme {
     return (Window.getClientWidth() <= maxWidth);
   }
   
+  public static boolean isIOs() {
+    return OsDetectionUtils.isIOs();
+  }
+  
   public interface ThemeBundle extends ClientBundle {
     @Source({"css/ons.css"})
     public CssResource css();

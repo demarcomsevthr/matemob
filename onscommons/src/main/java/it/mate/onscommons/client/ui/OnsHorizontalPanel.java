@@ -40,7 +40,7 @@ public class OnsHorizontalPanel extends HorizontalPanel {
   
   @Override
   public void add(final Widget w) {
-    if (addDirect || actualTableElement != null || OnsenUi.isAddDirectWithPlainHtml()) {
+    if (addDirect || actualTableElement != null) {
       OnsHorizontalPanel.this.internalAdd(w);
     } else {
       GwtUtils.onAvailable(getElement().getId(), new Delegate<com.google.gwt.dom.client.Element>() {
@@ -59,25 +59,18 @@ public class OnsHorizontalPanel extends HorizontalPanel {
     Element td = createAlignedTd();
     DOM.appendChild(getActualTableRow(), td);
     
-    if (OnsenUi.isAddDirectWithPlainHtml()) {
-      
-      td.setInnerHTML(OnsenUi.getPlainHtml(w.getElement()));
-      
+    DOM.appendChild(td, w.getElement());
+    
+    if (addDirect) {
+//    OnsenUi.compileElement(w.getElement());
     } else {
-      
-      DOM.appendChild(td, w.getElement());
-      
-      if (addDirect) {
-//      OnsenUi.compileElement(w.getElement());
-      } else {
-        String childId = w.getElement().getId();
-        if (childId != null && !"".equals(childId)) {
-          GwtUtils.onAvailable(childId, new Delegate<com.google.gwt.dom.client.Element>() {
-            public void execute(com.google.gwt.dom.client.Element element) {
-              OnsenUi.compileElement(element);
-            }
-          });
-        }
+      String childId = w.getElement().getId();
+      if (childId != null && !"".equals(childId)) {
+        GwtUtils.onAvailable(childId, new Delegate<com.google.gwt.dom.client.Element>() {
+          public void execute(com.google.gwt.dom.client.Element element) {
+            OnsenUi.compileElement(element);
+          }
+        });
       }
     }
 
@@ -99,15 +92,11 @@ public class OnsHorizontalPanel extends HorizontalPanel {
   
   @Override
   public void setWidth(final String width) {
-    if (OnsenUi.isAddDirectWithPlainHtml()) {
-      GwtUtils.setJsPropertyString(getElement().getStyle(), "width", width) ;
-    } else {
-      GwtUtils.onAvailable(getElement().getId(), new Delegate<com.google.gwt.dom.client.Element>() {
-        public void execute(com.google.gwt.dom.client.Element containerElement) {
-          GwtUtils.setJsPropertyString(containerElement.getStyle(), "width", width) ;
-        }
-      });
-    }
+    GwtUtils.onAvailable(getElement().getId(), new Delegate<com.google.gwt.dom.client.Element>() {
+      public void execute(com.google.gwt.dom.client.Element containerElement) {
+        GwtUtils.setJsPropertyString(containerElement.getStyle(), "width", width) ;
+      }
+    });
   }
   
   public void setHorizontalAlignment(HorizontalAlignmentConstant align) {
