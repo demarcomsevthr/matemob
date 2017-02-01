@@ -138,6 +138,7 @@
 	  
 	     > basta cancellare il file dell'app nel simulator 
 	     
+	     Es: /Users/marcello/Library/Developer/CoreSimulator/Devices/68A04009-76BC-4D7C-B0CE-79D7CBC0CAAE/...
 
   ______________________________________________________________________________________
   >
@@ -154,5 +155,19 @@
      sudo gem install cocoapods
      
      pod setup (crea il repository locale di pods, ci sta un pò...Resolving deltas...)
+     
+  >> ATTENZIONE: CON I PROGETTI PODS IN XCODE SI DEVE APRIRE:
+  
+     <Project Name>.xcworkspace
+     
+     (workspace del progetto che contiene anche la libreria Pods)
 	  
-	  
+	>> NOTA: NEL SIMULATORE SI RILEVANO MESSAGGI DI ERRORE DEL TIPO
+	
+	   __nwlog_err_simulate_crash simulate crash already simulated nw_socket_set_common_sockopts setsockopt SO_NOAPNFALLBK failed Protocol not available
+	   
+	   >> http://stackoverflow.com/questions/39545603/error-protocol-not-available-dumping-backtrace
+	   
+	   >> sembrano dovuti al fatto che il push plugin nel simulatore non funziona
+	   
+	   >> dicono anche di provare a settare l'environment variable OS_ACTIVITY_MODE = disable  (ma non ho provato)
