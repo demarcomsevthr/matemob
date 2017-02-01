@@ -134,5 +134,25 @@
 	         > OS X 10.11.4 (El Capitan)
 	         > cordova-ios@4.1.1
 	         
+	  >> [01/02/2017]
+	  
+	     > basta cancellare il file dell'app nel simulator 
+	     
+
+  ______________________________________________________________________________________
+  >
+  > [01/02/2017]
+  > UPGRADE CORDOVA 4.3.1
+  >
+  
+  >> AGGIORNAMENTO CORDOVA
+  
+     sudo npm update -g cordova
+  
+  >> INSTALLAZIONE COCOAPODS (necessario per phonegap-plugin-push)
+  
+     sudo gem install cocoapods
+     
+     pod setup (crea il repository locale di pods, ci sta un pò...Resolving deltas...)
 	  
 	  
