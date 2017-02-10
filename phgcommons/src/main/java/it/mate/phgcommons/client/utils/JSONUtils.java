@@ -24,6 +24,9 @@ public class JSONUtils {
   }-*/;
   
   public static String stringify(JavaScriptObject jso) {
+    if (jso == null) {
+      return null;
+    }
     ensureStringify();
     return stringifyImpl(jso);
   }

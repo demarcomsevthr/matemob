@@ -149,8 +149,13 @@ public class PushPlugin {
       String regId = GwtUtils.getJsPropertyString(data, "registrationId");
       notification.setRegId(regId);
     } else if (notification.isNotificationEvent()) {
+      String title = GwtUtils.getJsPropertyString(data, "title");
       String message = GwtUtils.getJsPropertyString(data, "message");
       notification.setMessage(message);
+      notification.setTitle(title);
+      GwtUtils.log(PushPlugin.class, "parseNotificationEvent", "data=" + JSONUtils.stringify(data)); 
+      String addData = JSONUtils.stringify(GwtUtils.getJsPropertyJso(data, "additionalData"));
+      notification.setAdditionalData(addData);
     } else if (notification.isErrorEvent()) {
       String message = GwtUtils.getJsPropertyString(data, "message");
       notification.setMessage(message);

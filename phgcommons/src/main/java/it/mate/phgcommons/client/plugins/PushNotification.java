@@ -6,7 +6,9 @@ public class PushNotification {
   public static final String ERROR_EVENT_NAME = "error";
   private String eventName;
   private String regId;
+  private String title;
   private String message;
+  private String additionalData;
   public boolean isRegistrationEvent() {
     return REGISTRATION_EVENT_NAME.equalsIgnoreCase(eventName);
   }
@@ -30,5 +32,17 @@ public class PushNotification {
   }
   protected void setMessage(String message) {
     this.message = message;
+  }
+  public String getAdditionalData() {
+    return additionalData;
+  }
+  protected void setAdditionalData(String additionalData) {
+    this.additionalData = additionalData;
+  }
+  public String getTitle() {
+    return title;
+  }
+  protected void setTitle(String title) {
+    this.title = title;
   }
 }
